@@ -2,6 +2,8 @@
 // Created by vivedo on 09/05/20.
 //
 
-int main() {
+#include "Stealth.hpp"
 
+int main() {
+    new Stealth();
 }

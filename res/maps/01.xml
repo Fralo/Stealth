@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<stealth>
+    <spawnpoint x="10" y="10" r="0" />
+
+    <map>
+        <!-- map tiles -->
+    </map>
+
+    <enemies>
+        <enemy sight-radius="0.20" sight-distance="50" swing="0">
+            <spawnpoint x="400" y="400" r="0.25" />
+            <movement>
+                <location x="400" y="400" />
+                <location x="200" y="400" />
+                <location x="200" y="200" />
+                <location x="400" y="200" />
+            </movement>
+            <weapon rate="1" damage="10" />
+        </enemy>
+
+        <enemy sight-radius="0.2" sight-distance="50">
+            <spawnpoint x="100" y="400" r=".5" />
+            <movement />
+            <weapon rate="1" damage="10" />
+        </enemy>
+
+
+    </enemies>
+
+</stealth>
