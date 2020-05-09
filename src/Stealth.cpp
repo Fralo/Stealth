@@ -9,7 +9,7 @@ Stealth::Stealth() {
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
-    
+
     loadGame();
 
     while(window.isOpen()) {

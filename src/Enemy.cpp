@@ -4,6 +4,10 @@
 
 #include "Enemy.hpp"
 
+Enemy::Enemy(Strategy &defaultStrategy) : defaultStrategy(&defaultStrategy) {
+
+}
+
 void Enemy::update() {
 
 }

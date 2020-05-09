@@ -7,12 +7,18 @@
 
 
 #include "GameObject.hpp"
+#include "Strategy.hpp"
 
 class Enemy : GameObject {
+public:
+    Enemy(Strategy &defaultStrategy);
+
     void update() override;
 
     void draw(sf::RenderWindow window) override;
 
+public:
+    const Strategy *defaultStrategy;
 };
 
 
