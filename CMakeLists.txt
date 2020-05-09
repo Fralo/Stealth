@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 project(Stealth)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_STANDARD 20)
 
 find_package(SFML 2.5 COMPONENTS audio graphics window system REQUIRED)
