@@ -8,7 +8,7 @@ find_package(SFML 2.5 COMPONENTS audio graphics window system REQUIRED)
 include_directories(lib)
 
 # Boom executable
-set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp)
+set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/AStar.cpp src/AStar.hpp)
 add_executable(Stealth src/main.cpp ${SOURCE_FILES})
 
 target_link_libraries(Stealth sfml-system sfml-window sfml-graphics sfml-audio GLX)

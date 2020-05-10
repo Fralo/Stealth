@@ -17,7 +17,7 @@ public:
 
     void draw(sf::RenderWindow window) override;
 
-public:
+private:
     const Strategy *defaultStrategy;
 };
 
