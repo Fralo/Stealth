@@ -8,25 +8,20 @@
 #include <SFML/Graphics.hpp>
 #include <forward_list>
 #include "GameObject.hpp"
-
+#include "LoadScreen.hpp"
+#include "GameState.hpp"
+class GameState;
 
 class Stealth {
 public:
-    Stealth();
+    sf::RenderWindow window;
 
+    Stealth();
+    void changeState(GameState *newGameState);
 
 private:
-    sf::RenderWindow window;
-    std::forward_list<GameObject*> gameObjects;
-
-
-
-    void pollEvents();
-
-    void loadGame();
-
-
-
+    GameState *gameState = nullptr;
+    GameState *garbageState = nullptr;
 };
 
 

@@ -10,40 +10,19 @@ Stealth::Stealth() {
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
 
-    loadGame();
+    changeState(new LoadScreen());
 
     while(window.isOpen()) {
-        pollEvents();
+        gameState->update(*this);
 
-        // TODO: handle events
-        // TODO: update
-
-        window.clear(sf::Color::Black);
-
-        // TODO: draw
-
-        window.display();
+        delete garbageState;
+        garbageState = nullptr;
     }
+
 }
 
-void Stealth::pollEvents() {
-    sf::Event event;
-    while(window.pollEvent(event)) {
-        switch(event.type) {
-            case sf::Event::Closed:
-                window.close();
-                break;
-
-            case sf::Event::KeyPressed:
-            case sf::Event::KeyReleased:
-                break;
-
-            default:
-                break;
-        }
-    }
-}
-
-void Stealth::loadGame() {
-    // TODO: load map.xml and create EVERYTHING
+void Stealth::changeState(GameState *newGameState) {
+    garbageState = gameState;
+    gameState = newGameState;
+    gameState->init(*this);
 }
