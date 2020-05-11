@@ -25,6 +25,7 @@ private:
     int nLocation;
     int currentTarget = 0;
     AStar *aStar = new AStar;
+    bool isArrivedToTarget(Node check,Node Target);
 
 };
 

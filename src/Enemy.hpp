@@ -14,7 +14,6 @@ public:
     Enemy(Strategy &defaultStrategy);
 
     void update() override;
-
     void draw(sf::RenderWindow window) override;
 
 private:
