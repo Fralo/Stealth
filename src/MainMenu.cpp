@@ -38,9 +38,14 @@ void MainMenu::init(Stealth &stealth) {
     sf::FloatRect quitRect = quitTxt.getLocalBounds();
     quitTxt.setOrigin(quitRect.left + quitRect.width / 2.0f, quitRect.top + quitRect.height / 2.0f);
 
+    selectionSfxBuffer.loadFromFile("../res/music/selection_sfx.ogg");
+    selectionSfx.setBuffer(selectionSfxBuffer);
+    selectionSfx.setVolume(50);
+    unselectionSfxBuffer.loadFromFile("../res/music/selection_sfx2.ogg");
+    unselectionSfx.setBuffer(unselectionSfxBuffer);
+    unselectionSfx.setVolume(50);
 
-
-    music.openFromFile("../res/music/RHB.ogg");
+    music.openFromFile("../res/music/shining_end.ogg");
     music.setLoop(true);
     music.setVolume(50);
     music.play();
@@ -59,13 +64,24 @@ void MainMenu::update(Stealth &stealth) {
     mainMenuTxt.setPosition(windowSize.x / 2.0f, 100);
 
     // select options
-    if(newGameTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window))))
-        selectedOption = NEW_GAME;
-    else if (quitTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window))))
-        selectedOption = QUIT;
-    else
-        selectedOption = NONE;
-
+    if(stealth.window.hasFocus()){
+        if(newGameTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
+            if(selectedOption != NEW_GAME) {
+                selectionSfx.play();
+                selectedOption = NEW_GAME;
+            }
+        } else if (quitTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
+            if(selectedOption != QUIT) {
+                selectionSfx.play();
+                selectedOption = QUIT;
+            }
+        } else {
+            if(selectedOption != NONE) {
+                unselectionSfx.play();
+                selectedOption = NONE;
+            }
+        }
+    }
 
     newGameTxt.setPosition(windowSize.x / 2.0f, 250);
     newGameTxt.setFillColor(selectedOption == NEW_GAME ? selectedColor : defaultColor);

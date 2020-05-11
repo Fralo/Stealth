@@ -30,6 +30,10 @@ protected:
 private:
     sf::Clock clock;
     sf::Music music;
+    sf::SoundBuffer selectionSfxBuffer;
+    sf::SoundBuffer unselectionSfxBuffer;
+    sf::Sound selectionSfx;
+    sf::Sound unselectionSfx;
     sf::Font titleFont;
     sf::Texture bgTexture;
     sf::Sprite bgSprite;
