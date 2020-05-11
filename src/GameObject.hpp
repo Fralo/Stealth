@@ -7,13 +7,12 @@
 
 #include <SFML/Graphics.hpp>
 
-class GameObject {
-public:
-    virtual void update() = 0;
-    virtual void draw(sf::RenderWindow window) = 0;
-    int x;
-    int y;
+class Game;
 
+class GameObject : public sf::Drawable, public sf::Transformable {
+public:
+    virtual void update(Game &game) = 0;
+    sf::Vector2i position;
 };
 
 

@@ -10,8 +10,8 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject) {
 
 
     Node from;
-    from.x = gameObject.x;
-    from.y = gameObject.y;
+    from.x = gameObject.position.x;
+    from.y = gameObject.position.y;
     Node to;
 
     int i = 0;

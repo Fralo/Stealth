@@ -8,16 +8,22 @@
 
 #include "GameObject.hpp"
 #include "Strategy.hpp"
+#include "Weapon.h"
+#include "Player.hpp"
+#include "Game.hpp"
 
 class Enemy : GameObject {
 public:
-    Enemy(Strategy &defaultStrategy);
+    Enemy(Strategy &defaultStrategy, Weapon weapon);
 
-    void update() override;
-    void draw(sf::RenderWindow window) override;
+    void update(Game &game) override;
+
+protected:
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
     const Strategy *defaultStrategy;
+    Weapon weapon;
 };
 
 
