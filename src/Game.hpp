@@ -7,8 +7,14 @@
 
 
 #include <SFML/Graphics.hpp>
+#include <tinyxml2/tinyxml2.h>
+#include <iostream>
 #include "GameState.hpp"
 #include "Stealth.hpp"
+#include "TiledMap.h"
+
+
+namespace xml = tinyxml2;
 
 class Game : public GameState {
 public:
@@ -18,6 +24,8 @@ public:
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
+
+    void loadMap();
 };
 
 
