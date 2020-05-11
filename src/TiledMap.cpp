@@ -7,7 +7,7 @@
 
 TiledMap::TiledMap() {
     xml::XMLDocument xml;
-    xml::XMLError error = xml.LoadFile("../res/maps/01-map.tmx");
+    xml::XMLError error = xml.LoadFile("../res/maps/01-map.tmx"); // TODO: get map from constructor
 
     if(error != tinyxml2::XML_SUCCESS){
         std::cout << "Error opening map TMX file" << std::endl;

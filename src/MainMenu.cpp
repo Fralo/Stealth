@@ -40,10 +40,10 @@ void MainMenu::init(Stealth &stealth) {
 
     selectionSfxBuffer.loadFromFile("../res/music/selection_sfx.ogg");
     selectionSfx.setBuffer(selectionSfxBuffer);
-    selectionSfx.setVolume(50);
+    selectionSfx.setVolume(25);
     unselectionSfxBuffer.loadFromFile("../res/music/selection_sfx2.ogg");
     unselectionSfx.setBuffer(unselectionSfxBuffer);
-    unselectionSfx.setVolume(50);
+    unselectionSfx.setVolume(25);
 
     music.openFromFile("../res/music/shining_end.ogg");
     music.setLoop(true);
