@@ -45,7 +45,10 @@ SeekStrategy::SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> 
     nLocation =i;
 }
 
-bool SeekStrategy::isArrivedToTarget(Node check, Node Target) {
-    return false;
+bool SeekStrategy::isArrivedToTarget(Node check, Node target) {
+    if(check.y == target.y && check.x == target.x)
+        return true;
+    else
+        return false;
 }
 
