@@ -9,6 +9,7 @@ void Game::init(Stealth &stealth) {
 
     new TiledMap();
     loadMap();
+
 }
 
 void Game::update(Stealth &stealth) {
@@ -47,7 +48,6 @@ void Game::loadMap() {
         }
 
         std::forward_list<sf::Vector2i> locations;
-        //<movement> <location x="400" y="400"/>
         tinyxml2::XMLNode* locationNode = enemy->FirstChildElement("movement")->FirstChildElement("location");
         sf::Vector2i a;
         tinyxml2::XMLElement* loc;
@@ -59,15 +59,18 @@ void Game::loadMap() {
             locationNode = locationNode->NextSibling();
         }
         Strategy* strategy = new SeekStrategy(spawnX, spawnY, spawnOr, locations, this->obstacles);
-
-        //<weapon rate="1" damage="10"/>
         tinyxml2::XMLElement* weapon = enemy->FirstChildElement("weapon")->ToElement();
         Weapon we;
         if(weapon != nullptr) {
             we.rate = atoi(weapon->Attribute("rate"));
             we.damage = atoi(weapon->Attribute("damage"));
 
+        } else {
+            we.damage = 10; //FIXME set the deafault demage
+            we.rate = 1;
         }
         this->enemies.push_front(new Enemy(*strategy,we));
     }
+
+    std::cout << "Enemies loaded" << std::endl;
 }

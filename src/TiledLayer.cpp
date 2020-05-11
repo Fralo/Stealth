@@ -37,7 +37,6 @@ void TiledLayer::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     for(int row = 0; row < layerSize.y; row++)
         for(int col = 0; col < layerSize.x; col++)
             if((tile = getTileSprite(col, row)) != nullptr) {
-
                 target.draw(*tile);
             }
 }
