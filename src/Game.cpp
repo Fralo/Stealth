@@ -6,13 +6,11 @@
 
 void Game::init(Stealth &stealth) {
 
-    loadMap();
+    new TiledMap();
 }
 
 void Game::update(Stealth &stealth) {
     pollEvents(stealth);
-
-    stealth.window.close();
 
     stealth.window.clear();
 

@@ -11,6 +11,8 @@
 #include <iostream>
 #include "GameState.hpp"
 #include "Stealth.hpp"
+#include "TiledMap.h"
+
 
 namespace xml = tinyxml2;
 
