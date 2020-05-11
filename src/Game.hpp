@@ -15,6 +15,7 @@
 #include "GameObject.hpp"
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "Obstacle.hpp"
 
 class Player;
 class Enemy;
@@ -28,6 +29,7 @@ public:
     void update(Stealth &stealth) override;
 
     std::forward_list<Enemy*> enemies;
+    std::forward_list<Obstacle*> obstacles;
     Player *player;
 
 protected:

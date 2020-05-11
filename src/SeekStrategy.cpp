@@ -37,7 +37,7 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject) {
     //return sf::Vector2f();
 }
 
-SeekStrategy::SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> &l): locations(&l), x(x), y(y) {
+SeekStrategy::SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle*> &obs): locations(&l), x(x), y(y) {
 
     int i = 0;
     for ( auto it = l.begin(); it != l.end(); ++it )

@@ -11,10 +11,11 @@
 #include <vector>
 #include "Strategy.hpp"
 #include "AStar.hpp"
+#include "Obstacle.hpp"
 
 class SeekStrategy : Strategy {
 public:
-    SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> &l);
+    SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle*> &obs);
 
     sf::Vector2f getNextMove(GameObject &gameObject) override;
     
