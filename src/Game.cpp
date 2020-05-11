@@ -57,7 +57,7 @@ void Game::loadMap() {
             std::cout << "LocationNode: " << std::endl << loc->Attribute("x") << " " << loc->Attribute("y") <<std::endl;
             a.x = atoi(loc->Attribute("x"));
             a.y = atoi(loc->Attribute("y"));
-            locations.insert_after(locations.end(), a);
+            locations.push_front(a);
             locationNode = locationNode->NextSibling();
         }
 
