@@ -17,6 +17,8 @@ void Game::update(Stealth &stealth) {
 
     // TODO: game
 
+    stealth.window.draw(map);
+
     stealth.window.display();
 }
 

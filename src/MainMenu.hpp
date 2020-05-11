@@ -30,6 +30,10 @@ protected:
 private:
     sf::Clock clock;
     sf::Music music;
+    sf::SoundBuffer selectionSfxBuffer;
+    sf::SoundBuffer unselectionSfxBuffer;
+    sf::Sound selectionSfx;
+    sf::Sound unselectionSfx;
     sf::Font titleFont;
     sf::Texture bgTexture;
     sf::Sprite bgSprite;
@@ -40,7 +44,7 @@ private:
 
     MenuOption selectedOption = NONE;
 
-    const sf::Color selectedColor = sf::Color(0xff, 0x00, 0x00);
+    const sf::Color selectedColor = sf::Color(0xff, 0xaa, 0x00);
     const sf::Color defaultColor = sf::Color(0xdd, 0xce, 0xa9);
 
 };
