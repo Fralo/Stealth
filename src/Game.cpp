@@ -3,6 +3,7 @@
 //
 
 #include "Game.hpp"
+#include "SeekStrategy.hpp"
 
 void Game::init(Stealth &stealth) {
 
@@ -34,38 +35,39 @@ void Game::loadMap() {
     xml::XMLElement *enemies = root->FirstChildElement("enemies");
 
     for(xml::XMLElement *enemy = enemies->FirstChildElement("enemy"); enemy != nullptr; enemy = enemy->NextSiblingElement("enemy")) {
-
-        std::cout << enemy->Name() << ":     ";
         std::string sight_radius = enemy->Attribute("sight-radius") == nullptr ? "none" : enemy->Attribute("sight-radius");
         std::string sight_distance = enemy->Attribute("sight-distance") == nullptr ? "none" : enemy->Attribute("sight-distance");
         std::string swing = enemy->Attribute("swing") == nullptr ? "none" : enemy->Attribute("swing");
-        std::cout << sight_radius << " " <<sight_distance << " " << swing << std::endl;
-
-        //<spawnpoint x="400" y="400" r="0.25"/>
+        int spawnX, spawnY, spawnOr;
         tinyxml2::XMLElement* spawn = enemy->FirstChildElement("spawnpoint")->ToElement();
-
         if(spawn != nullptr) {
-            std::cout << spawn->Attribute("x") << " " << spawn->Attribute("y") << " " << spawn->Attribute("r") << std::endl;
+            spawnX = atoi(spawn->Attribute("x"));
+            spawnY = atoi(spawn->Attribute("y"));
+            spawnOr = atoi(spawn->Attribute("r"));
         }
 
         std::forward_list<sf::Vector2i> locations;
         //<movement> <location x="400" y="400"/>
         tinyxml2::XMLNode* locationNode = enemy->FirstChildElement("movement")->FirstChildElement("location");
         sf::Vector2i a;
+        tinyxml2::XMLElement* loc;
         while(locationNode != nullptr) {
-            tinyxml2::XMLElement* loc = locationNode->ToElement();
-            std::cout << "LocationNode: " << std::endl << loc->Attribute("x") << " " << loc->Attribute("y") <<std::endl;
+            loc = locationNode->ToElement();
             a.x = atoi(loc->Attribute("x"));
             a.y = atoi(loc->Attribute("y"));
             locations.push_front(a);
             locationNode = locationNode->NextSibling();
         }
-
+        Strategy* strategy = new SeekStrategy(spawnX, spawnY, spawnOr, locations, this->obstacles);
 
         //<weapon rate="1" damage="10"/>
         tinyxml2::XMLElement* weapon = enemy->FirstChildElement("weapon")->ToElement();
+        Weapon we;
         if(weapon != nullptr) {
-            std::cout << weapon->Attribute("rate") << " " << weapon->Attribute("damage") <<std::endl;
+            we.rate = atoi(weapon->Attribute("rate"));
+            we.damage = atoi(weapon->Attribute("damage"));
+
         }
+        this->enemies.push_front(new Enemy(*strategy,we));
     }
 }

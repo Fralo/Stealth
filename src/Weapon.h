@@ -6,7 +6,8 @@
 #define STEALTH_WEAPON_H
 
 struct Weapon {
-
+    int rate;
+    int damage;
 };
 
 #endif //STEALTH_WEAPON_H

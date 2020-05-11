@@ -13,7 +13,7 @@
 #include "AStar.hpp"
 #include "Obstacle.hpp"
 
-class SeekStrategy : Strategy {
+class SeekStrategy : public Strategy {
 public:
     SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle*> &obs);
 
