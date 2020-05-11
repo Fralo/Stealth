@@ -42,9 +42,9 @@ void Game::loadMap() {
         int spawnX, spawnY, spawnOr;
         tinyxml2::XMLElement* spawn = enemy->FirstChildElement("spawnpoint")->ToElement();
         if(spawn != nullptr) {
-            spawnX = atoi(spawn->Attribute("x"));
-            spawnY = atoi(spawn->Attribute("y"));
-            spawnOr = atoi(spawn->Attribute("r"));
+            spawnX = spawn->IntAttribute("x");
+            spawnY = spawn->IntAttribute("y");
+            spawnOr = spawn->IntAttribute("r");
         }
 
         std::forward_list<sf::Vector2i> locations;
@@ -53,8 +53,8 @@ void Game::loadMap() {
         tinyxml2::XMLElement* loc;
         while(locationNode != nullptr) {
             loc = locationNode->ToElement();
-            a.x = atoi(loc->Attribute("x"));
-            a.y = atoi(loc->Attribute("y"));
+            a.x = loc->IntAttribute("x");
+            a.y = loc->IntAttribute("y");
             locations.push_front(a);
             locationNode = locationNode->NextSibling();
         }
@@ -62,8 +62,8 @@ void Game::loadMap() {
         tinyxml2::XMLElement* weapon = enemy->FirstChildElement("weapon")->ToElement();
         Weapon we;
         if(weapon != nullptr) {
-            we.rate = atoi(weapon->Attribute("rate"));
-            we.damage = atoi(weapon->Attribute("damage"));
+            we.rate = weapon->IntAttribute("rate");
+            we.damage = weapon->IntAttribute("damage");
 
         } else {
             we.damage = 10; //FIXME set the deafault demage
