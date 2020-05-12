@@ -58,7 +58,7 @@ void Game::loadMap() {
             locations.push_front(a);
             locationNode = locationNode->NextSibling();
         }
-        Strategy* strategy = new SeekStrategy(spawnX, spawnY, spawnOr, locations, this->obstacles);
+        Strategy* strategy = new SeekStrategy(spawnX, spawnY, spawnOr,map.getMapSize(), locations, this->obstacles);
         tinyxml2::XMLElement* weapon = enemy->FirstChildElement("weapon")->ToElement();
         Weapon we;
         if(weapon != nullptr) {

@@ -4,10 +4,10 @@
 
 #include "AStar.hpp"
 
-std::vector<Node> AStar::getPath(Node hunter, Node target) {
-    /*
+std::vector<Node> AStar::getPath(Node hunter, Node dest) {
+
     std::vector<Node> empty;
-    if (!isValid(dest.x, dest.y, gameMap)) {
+    if (!isValid(dest.x, dest.y)) {
         //Destination is an obstacle;
         return empty;
     }
@@ -16,9 +16,14 @@ std::vector<Node> AStar::getPath(Node hunter, Node target) {
         return empty;
     }
 
-     bool closedList[15][15];
-    //Get the overview of the map
-    Node allMap[15][15];
+    bool **closedList;
+    closedList = new bool *[mapSize.x];
+    for ( int i = 0; i < mapSize.x; i++ ) closedList[i] = new bool[mapSize.y];
+
+    Node **allMap;
+    allMap = new Node *[mapSize.x];
+    for ( int i = 0; i < mapSize.x; i++ ) allMap[i] = new Node[mapSize.y];
+
     for (int x = 0; x < (15); x++) {
         for (int y = 0; y < (15); y++) {
             allMap[x][y].fCost = FLT_MAX;
@@ -41,12 +46,17 @@ std::vector<Node> AStar::getPath(Node hunter, Node target) {
     allMap[x][y].hCost = 0.0;
     allMap[x][y].parentX = x;
     allMap[x][y].parentY = y;
-     */
-    return std::vector<Node>();
+
+    std::vector<Node> openList;
+    openList.emplace_back(allMap[x][y]);
+    bool destinationFound = false;
+
+
+    //return std::vector<Node>();
 }
 
 bool AStar::isDestination(int x, int y, Node dest) {
-    return false;
+    return x == dest.x && y == dest.y;
 }
 
 bool AStar::isValid(int x, int y) {
@@ -59,7 +69,7 @@ bool AStar::isValid(int x, int y) {
     return true;
 }
 
-AStar::AStar(std::forward_list<Obstacle> &obs): obstacles(&obs){
+AStar::AStar(std::forward_list<Obstacle> &obs, sf::Vector2<unsigned int> mSize): obstacles(&obs), mapSize(mSize){
 
 }
 

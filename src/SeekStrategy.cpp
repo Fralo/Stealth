@@ -41,13 +41,13 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject) {
     //return sf::Vector2f();
 }
 
-SeekStrategy::SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle> &obs): locations(&l), x(x), y(y) {
+SeekStrategy::SeekStrategy(int x, int y, int o,sf::Vector2<unsigned int> mapSize, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle> &obs): locations(&l), x(x), y(y) {
 
     int i = 0;
     for ( auto it = l.begin(); it != l.end(); ++it )
         i++;
     nLocation = i;
-    aStar = new AStar(obs);
+    aStar = new AStar(obs,mapSize);
 }
 
 bool SeekStrategy::isArrivedToTarget(Node check, Node target) {

@@ -16,6 +16,7 @@ struct Node{
     int y;
     int parentX;
     int parentY;
+    float hCost;
     float gCost;
     float fCost;
 };
@@ -24,13 +25,14 @@ class AStar {
 public:
 
 
-    AStar(std::forward_list<Obstacle> &obs);
+    AStar(std::forward_list<Obstacle> &obs,sf::Vector2<unsigned int> mapSize);
     std::vector<Node> getPath(Node hunter,Node target);
 
 private:
     std::forward_list<Obstacle> *obstacles;
     bool isDestination(int x, int y, Node dest);
     bool isValid(int x, int y);
+    sf::Vector2<unsigned int> mapSize;
 };
 
 #endif //STEALTH_ASTAR_HPP
