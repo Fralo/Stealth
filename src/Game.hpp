@@ -31,12 +31,12 @@ public:
     std::forward_list<Enemy*> enemies;
     std::forward_list<Obstacle> obstacles;
     Player *player;
+    TiledMap map;
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
-    TiledMap map;
 
     void loadMap();
 };

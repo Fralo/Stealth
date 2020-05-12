@@ -25,6 +25,8 @@ public:
 
     TiledMap();
 
+    sf::Vector2u getMapSize();
+
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
