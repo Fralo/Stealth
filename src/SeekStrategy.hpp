@@ -16,7 +16,6 @@
 class SeekStrategy : public Strategy {
 public:
     SeekStrategy(int x, int y, int o,sf::Vector2<unsigned int> mapSize, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle> &obs);
-
     sf::Vector2f getNextMove(GameObject &gameObject) override;
     
 private:

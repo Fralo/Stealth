@@ -25,17 +25,28 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject) {
 
     std::vector<Node> path =  aStar->getPath(from,to);
 
-    //TODO: find the currect nextmove in the path
+    Node current, next;
+    int pass = 0;
+    for(Node a : path) {
+        if(pass == 0) current = a;
+        if(pass++ == 1) next = a;
+    }
 
-    Node nextMove;
-
-    if(isArrivedToTarget(nextMove,to))
+    if(isArrivedToTarget(next,to))
     {
         currentTarget++;
         currentTarget = currentTarget % nLocation;
     }
 
-    //TODO: put the node into a vector 2i and return
+    sf::Vector2f nextMove;
+
+    if(!path.empty()) {
+        sf::Vector2f nextMove;
+        nextMove.x = next.x;
+        nextMove.y = next.y;
+    }
+
+    return nextMove;
 
 
     //return sf::Vector2f();

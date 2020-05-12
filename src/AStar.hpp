@@ -9,6 +9,8 @@
 #include <float.h>
 #include <math.h>
 #include <forward_list>
+#include <stack>
+#include <iostream>
 #include "Obstacle.hpp"
 
 struct Node{
@@ -29,10 +31,13 @@ public:
     std::vector<Node> getPath(Node hunter,Node target);
 
 private:
-    std::forward_list<Obstacle> *obstacles;
+    std::vector<Node> makePath( Node **map, Node dest);
     bool isDestination(int x, int y, Node dest);
     bool isValid(int x, int y);
+    double calculateH(int x, int y, Node dest);
+
     sf::Vector2<unsigned int> mapSize;
+    std::forward_list<Obstacle> *obstacles;
 };
 
 #endif //STEALTH_ASTAR_HPP
