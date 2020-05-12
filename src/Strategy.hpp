@@ -13,7 +13,7 @@ public:
     /*
      * Returns direction vector entity has to follow
      */
-    virtual sf::Vector2f getNextMove(GameObject &gameObject) = 0;
+    virtual sf::Vector2f getNextMove(GameObject &gameObject, Game &game) = 0;
 };
 
 

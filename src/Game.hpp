@@ -5,7 +5,6 @@
 #ifndef STEALTH_GAME_HPP
 #define STEALTH_GAME_HPP
 
-
 #include <SFML/Graphics.hpp>
 #include <tinyxml2/tinyxml2.h>
 #include <iostream>
@@ -16,6 +15,7 @@
 #include "Player.hpp"
 #include "Enemy.hpp"
 #include "Obstacle.hpp"
+#include "SeekStrategy.hpp"
 
 class Player;
 class Enemy;
@@ -37,8 +37,8 @@ protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
-
     void loadMap();
+
 };
 
 

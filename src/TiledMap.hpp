@@ -11,7 +11,9 @@
 #include <list>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "TiledLayer.hpp"
+#include "macro.h"
 
 namespace xml = tinyxml2;
 

@@ -5,23 +5,22 @@
 #ifndef STEALTH_SEEKSTRATEGY_HPP
 #define STEALTH_SEEKSTRATEGY_HPP
 
-#include <forward_list>
+#include <list>
 #include <vector>
-#include <float.h>
+#include <cfloat>
 #include <vector>
 #include "Strategy.hpp"
 #include "AStar.hpp"
 #include "Obstacle.hpp"
+#include "Game.hpp"
 
 class SeekStrategy : public Strategy {
 public:
-    SeekStrategy(int x, int y, int o,sf::Vector2<unsigned int> mapSize, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle> &obs);
-    sf::Vector2f getNextMove(GameObject &gameObject) override;
+    sf::Vector2f getNextMove(GameObject &gameObject, Game &game) override;
+    void addLocation(sf::Vector2i location);
     
 private:
-    const std::forward_list<sf::Vector2i> *locations;
-    int x;
-    int y;
+    std::list<sf::Vector2i> locations;
     int nLocation;
     int currentTarget = 0;
     AStar *aStar;

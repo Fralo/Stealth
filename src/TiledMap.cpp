@@ -2,18 +2,17 @@
 // Created by vivedo on 11/05/20.
 //
 
-#include <sstream>
 #include "TiledMap.hpp"
 
 TiledMap::TiledMap() {
     xml::XMLDocument xml;
-    xml::XMLError error = xml.LoadFile("../res/maps/01-map.tmx"); // TODO: get map from constructor
+    xml::XMLError error = xml.LoadFile(resource("maps/01-map.tmx")); // TODO: get map from constructor
 
     if(error != tinyxml2::XML_SUCCESS){
         std::cout << "Error opening map TMX file" << std::endl;
         throw std::exception();
     } else
-        std::cout << "TMX map file opened" << std::endl;
+        std::cout << "Map TMX file opened" << std::endl;
 
     xml::XMLElement *map = xml.FirstChildElement("map");
 
@@ -35,7 +34,7 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
     for(xml::XMLElement *tileset = map->FirstChildElement("tileset"); tileset != nullptr; tileset = tileset->NextSiblingElement("tileset")) {
         xml::XMLElement *image = tileset->FirstChildElement("image");
 
-        std::string imagePath = "../res/maps/";
+        std::string imagePath = resource("maps/");
         imagePath += image->Attribute("source");
 
         auto *imageTexture = new sf::Texture();

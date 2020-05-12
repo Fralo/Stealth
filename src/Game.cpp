@@ -3,11 +3,9 @@
 //
 
 #include "Game.hpp"
-#include "SeekStrategy.hpp"
 
 void Game::init(Stealth &stealth) {
 
-    new TiledMap();
     loadMap();
 
 }
@@ -15,12 +13,20 @@ void Game::init(Stealth &stealth) {
 void Game::update(Stealth &stealth) {
     pollEvents(stealth);
 
+    /*
+     * Update objects
+     */
+    for(Enemy *enemy : enemies)
+        enemy->update(*this);
+    //player->update(*this);
+
+    /*
+     * Draw objects
+     */
     stealth.window.clear();
+    stealth.window.draw(map.background);
 
-    // TODO: game
-
-    stealth.window.draw(map);
-
+    stealth.window.draw(map.foreground);
     stealth.window.display();
 }
 
@@ -30,46 +36,44 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
 
 void Game::loadMap() {
     xml::XMLDocument xml;
-    xml.LoadFile("../res/maps/01.xml");
+    xml::XMLError error = xml.LoadFile(resource("maps/01.xml"));
+
+    if(error != tinyxml2::XML_SUCCESS){
+        std::cout << "Error opening map config file" << std::endl;
+        throw std::exception();
+    } else
+        std::cout << "Map config file opened" << std::endl;
+
 
     xml::XMLElement *root = xml.FirstChildElement("stealth");
-    xml::XMLElement *enemies = root->FirstChildElement("enemies");
+    xml::XMLElement *xmlEnemies = root->FirstChildElement("enemies");
 
-    for(xml::XMLElement *enemy = enemies->FirstChildElement("enemy"); enemy != nullptr; enemy = enemy->NextSiblingElement("enemy")) {
-        std::string sight_radius = enemy->Attribute("sight-radius") == nullptr ? "none" : enemy->Attribute("sight-radius");
-        std::string sight_distance = enemy->Attribute("sight-distance") == nullptr ? "none" : enemy->Attribute("sight-distance");
-        std::string swing = enemy->Attribute("swing") == nullptr ? "none" : enemy->Attribute("swing");
-        int spawnX, spawnY, spawnOr;
-        tinyxml2::XMLElement* spawn = enemy->FirstChildElement("spawnpoint")->ToElement();
-        if(spawn != nullptr) {
-            spawnX = spawn->IntAttribute("x");
-            spawnY = spawn->IntAttribute("y");
-            spawnOr = spawn->IntAttribute("r");
-        }
+    for(xml::XMLElement *enemy = xmlEnemies->FirstChildElement("enemy"); enemy != nullptr; enemy = enemy->NextSiblingElement("enemy")) {
+        xml::XMLElement* spawn = enemy->FirstChildElement("spawnpoint");
 
-        std::forward_list<sf::Vector2i> locations;
-        tinyxml2::XMLNode* locationNode = enemy->FirstChildElement("movement")->FirstChildElement("location");
-        sf::Vector2i a;
-        tinyxml2::XMLElement* loc;
-        while(locationNode != nullptr) {
-            loc = locationNode->ToElement();
-            a.x = loc->IntAttribute("x");
-            a.y = loc->IntAttribute("y");
-            locations.push_front(a);
-            locationNode = locationNode->NextSibling();
-        }
-        Strategy* strategy = new SeekStrategy(spawnX, spawnY, spawnOr,map.getMapSize(), locations, this->obstacles);
-        tinyxml2::XMLElement* weapon = enemy->FirstChildElement("weapon")->ToElement();
-        Weapon we;
-        if(weapon != nullptr) {
-            we.rate = weapon->IntAttribute("rate");
-            we.damage = weapon->IntAttribute("damage");
+        auto *seekStrategy = new SeekStrategy();
+        xml::XMLNode *movement = enemy->FirstChildElement("movement");
+        for(xml::XMLElement* location = movement->FirstChildElement("location"); location != nullptr; location = location->NextSiblingElement("location"))
+            seekStrategy->addLocation(sf::Vector2i(location->IntAttribute("x"), location->IntAttribute("y")));
 
-        } else {
-            we.damage = 10; //FIXME set the deafault demage
-            we.rate = 1;
-        }
-        this->enemies.push_front(new Enemy(*strategy,we));
+        xml::XMLElement* weapon = enemy->FirstChildElement("weapon");
+
+        enemies.push_front(new Enemy(
+                {
+                        spawn->IntAttribute("x"),
+                        spawn->IntAttribute("y")
+                },
+                spawn->FloatAttribute("r"),
+                {
+                        weapon->IntAttribute("rate"),
+                        weapon->IntAttribute("damage")
+                },
+                {
+                        enemy->FloatAttribute("sight-radius"),
+                        enemy->UnsignedAttribute("sight-distance"),
+                        enemy->FloatAttribute("swing")
+                },
+                seekStrategy));
     }
 
     std::cout << "Enemies loaded" << std::endl;
