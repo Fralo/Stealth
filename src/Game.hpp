@@ -29,7 +29,7 @@ public:
     void update(Stealth &stealth) override;
 
     std::forward_list<Enemy*> enemies;
-    std::forward_list<Obstacle*> obstacles;
+    std::forward_list<Obstacle> obstacles;
     Player *player;
 
 protected:

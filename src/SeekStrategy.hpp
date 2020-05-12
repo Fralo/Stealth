@@ -15,7 +15,7 @@
 
 class SeekStrategy : public Strategy {
 public:
-    SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle*> &obs);
+    SeekStrategy(int x, int y, int o, std::forward_list<sf::Vector2i> &l, std::forward_list<Obstacle> &obs);
 
     sf::Vector2f getNextMove(GameObject &gameObject) override;
     
@@ -25,7 +25,7 @@ private:
     int y;
     int nLocation;
     int currentTarget = 0;
-    AStar *aStar = new AStar;
+    AStar *aStar;
     bool isArrivedToTarget(Node check,Node Target);
 
 };

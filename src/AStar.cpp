@@ -50,5 +50,18 @@ bool AStar::isDestination(int x, int y, Node dest) {
 }
 
 bool AStar::isValid(int x, int y) {
-    return false;
+
+    for ( auto it = obstacles->begin(); it != obstacles->end(); ++it )
+    {
+        if(x < (it->left + it->width) && x > it->left && y < it->top && y > (it->top - it->height))
+            return false;
+    }
+    return true;
 }
+
+AStar::AStar(std::forward_list<Obstacle> &obs): obstacles(&obs){
+
+}
+
+
+

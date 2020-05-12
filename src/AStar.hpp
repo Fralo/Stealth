@@ -8,6 +8,8 @@
 #include <vector>
 #include <float.h>
 #include <math.h>
+#include <forward_list>
+#include "Obstacle.hpp"
 
 struct Node{
     int x;
@@ -20,12 +22,15 @@ struct Node{
 
 class AStar {
 public:
-    AStar(){};
-    std::vector<Node> getPath(Node hunter,Node target);//TODO: Add the GameMap to the argument
+
+
+    AStar(std::forward_list<Obstacle> &obs);
+    std::vector<Node> getPath(Node hunter,Node target);
 
 private:
+    std::forward_list<Obstacle> *obstacles;
     bool isDestination(int x, int y, Node dest);
-    bool isValid(int x, int y);//TODO: Add the GameMap to the argument
+    bool isValid(int x, int y);
 };
 
 #endif //STEALTH_ASTAR_HPP
