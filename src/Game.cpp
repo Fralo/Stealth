@@ -26,6 +26,9 @@ void Game::update(Stealth &stealth) {
     stealth.window.clear();
     stealth.window.draw(map.background);
 
+    for(Enemy *enemy : enemies)
+        stealth.window.draw(*enemy);
+
     stealth.window.draw(map.foreground);
     stealth.window.display();
 }
@@ -69,7 +72,7 @@ void Game::loadMap() {
                         weapon->IntAttribute("damage")
                 },
                 {
-                        enemy->FloatAttribute("sight-radius"),
+                        enemy->FloatAttribute("sight-angle"),
                         enemy->UnsignedAttribute("sight-distance"),
                         enemy->FloatAttribute("swing")
                 },

@@ -8,8 +8,8 @@
     <map source="01-map.tmx" />
 
     <enemies>
-        <enemy sight-radius=".2" sight-distance="50" swing=".1">
-            <spawnpoint x="400" y="400" r="0.25" />
+        <enemy sight-angle=".1" sight-distance="150" swing=".1">
+            <spawnpoint x="400" y="400" r=".5" />
             <movement>
                 <location x="400" y="400" />
                 <location x="200" y="400" />
@@ -19,8 +19,8 @@
             <weapon rate="1" damage="10" distance="50" />
         </enemy>
 
-        <enemy sight-radius=".2" sight-distance="50">
-            <spawnpoint x="100" y="400" r=".5" />
+        <enemy sight-angle=".2" sight-distance="50">
+            <spawnpoint x="100" y="400" r="1" />
             <movement />
             <weapon rate="1" damage="10" distance="50" />
         </enemy>
