@@ -16,8 +16,10 @@ std::vector<Node> AStar::getPath(Node hunter, Node dest) {
         return empty;
     }
 
-    bool *closedList = new bool[mapSize.x-1 * mapSize.y-1];
-    Node *allMap = new Node [mapSize.x-1 * mapSize.y-1];
+
+
+    bool *closedList = new bool[mapSize.x - 1 * mapSize.y - 1];
+    Node *allMap = new Node [mapSize.x - 1 * mapSize.y -1 ];
 
 
     for (int x = 1; x < (mapSize.x-1); x++) {
