@@ -16,35 +16,35 @@ std::vector<Node> AStar::getPath(Node hunter, Node dest) {
         return empty;
     }
 
-    bool *closedList = new bool[mapSize.x * mapSize.y];
-    Node *allMap = new Node [mapSize.x * mapSize.y];
+    bool *closedList = new bool[mapSize.x-1 * mapSize.y-1];
+    Node *allMap = new Node [mapSize.x-1 * mapSize.y-1];
 
 
-    for (int x = 0; x < (mapSize.x); x++) {
-        for (int y = 0; y < (mapSize.y); y++) {
-            allMap[x * mapSize.y + y].fCost = FLT_MAX;
-            allMap[x * mapSize.y + y].gCost = FLT_MAX;
-            allMap[x * mapSize.y + y].hCost = FLT_MAX;
-            allMap[x * mapSize.y + y].parentX = -1;
-            allMap[x * mapSize.y + y].parentY = -1;
-            allMap[x * mapSize.y + y].x = x;
-            allMap[x * mapSize.y + y].y = y;
+    for (int x = 1; x < (mapSize.x-1); x++) {
+        for (int y = 1; y < (mapSize.y-1); y++) {
+            allMap[x * mapSize.y-1+ y].fCost = FLT_MAX;
+            allMap[x * mapSize.y-1+ y].gCost = FLT_MAX;
+            allMap[x * mapSize.y-1+ y].hCost = FLT_MAX;
+            allMap[x * mapSize.y-1+ y].parentX = -1;
+            allMap[x * mapSize.y-1+ y].parentY = -1;
+            allMap[x * mapSize.y-1+ y].x = x;
+            allMap[x * mapSize.y-1+ y].y = y;
 
-            closedList[x * mapSize.y + y] = false;
+            closedList[x * mapSize.y-1+ y] = false;
         }
     }
 
     //Initialize our starting list
     int x = hunter.x;
     int y = hunter.y;
-    allMap[x * mapSize.y + y].fCost = 0.0;
-    allMap[x * mapSize.y + y].gCost = 0.0;
-    allMap[x * mapSize.y + y].hCost = 0.0;
-    allMap[x * mapSize.y + y].parentX = x;
-    allMap[x * mapSize.y + y].parentY = y;
+    allMap[x * mapSize.y-1+ y].fCost = 0.0;
+    allMap[x * mapSize.y-1+ y].gCost = 0.0;
+    allMap[x * mapSize.y-1+ y].hCost = 0.0;
+    allMap[x * mapSize.y-1+ y].parentX = x;
+    allMap[x * mapSize.y-1+ y].parentY = y;
 
     std::vector<Node> openList;
-    openList.emplace_back(allMap[x * mapSize.y + y]);
+    openList.emplace_back(allMap[x * mapSize.y-1+ y]);
     bool destinationFound = false;
 
     while (!openList.empty()&&openList.size()<(mapSize.x)*(mapSize.y)) {
@@ -69,7 +69,7 @@ std::vector<Node> AStar::getPath(Node hunter, Node dest) {
 
         x = node.x;
         y = node.y;
-        closedList[x * mapSize.y + y] = true;
+        closedList[x * mapSize.y-1 + y] = true;
 
         //For each neighbour starting from North-West to South-East
         for (int newX = 0; newX <= 1; newX++) {
@@ -80,27 +80,27 @@ std::vector<Node> AStar::getPath(Node hunter, Node dest) {
                 if (isDestination(x + newX, y + newY, dest))
                 {
                     //Destination found - make path
-                    allMap[(x+newX)* mapSize.y + (y + newY)].parentX = x;
-                    allMap[(x+newX)* mapSize.y + (y + newY)].parentY = y;
+                    allMap[(x+newX)* mapSize.y-1+ (y + newY)].parentX = x;
+                    allMap[(x+newX)* mapSize.y-1+ (y + newY)].parentY = y;
                     destinationFound = true;
                     return makePath(allMap, dest);
                 }
-                else if (!closedList[(x+newX)* mapSize.y + (y + newY)])//FIXME
+                else if (!closedList[(x+newX)* mapSize.y-1+ (y + newY)])//FIXME
                 {
                     gNew = node.gCost + 1.0;
                     hNew = calculateH(x + newX, y + newY, dest);
                     fNew = gNew + hNew;
                     // Check if this path is better than the one already present
-                    if (allMap[(x+newX)* mapSize.y + (y + newY)].fCost == FLT_MAX ||
-                        allMap[(x+newX)* mapSize.y + (y + newY)].fCost > fNew)
+                    if (allMap[(x+newX)* mapSize.y-1+ (y + newY)].fCost == FLT_MAX ||
+                        allMap[(x+newX)* mapSize.y-1+ (y + newY)].fCost > fNew)
                     {
                         // Update the details of this neighbour node
-                        allMap[(x+newX)* mapSize.y + (y + newY)].fCost = fNew;
-                        allMap[(x+newX)* mapSize.y + (y + newY)].gCost = gNew;
-                        allMap[(x+newX)* mapSize.y + (y + newY)].hCost = hNew;
-                        allMap[(x+newX)* mapSize.y + (y + newY)].parentX = x;
-                        allMap[(x+newX)* mapSize.y + (y + newY)].parentY = y;
-                        openList.emplace_back(allMap[(x+newX)* mapSize.y + (y + newY)]);
+                        allMap[(x+newX)* mapSize.y-1+ (y + newY)].fCost = fNew;
+                        allMap[(x+newX)* mapSize.y-1+ (y + newY)].gCost = gNew;
+                        allMap[(x+newX)* mapSize.y-1+ (y + newY)].hCost = hNew;
+                        allMap[(x+newX)* mapSize.y-1+ (y + newY)].parentX = x;
+                        allMap[(x+newX)* mapSize.y-1+ (y + newY)].parentY = y;
+                        openList.emplace_back(allMap[(x+newX)* mapSize.y-1+ (y + newY)]);
                     }
                 }
 
@@ -121,17 +121,17 @@ std::vector<Node> AStar::makePath( Node *map, Node dest) {
         std::stack<Node> path;
         std::vector<Node> usablePath;
 
-        while (!(map[x * mapSize.y + y].parentX == x && map[x * mapSize.y + y].parentY == y)
-               && map[x * mapSize.y + y].x != -1 && map[x * mapSize.y + y].y != -1)
+        while (!(map[x * mapSize.y-1+ y].parentX == x && map[x * mapSize.y-1+ y].parentY == y)
+               && map[x * mapSize.y-1+ y].x != -1 && map[x * mapSize.y-1+ y].y != -1)
         {
-            path.push(map[x * mapSize.y + y]);
-            int tempX = map[x * mapSize.y + y].parentX;
-            int tempY = map[x * mapSize.y + y].parentY;
+            path.push(map[x * mapSize.y-1+ y]);
+            int tempX = map[x * mapSize.y-1+ y].parentX;
+            int tempY = map[x * mapSize.y-1+ y].parentY;
             x = tempX;
             y = tempY;
 
         }
-        path.push(map[x * mapSize.y + y]);
+        path.push(map[x * mapSize.y-1+ y]);
 
         while (!path.empty()) {
             Node top = path.top();
