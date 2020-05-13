@@ -45,7 +45,7 @@ void MainMenu::init(Stealth &stealth) {
     unselectionSfx.setBuffer(unselectionSfxBuffer);
     unselectionSfx.setVolume(25);
 
-    music.openFromFile("../res/music/shining_end.ogg");
+    music.openFromFile("../res/music/davie.ogg");
     music.setLoop(true);
     music.setVolume(50);
     music.play();
