@@ -31,7 +31,7 @@ public:
     std::vector<Node> getPath(Node hunter,Node target);
 
 private:
-    std::vector<Node> makePath( Node **map, Node dest);
+    std::vector<Node> makePath( Node *map, Node dest);
     bool isDestination(int x, int y, Node dest);
     bool isValid(int x, int y);
     double calculateH(int x, int y, Node dest);

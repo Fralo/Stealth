@@ -95,7 +95,7 @@ TiledLayer *TiledMap::makeLayer(xml::XMLElement *layer) {
 }
 
 sf::Vector2u TiledMap::getMapSize() {
-    return sf::Vector2u(mapWidth * tileWidth, mapHeight * tileHeight);
+    return sf::Vector2u(mapWidth, mapHeight);
 }
 
 void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {

@@ -24,10 +24,10 @@ void Game::update(Stealth &stealth) {
      * Draw objects
      */
     stealth.window.clear();
-
     stealth.window.draw(map.background);
     for (Enemy *enemy : enemies)
         stealth.window.draw(*enemy);
+    stealth.window.draw(*player);
     stealth.window.draw(map.foreground);
     stealth.window.draw(cursor);
 
@@ -69,7 +69,7 @@ void Game::loadMap() {
                         spawn->IntAttribute("x"),
                         spawn->IntAttribute("y")
                 },
-                spawn->FloatAttribute("r"),
+                spawn->FloatAttribute("orientation"),
                 {
                         weapon->IntAttribute("rate"),
                         weapon->IntAttribute("damage")
@@ -81,6 +81,17 @@ void Game::loadMap() {
                 },
                 seekStrategy));
     }
-
     std::cout << "Enemies loaded" << std::endl;
+
+    //TODO load the player
+    xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
+    xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
+    player = new Player({
+                                playerSpawn->IntAttribute("x"),
+                                playerSpawn->IntAttribute("y")
+                        },
+                        {
+                                xmlPlayerWeapon->IntAttribute("rate"),
+                                xmlPlayerWeapon->IntAttribute("damage")
+                        });
 }
