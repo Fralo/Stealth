@@ -9,7 +9,10 @@ void Player::update(Game &game) {
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-
+    sf::CircleShape enemyShape(10);
+    enemyShape.setFillColor(sf::Color(200, 0, 0));
+    enemyShape.setPosition(position.x, position.y);
+    target.draw(enemyShape);
 }
 
 Player::Player(sf::Vector2i position, Weapon weapon) : weapon(weapon) {

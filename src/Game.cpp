@@ -28,7 +28,7 @@ void Game::update(Stealth &stealth) {
 
     for (Enemy *enemy : enemies)
         stealth.window.draw(*enemy);
-
+    stealth.window.draw(*player);
     stealth.window.draw(map.foreground);
     stealth.window.display();
 }

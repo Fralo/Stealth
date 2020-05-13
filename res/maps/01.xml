@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <stealth>
     <player>
-        <spawnpoint x="10" y="10" />
+        <spawnpoint x="100" y="100" />
         <weapon rate="1" damage="10" distance="50" />
     </player>
 
