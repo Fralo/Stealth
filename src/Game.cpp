@@ -5,9 +5,8 @@
 #include "Game.hpp"
 
 void Game::init(Stealth &stealth) {
-
+    stealth.window.setMouseCursorVisible(false);
     loadMap();
-
 }
 
 void Game::update(Stealth &stealth) {
@@ -16,20 +15,22 @@ void Game::update(Stealth &stealth) {
     /*
      * Update objects
      */
-    for(Enemy *enemy : enemies)
+    for (Enemy *enemy : enemies)
         enemy->update(*this);
     //player->update(*this);
+    cursor.update(*this, stealth.window);
 
     /*
      * Draw objects
      */
     stealth.window.clear();
+
     stealth.window.draw(map.background);
-
-    for(Enemy *enemy : enemies)
+    for (Enemy *enemy : enemies)
         stealth.window.draw(*enemy);
-
     stealth.window.draw(map.foreground);
+    stealth.window.draw(cursor);
+
     stealth.window.display();
 }
 
@@ -41,7 +42,7 @@ void Game::loadMap() {
     xml::XMLDocument xml;
     xml::XMLError error = xml.LoadFile(resource("maps/01.xml"));
 
-    if(error != tinyxml2::XML_SUCCESS){
+    if (error != tinyxml2::XML_SUCCESS) {
         std::cout << "Error opening map config file" << std::endl;
         throw std::exception();
     } else
@@ -51,15 +52,17 @@ void Game::loadMap() {
     xml::XMLElement *root = xml.FirstChildElement("stealth");
     xml::XMLElement *xmlEnemies = root->FirstChildElement("enemies");
 
-    for(xml::XMLElement *enemy = xmlEnemies->FirstChildElement("enemy"); enemy != nullptr; enemy = enemy->NextSiblingElement("enemy")) {
-        xml::XMLElement* spawn = enemy->FirstChildElement("spawnpoint");
+    for (xml::XMLElement *enemy = xmlEnemies->FirstChildElement("enemy");
+         enemy != nullptr; enemy = enemy->NextSiblingElement("enemy")) {
+        xml::XMLElement *spawn = enemy->FirstChildElement("spawnpoint");
 
         auto *seekStrategy = new SeekStrategy();
         xml::XMLNode *movement = enemy->FirstChildElement("movement");
-        for(xml::XMLElement* location = movement->FirstChildElement("location"); location != nullptr; location = location->NextSiblingElement("location"))
+        for (xml::XMLElement *location = movement->FirstChildElement("location");
+             location != nullptr; location = location->NextSiblingElement("location"))
             seekStrategy->addLocation(sf::Vector2i(location->IntAttribute("x"), location->IntAttribute("y")));
 
-        xml::XMLElement* weapon = enemy->FirstChildElement("weapon");
+        xml::XMLElement *weapon = enemy->FirstChildElement("weapon");
 
         enemies.push_front(new Enemy(
                 {

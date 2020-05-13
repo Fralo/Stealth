@@ -8,7 +8,7 @@
     <map source="01-map.tmx" />
 
     <enemies>
-        <enemy sight-angle=".1" sight-distance="150" swing=".1">
+        <enemy sight-angle=".25" sight-distance="150" swing="0.2">
             <spawnpoint x="400" y="400" r=".5" />
             <movement>
                 <location x="400" y="400" />

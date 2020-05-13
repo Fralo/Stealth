@@ -42,6 +42,9 @@ private:
     sf::Text newGameTxt;
     sf::Text quitTxt;
 
+    sf::Cursor selectCursor;
+    sf::Cursor defaultCursor;
+
     MenuOption selectedOption = NONE;
 
     const sf::Color selectedColor = sf::Color(0xff, 0xaa, 0x00);
