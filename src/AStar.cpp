@@ -16,42 +16,38 @@ std::vector<Node> AStar::getPath(Node hunter, Node dest) {
         return empty;
     }
 
-    bool **closedList;
-    closedList = new bool *[mapSize.x];
-    for ( int i = 0; i < mapSize.x; i++ ) closedList[i] = new bool[mapSize.y];
+    bool *closedList = new bool[mapSize.x * mapSize.y];
+    Node *allMap = new Node [mapSize.x * mapSize.y];
 
-    Node **allMap;
-    allMap = new Node *[mapSize.x];
-    for ( int i = 0; i < mapSize.x; i++ ) allMap[i] = new Node[mapSize.y];
 
-    for (int x = 0; x < (15); x++) {
-        for (int y = 0; y < (15); y++) {
-            allMap[x][y].fCost = FLT_MAX;
-            allMap[x][y].gCost = FLT_MAX;
-            allMap[x][y].hCost = FLT_MAX;
-            allMap[x][y].parentX = -1;
-            allMap[x][y].parentY = -1;
-            allMap[x][y].x = x;
-            allMap[x][y].y = y;
+    for (int x = 0; x < (mapSize.x); x++) {
+        for (int y = 0; y < (mapSize.y); y++) {
+            allMap[x * mapSize.y + y].fCost = FLT_MAX;
+            allMap[x * mapSize.y + y].gCost = FLT_MAX;
+            allMap[x * mapSize.y + y].hCost = FLT_MAX;
+            allMap[x * mapSize.y + y].parentX = -1;
+            allMap[x * mapSize.y + y].parentY = -1;
+            allMap[x * mapSize.y + y].x = x;
+            allMap[x * mapSize.y + y].y = y;
 
-            closedList[x][y] = false;
+            closedList[x * mapSize.y + y] = false;
         }
     }
 
     //Initialize our starting list
     int x = hunter.x;
     int y = hunter.y;
-    allMap[x][y].fCost = 0.0;
-    allMap[x][y].gCost = 0.0;
-    allMap[x][y].hCost = 0.0;
-    allMap[x][y].parentX = x;
-    allMap[x][y].parentY = y;
+    allMap[x * mapSize.y + y].fCost = 0.0;
+    allMap[x * mapSize.y + y].gCost = 0.0;
+    allMap[x * mapSize.y + y].hCost = 0.0;
+    allMap[x * mapSize.y + y].parentX = x;
+    allMap[x * mapSize.y + y].parentY = y;
 
     std::vector<Node> openList;
-    openList.emplace_back(allMap[x][y]);
+    openList.emplace_back(allMap[x * mapSize.y + y]);
     bool destinationFound = false;
 
-    while (!openList.empty()&&openList.size()<(15)*(15)) {
+    while (!openList.empty()&&openList.size()<(mapSize.x)*(mapSize.y)) {
         Node node;
         do {
             float temp = FLT_MAX;
@@ -73,38 +69,38 @@ std::vector<Node> AStar::getPath(Node hunter, Node dest) {
 
         x = node.x;
         y = node.y;
-        closedList[x][y] = true;
+        closedList[x * mapSize.y + y] = true;
 
         //For each neighbour starting from North-West to South-East
-        for (int newX = -1; newX <= 1; newX++) {
-            for (int newY = -1; newY <= 1; newY++) {
+        for (int newX = 0; newX <= 1; newX++) {
+            for (int newY = 0; newY <= 1; newY++) {
                 double gNew, hNew, fNew;
-                //trying to deny diagonals
+
 
                 if (isDestination(x + newX, y + newY, dest))
                 {
                     //Destination found - make path
-                    allMap[x + newX][y + newY].parentX = x;
-                    allMap[x + newX][y + newY].parentY = y;
+                    allMap[(x+newX)* mapSize.y + (y + newY)].parentX = x;
+                    allMap[(x+newX)* mapSize.y + (y + newY)].parentY = y;
                     destinationFound = true;
                     return makePath(allMap, dest);
                 }
-                else if (!closedList[x + newX][y + newY])
+                else if (!closedList[(x+newX)* mapSize.y + (y + newY)])//FIXME
                 {
                     gNew = node.gCost + 1.0;
                     hNew = calculateH(x + newX, y + newY, dest);
                     fNew = gNew + hNew;
                     // Check if this path is better than the one already present
-                    if (allMap[x + newX][y + newY].fCost == FLT_MAX ||
-                        allMap[x + newX][y + newY].fCost > fNew)
+                    if (allMap[(x+newX)* mapSize.y + (y + newY)].fCost == FLT_MAX ||
+                        allMap[(x+newX)* mapSize.y + (y + newY)].fCost > fNew)
                     {
                         // Update the details of this neighbour node
-                        allMap[x + newX][y + newY].fCost = fNew;
-                        allMap[x + newX][y + newY].gCost = gNew;
-                        allMap[x + newX][y + newY].hCost = hNew;
-                        allMap[x + newX][y + newY].parentX = x;
-                        allMap[x + newX][y + newY].parentY = y;
-                        openList.emplace_back(allMap[x + newX][y + newY]);
+                        allMap[(x+newX)* mapSize.y + (y + newY)].fCost = fNew;
+                        allMap[(x+newX)* mapSize.y + (y + newY)].gCost = gNew;
+                        allMap[(x+newX)* mapSize.y + (y + newY)].hCost = hNew;
+                        allMap[(x+newX)* mapSize.y + (y + newY)].parentX = x;
+                        allMap[(x+newX)* mapSize.y + (y + newY)].parentY = y;
+                        openList.emplace_back(allMap[(x+newX)* mapSize.y + (y + newY)]);
                     }
                 }
 
@@ -118,24 +114,24 @@ std::vector<Node> AStar::getPath(Node hunter, Node dest) {
 
 }
 
-std::vector<Node> AStar::makePath( Node **map, Node dest) {
+std::vector<Node> AStar::makePath( Node *map, Node dest) {
     try {
         int x = dest.x;
         int y = dest.y;
         std::stack<Node> path;
         std::vector<Node> usablePath;
 
-        while (!(map[x][y].parentX == x && map[x][y].parentY == y)
-               && map[x][y].x != -1 && map[x][y].y != -1)
+        while (!(map[x * mapSize.y + y].parentX == x && map[x * mapSize.y + y].parentY == y)
+               && map[x * mapSize.y + y].x != -1 && map[x * mapSize.y + y].y != -1)
         {
-            path.push(map[x][y]);
-            int tempX = map[x][y].parentX;
-            int tempY = map[x][y].parentY;
+            path.push(map[x * mapSize.y + y]);
+            int tempX = map[x * mapSize.y + y].parentX;
+            int tempY = map[x * mapSize.y + y].parentY;
             x = tempX;
             y = tempY;
 
         }
-        path.push(map[x][y]);
+        path.push(map[x * mapSize.y + y]);
 
         while (!path.empty()) {
             Node top = path.top();
