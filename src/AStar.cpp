@@ -64,8 +64,8 @@ std::vector <Node> AStar::getPath(Node hunter, Node dest) {
             openList.erase(itNode);
         } while (!isValid(node.x, node.y));
 
-        x = node.x;
-        y = node.y;
+        x = node.x/mapSize.x;
+        y = node.y/mapSize.y;
         closedList[x][y] = true;
 
         //For each neighbour starting from North-West to South-East
