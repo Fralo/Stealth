@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <stealth>
     <player>
-        <spawnpoint x="10" y="10" r="0" />
+        <spawnpoint x="10" y="10" />
         <weapon rate="1" damage="10" distance="50" />
     </player>
 
@@ -9,7 +9,7 @@
 
     <enemies>
         <enemy sight-angle=".1" sight-distance="150" swing=".1">
-            <spawnpoint x="400" y="400" r=".5" />
+            <spawnpoint x="400" y="400" orientation=".5" />
             <movement>
                 <location x="400" y="400" />
                 <location x="200" y="400" />

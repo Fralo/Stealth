@@ -66,7 +66,7 @@ void Game::loadMap() {
                         spawn->IntAttribute("x"),
                         spawn->IntAttribute("y")
                 },
-                spawn->FloatAttribute("r"),
+                spawn->FloatAttribute("orientation"),
                 {
                         weapon->IntAttribute("rate"),
                         weapon->IntAttribute("damage")
@@ -78,6 +78,18 @@ void Game::loadMap() {
                 },
                 seekStrategy));
     }
-
     std::cout << "Enemies loaded" << std::endl;
+
+    //TODO load the player
+    xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
+    xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
+    player = new Player({
+                                playerSpawn->IntAttribute("x"),
+                                playerSpawn->IntAttribute("y")
+                        },
+                        {
+                                xmlPlayerWeapon->IntAttribute("rate"),
+                                xmlPlayerWeapon->IntAttribute("damage")
+                        });
+    std::cout << "Player created: "<<std::endl<<"spawnX: "<<playerSpawn->IntAttribute("x")<<std::endl<<"spawnY: "<<playerSpawn->IntAttribute("y")<<std::endl;
 }
