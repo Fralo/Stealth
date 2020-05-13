@@ -9,6 +9,7 @@ MainMenu::~MainMenu() {
 }
 
 void MainMenu::init(Stealth &stealth) {
+    stealth.window.setMouseCursorVisible(true);
 
     bgTexture.loadFromFile("../res/map.png");
     bgSprite.setTexture(bgTexture);
@@ -45,10 +46,13 @@ void MainMenu::init(Stealth &stealth) {
     unselectionSfx.setBuffer(unselectionSfxBuffer);
     unselectionSfx.setVolume(25);
 
+    selectCursor.loadFromSystem(sf::Cursor::Hand);
+    defaultCursor.loadFromSystem(sf::Cursor::Arrow);
+
     music.openFromFile("../res/music/davie.ogg");
     music.setLoop(true);
     music.setVolume(50);
-    music.play();
+    //music.play();
 }
 
 void MainMenu::update(Stealth &stealth) {
@@ -69,16 +73,19 @@ void MainMenu::update(Stealth &stealth) {
             if(selectedOption != NEW_GAME) {
                 selectionSfx.play();
                 selectedOption = NEW_GAME;
+                stealth.window.setMouseCursor(selectCursor);
             }
         } else if (quitTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
             if(selectedOption != QUIT) {
                 selectionSfx.play();
                 selectedOption = QUIT;
+                stealth.window.setMouseCursor(selectCursor);
             }
         } else {
             if(selectedOption != NONE) {
                 unselectionSfx.play();
                 selectedOption = NONE;
+                stealth.window.setMouseCursor(defaultCursor);
             }
         }
     }

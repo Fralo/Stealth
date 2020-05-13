@@ -5,9 +5,8 @@
 #include "Game.hpp"
 
 void Game::init(Stealth &stealth) {
-
+    stealth.window.setMouseCursorVisible(false);
     loadMap();
-
 }
 
 void Game::update(Stealth &stealth) {
@@ -19,17 +18,19 @@ void Game::update(Stealth &stealth) {
     for (Enemy *enemy : enemies)
         enemy->update(*this);
     //player->update(*this);
+    cursor.update(*this, stealth.window);
 
     /*
      * Draw objects
      */
     stealth.window.clear();
     stealth.window.draw(map.background);
-
     for (Enemy *enemy : enemies)
         stealth.window.draw(*enemy);
     stealth.window.draw(*player);
     stealth.window.draw(map.foreground);
+    stealth.window.draw(cursor);
+
     stealth.window.display();
 }
 

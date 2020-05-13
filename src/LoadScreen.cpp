@@ -5,11 +5,14 @@
 #include "LoadScreen.hpp"
 
 void LoadScreen::init(Stealth &stealth) {
+    stealth.window.setMouseCursorVisible(false);
+
     splashTexture.loadFromFile("../res/splashscreen.png");
     splashSprite.setTexture(splashTexture);
 
     sf::FloatRect splashSpriteRect = splashSprite.getLocalBounds();
-    splashSprite.setOrigin(splashSpriteRect.left + splashSpriteRect.width / 2.0f, splashSpriteRect.top + splashSpriteRect.height / 2.0f);
+    splashSprite.setOrigin(splashSpriteRect.left + splashSpriteRect.width / 2.0f,
+                           splashSpriteRect.top + splashSpriteRect.height / 2.0f);
 
     splashFont.loadFromFile("../res/fonts/CaptureIt-Regular.ttf");
     splashTxt.setFont(splashFont);
@@ -17,7 +20,8 @@ void LoadScreen::init(Stealth &stealth) {
     splashTxt.setString("STEALTH");
 
     sf::FloatRect splashTxtRect = splashTxt.getLocalBounds();
-    splashTxt.setOrigin(splashTxtRect.left + splashTxtRect.width / 2.0f, splashTxtRect.top + splashTxtRect.height / 2.0f);
+    splashTxt.setOrigin(splashTxtRect.left + splashTxtRect.width / 2.0f,
+                        splashTxtRect.top + splashTxtRect.height / 2.0f);
 
     unifiTexture.loadFromFile("../res/unifi.png");
     unifiSprite.setTexture(unifiTexture);
@@ -46,7 +50,8 @@ void LoadScreen::update(Stealth &stealth) {
     unifiSprite.setPosition(20, windowSize.y - unifiTextureSize.y - 20);
     // credits
     sf::FloatRect creditsTxtRect = creditsTxt.getLocalBounds();
-    creditsTxt.setPosition(40 + unifiTextureSize.x, windowSize.y - unifiTextureSize.y - 20 + (unifiTextureSize.y - creditsTxtRect.height) / 2);
+    creditsTxt.setPosition(40 + unifiTextureSize.x,
+                           windowSize.y - unifiTextureSize.y - 20 + (unifiTextureSize.y - creditsTxtRect.height) / 2);
 
     // draw
     stealth.window.clear();
@@ -56,7 +61,7 @@ void LoadScreen::update(Stealth &stealth) {
     stealth.window.draw(unifiSprite);
     stealth.window.draw(creditsTxt);
 
-    if(millis < 1000) {
+    if (millis < 1000) {
         sf::RectangleShape rect(sf::Vector2f(800, 600));
         rect.setFillColor(sf::Color(0, 0, 0, 255 - millis / 1000.0f * 255));
         stealth.window.draw(rect);
@@ -65,12 +70,12 @@ void LoadScreen::update(Stealth &stealth) {
     stealth.window.display();
 
     // change state after 5s
-    if(millis > 5000)
+    if (millis > 5000)
         stealth.changeState(new MainMenu());
 }
 
 void LoadScreen::handleEvent(Stealth &stealth, sf::Event &event) {
-    if(event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::KeyPressed) {
+    if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::KeyPressed) {
         stealth.changeState(new MainMenu());
     }
 }

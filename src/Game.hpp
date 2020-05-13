@@ -16,6 +16,7 @@
 #include "Enemy.hpp"
 #include "Obstacle.hpp"
 #include "SeekStrategy.hpp"
+#include "GameCursor.hpp"
 
 class Player;
 class Enemy;
@@ -32,6 +33,7 @@ public:
     std::forward_list<Obstacle> obstacles;
     Player *player;
     TiledMap map;
+    GameCursor cursor;
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
