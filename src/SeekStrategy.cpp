@@ -43,8 +43,8 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
 
     if(!path.empty()) {
         //TODO FRITX TI ODIO
-        nextMove.x = next.x;
-        nextMove.y = next.y;
+        nextMove.x = float(next.x*game.map.getTileSize().x)-from.x;
+        nextMove.y = float(next.y*game.map.getTileSize().y)-from.y;
     }
     std::cout << nextMove.x <<" " << nextMove.y <<std::endl;
     return nextMove;

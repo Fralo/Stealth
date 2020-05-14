@@ -89,7 +89,6 @@ void Game::loadMap() {
     }
     std::cout << "Enemies loaded" << std::endl;
 
-    //TODO load the player
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
     xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
     player = new Player({
