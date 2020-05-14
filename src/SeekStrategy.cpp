@@ -33,8 +33,11 @@ if(locations.size() != 0) {
     Node next = path.at(1);
 
     if (!path.empty()) {
-        nextMove.x = float(next.x * game.map->getTileSize().x) - from.x;
-        nextMove.y = float(next.y * game.map->getTileSize().y) - from.y;
+        int tileOffsetX = (game.map->getTileSize().x + 1);
+        int tileOffsetY = (game.map->getTileSize().y + 1);
+        std::cout << -tileOffsetX << " " << -tileOffsetY << std::endl;
+        nextMove.x = (float(next.x * game.map->getTileSize().x) - from.x) < 0 ? -tileOffsetX : tileOffsetX;
+        nextMove.y = (float(next.y * game.map->getTileSize().y) - from.y) < 0 ? -tileOffsetY : tileOffsetY;
         return nextMove;
     }
 

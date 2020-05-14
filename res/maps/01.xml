@@ -13,6 +13,7 @@
             <movement>
                 <location x="200" y="400" />
                 <location x="300" y="200" />
+                <location x="100" y="500" />
                 <location x="100" y="300" />
             </movement>
             <weapon rate="1" damage="10" distance="50" />
