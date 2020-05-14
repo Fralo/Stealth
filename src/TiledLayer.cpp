@@ -4,7 +4,7 @@
 
 #include "TiledLayer.hpp"
 
-TiledLayer::TiledLayer(sf::Vector2u layerSize, sf::Vector2u tileSize) : layerSize(layerSize), tileSize(tileSize){
+TiledLayer::TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize) : layerSize(layerSize), mapTileSize(mapTileSize){
 
 }
 
@@ -19,7 +19,8 @@ sf::Sprite *TiledLayer::getTileSprite(unsigned int col, unsigned int row) const 
         return nullptr;
 
     sf::Sprite *tile = tiles.at(row).at(col);
-    tile->setPosition(sf::Vector2f(col * tileSize.x, row * tileSize.y));
+    sf::IntRect tileSize = tile->getTextureRect();
+    tile->setPosition(sf::Vector2f(col * mapTileSize.x, row * mapTileSize.y - (tileSize.height - mapTileSize.y)));
 
     return tile;
 }
@@ -32,24 +33,20 @@ bool TiledLayer::setTileSprite(unsigned int row, unsigned int col, sf::Sprite *s
     return true;
 }
 
-void TiledLayer::removeTileSprite(unsigned int col, unsigned int row) {
-    if(row >= layerSize.y || col >= layerSize.x)
-        return;
-
-    if(!tiles.contains(row))
-        return;
-
-    if(!tiles.at(row).contains(col))
-        return;
-
-    tiles.at(row).erase(col);
-}
-
 void TiledLayer::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     sf::Sprite *tile;
     for(int row = 0; row < layerSize.y; row++)
-        for(int col = 0; col < layerSize.x; col++)
-            if((tile = getTileSprite(col, row)) != nullptr) {
+        for(int col = 0; col < layerSize.x; col++) {
+            if ((tile = getTileSprite(col, row)) != nullptr) {
                 target.draw(*tile);
             }
+
+            // TODO: remove debug grid
+            sf::RectangleShape tileRect(sf::Vector2f(mapTileSize.x, mapTileSize.y));
+            tileRect.setPosition(sf::Vector2f(col * mapTileSize.x, row * mapTileSize.y));
+            tileRect.setFillColor(sf::Color::Transparent);
+            tileRect.setOutlineColor(sf::Color::Red);
+            tileRect.setOutlineThickness(.5);
+            target.draw(tileRect);
+        }
 }

@@ -7,8 +7,8 @@
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
 
-    map = new TiledMap(obstacles);
-    loadMap();
+    map = new TiledMap(objects);
+    loadMapConfig();
 
     view.setCenter(sf::Vector2f(player->position));
 
@@ -32,11 +32,10 @@ void Game::update(Stealth &stealth) {
      */
     stealth.window.clear();
 
-    stealth.window.draw(map->background);
+    stealth.window.draw(*map);
     for (Enemy *enemy : enemies)
         stealth.window.draw(*enemy);
     stealth.window.draw(*player);
-    stealth.window.draw(map->foreground);
     stealth.window.draw(cursor);
 
     stealth.window.display();
@@ -46,7 +45,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
 
 }
 
-void Game::loadMap() {
+void Game::loadMapConfig() {
     xml::XMLDocument xml;
     xml::XMLError error = xml.LoadFile(resource("maps/01.xml"));
 
@@ -55,7 +54,6 @@ void Game::loadMap() {
         throw std::exception();
     } else
         std::cout << "Map config file opened" << std::endl;
-
 
     xml::XMLElement *root = xml.FirstChildElement("stealth");
     xml::XMLElement *xmlEnemies = root->FirstChildElement("enemies");

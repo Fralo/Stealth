@@ -9,9 +9,10 @@
 #include <float.h>
 #include <math.h>
 #include <forward_list>
+#include <list>
 #include <stack>
 #include <iostream>
-#include "Obstacle.hpp"
+#include "Object.hpp"
 
 struct Node{
     int x;
@@ -25,14 +26,14 @@ struct Node{
 
 class AStar {
 public:
-    AStar(std::forward_list<Obstacle*> &obs, sf::Vector2u mapSize, sf::Vector2u tSize);
+    AStar() = delete;
+    AStar(std::list<Object*> &obs, sf::Vector2u mapSize, sf::Vector2u tSize);
     std::vector<Node> getPath(Node hunter,Node target);
 
 private:
-    AStar() = default;
     sf::Vector2u mapSize;
     sf::Vector2u tileSize;
-    std::forward_list<Obstacle*> &obstacles;
+    std::list<Object*> &obstacles;
 
     std::vector<Node> makePath(Node map[15][15], Node dest);
     bool isDestination(int x, int y, Node dest);

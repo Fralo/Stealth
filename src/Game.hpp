@@ -14,7 +14,7 @@
 #include "GameObject.hpp"
 #include "Player.hpp"
 #include "Enemy.hpp"
-#include "Obstacle.hpp"
+#include "Object.hpp"
 #include "SeekStrategy.hpp"
 #include "GameCursor.hpp"
 
@@ -29,7 +29,7 @@ public:
     void update(Stealth &stealth) override;
 
     std::forward_list<Enemy*> enemies;
-    std::forward_list<Obstacle*> obstacles;
+    std::list<Object*> objects;
     Player *player;
     TiledMap *map;
 
@@ -41,7 +41,7 @@ private:
     sf::View view;
     sf::Clock clock;
 
-    void loadMap();
+    void loadMapConfig();
     void updateMapView(Stealth &stealth);
 
 };

@@ -11,7 +11,7 @@
 #include <vector>
 #include "Strategy.hpp"
 #include "AStar.hpp"
-#include "Obstacle.hpp"
+#include "Object.hpp"
 #include "Game.hpp"
 
 class SeekStrategy : public Strategy {

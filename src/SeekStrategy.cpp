@@ -13,7 +13,7 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
 sf::Vector2f nextMove;
 
 if(locations.size() != 0) {
-    aStar = new AStar(game.obstacles, game.map->getMapSize(), game.map->getTileSize());
+    aStar = new AStar(game.objects, game.map->getMapSize(), game.map->getTileSize());
 
     Node from = {gameObject.position.x, gameObject.position.y};
     Node to = {locations.at(currentTarget).x,locations.at(currentTarget).y};

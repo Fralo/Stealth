@@ -12,17 +12,16 @@
 
 class TiledLayer : public sf::Drawable, public sf::Transformable {
 public:
-    TiledLayer(sf::Vector2u layerSize, sf::Vector2u tileSize);
+    TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize);
 
     sf::Sprite * getTileSprite(unsigned int col, unsigned int row) const;
     bool setTileSprite(unsigned int col, unsigned int row, sf::Sprite *sprite);
-    void removeTileSprite(unsigned int col, unsigned int row);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
-    const sf::Vector2u tileSize;
+    const sf::Vector2u mapTileSize;
     const sf::Vector2u layerSize;
     std::map<unsigned int, std::map<unsigned int, sf::Sprite*>> tiles;
 };

@@ -10,9 +10,9 @@ include_directories(third_party/)
 add_library(tinyxml2 STATIC third_party/tinyxml2/tinyxml2.cpp)
 
 # Boom executable
-set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/AStar.cpp src/AStar.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Obstacle.cpp src/Obstacle.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp)
+set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/HunterStrategy.cpp src/HunterStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/AStar.cpp src/AStar.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Object.cpp src/Object.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp src/Tile.cpp src/Tile.hpp)
 
-add_executable(Stealth src/main.cpp ${SOURCE_FILES} src/HunterStrategy.cpp src/HunterStrategy.hpp)
+add_executable(Stealth src/main.cpp ${SOURCE_FILES})
 
 target_link_libraries(Stealth sfml-system sfml-window sfml-graphics sfml-audio GLX tinyxml2)
 
