@@ -24,7 +24,10 @@ Enemy::Enemy(sf::Vector2i position, float orientation, Weapon weapon, EnemyView 
 }
 
 void Enemy::update(Game &game) {
-    sf::Vector2f nextMoveDirection = strategy->getNextMove(*this, game);
+    sf::Vector2f next = strategy->getNextMove(*this, game);
+
+    float movementFactor = 0.05f;
+    position = sf::Vector2i(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
 
     sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 1000.0f);
 }
