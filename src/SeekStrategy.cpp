@@ -18,18 +18,8 @@ if(locations.size() != 0) {
     Node from = {gameObject.position.x, gameObject.position.y};
     Node to = {locations.at(currentTarget).x,locations.at(currentTarget).y};
 
-    std::cout<<to.x<<std::endl;
-    std::cout<<to.y<<std::endl;
-
     std::vector<Node> path = aStar->getPath(from, to);
     Node next = path.at(1);
-
-//        std::cout<<"To x"<<to.x/game.map.getTileSize().x<<std::endl;
-//        std::cout<<"To y"<<to.y/game.map.getTileSize().y<<std::endl;
-//        std::cout<<"Next x"<<next.x<<std::endl;
-//        std::cout<<"Next y"<<next.y<<std::endl;
-
-
 
     if (!path.empty()) {
         nextMove.x = float(next.x * game.map.getTileSize().x) - from.x;
@@ -38,14 +28,17 @@ if(locations.size() != 0) {
 
     if (next.x == (to.x/game.map.getTileSize().x) && next.y == (to.y/game.map.getTileSize().y)) {
 
-        std::cout<<"change target"<<std::endl;
+        std::cout<<"Location n. "<<currentTarget<<std::endl;
+        std::cout<<"Arrived to : { x = " <<to.x<< " y = "<<to.y<<"}"<<std::endl;
         currentTarget++;
         currentTarget = currentTarget % locations.size();
 
+
     }
+    return nextMove;
 }
     //std::cout << nextMove.x <<" " << nextMove.y <<std::endl;
-    return nextMove;
+
 
 }
 

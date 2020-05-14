@@ -4,6 +4,8 @@
 
 #include "AStar.hpp"
 
+//TODO: fralo fixa questo astar che a volte funziona e a volte non funziona
+
 std::vector <Node> AStar::getPath(Node hunter, Node dest) {std::vector<Node> empty;
     hunter.x = hunter.x/tileSize.x;
     hunter.y = hunter.y/tileSize.y;

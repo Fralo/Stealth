@@ -12,7 +12,7 @@
             <spawnpoint x="400" y="400" orientation=".5" />
             <movement>
                 <location x="200" y="400" />
-                <location x="400" y="400" />
+                <location x="300" y="200" />
             </movement>
             <weapon rate="1" damage="10" distance="50" />
         </enemy>
