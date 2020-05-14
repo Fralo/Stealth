@@ -15,11 +15,11 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
         i++;
     nLocation = i;
 
-    aStar = new AStar(game.obstacles, game.map.getMapSize());
+    aStar = new AStar(game.obstacles, game.map.getMapSize(), game.map.getTileSize());
 
     Node from = {gameObject.position.x, gameObject.position.y};
-    Node to{};
-
+    Node to{1200,1200};
+    /*
     //set the current target
     i = 0;
     for (auto location : locations) {
@@ -29,29 +29,24 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
         }
         i++;
     }
-
+    */
     std::vector<Node> path =  aStar->getPath(from,to);
+    Node next = path.at(1);
 
-    Node current, next;
-    int pass = 0;
-    for(Node a : path) {
-        if(pass == 0) current = a;
-        if(pass++ == 1) next = a;
-    }
-
+/* TODO spiegare a fralo che è sta roba
     if(isArrivedToTarget(next,to)) {
         currentTarget++;
         currentTarget = currentTarget % nLocation;
     }
-
+*/
     sf::Vector2f nextMove;
 
     if(!path.empty()) {
-        sf::Vector2f nextMove;
+        //TODO FRITX TI ODIO
         nextMove.x = next.x;
         nextMove.y = next.y;
     }
-
+    std::cout << nextMove.x <<" " << nextMove.y <<std::endl;
     return nextMove;
 
 
