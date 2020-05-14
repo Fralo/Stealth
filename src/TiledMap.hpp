@@ -29,6 +29,7 @@ public:
 
     sf::Vector2u getMapSize();
     sf::Vector2u getTileSize();
+    sf::Vector2u getMapActualSize();
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 

@@ -33,13 +33,17 @@ public:
     std::forward_list<Obstacle> obstacles;
     Player *player;
     TiledMap map;
-    GameCursor cursor;
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
+    GameCursor cursor;
+    sf::View view;
+    sf::Clock clock;
+
     void loadMap();
+    void updateMapView(Stealth &stealth);
 
 };
 

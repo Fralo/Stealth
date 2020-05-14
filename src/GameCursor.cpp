@@ -12,11 +12,11 @@ void GameCursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     sf::Sprite cursor;
     cursor.setTexture(cursorTexture);
     cursor.setTextureRect(sf::IntRect(0, 96, 96, 96));
-    cursor.setPosition(sf::Vector2f(position));
+    cursor.setPosition(position);
     cursor.setScale(sf::Vector2f(1, 1));
     target.draw(cursor);
 }
 
-void GameCursor::update(Game &game, sf::Window &window) {
-    position = sf::Mouse::getPosition(window);
+void GameCursor::update(Game &game, sf::RenderWindow &window) {
+    position = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }

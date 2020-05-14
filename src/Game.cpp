@@ -7,6 +7,10 @@
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
     loadMap();
+
+    view.setCenter(sf::Vector2f(player->position));
+
+    clock.restart();
 }
 
 void Game::update(Stealth &stealth) {
@@ -17,13 +21,15 @@ void Game::update(Stealth &stealth) {
      */
     for (Enemy *enemy : enemies)
         enemy->update(*this);
-    //player->update(*this);
+    player->update(*this);
     cursor.update(*this, stealth.window);
 
+    updateMapView(stealth);
     /*
      * Draw objects
      */
     stealth.window.clear();
+
     stealth.window.draw(map.background);
     for (Enemy *enemy : enemies)
         stealth.window.draw(*enemy);
@@ -94,4 +100,51 @@ void Game::loadMap() {
                                 xmlPlayerWeapon->IntAttribute("rate"),
                                 xmlPlayerWeapon->IntAttribute("damage")
                         });
+}
+
+/*
+ * Handles game view, moving when mouse gets near border but preventing it from getting away from the TiledMap
+ */
+void Game::updateMapView(Stealth &stealth) {
+    const unsigned int moveBorderSize = 40;
+    const float movementSpeed = 0.5f;
+
+    sf::Vector2u windowSize = stealth.window.getSize();
+    float screenRatio = ((float) windowSize.x) / windowSize.y;
+    view.setSize(800, 800 / screenRatio);
+
+    sf::IntRect top(0, 0, windowSize.x, moveBorderSize);
+    sf::IntRect bottom(0, windowSize.y - moveBorderSize, windowSize.x, moveBorderSize);
+    sf::IntRect left(0, 0, moveBorderSize, windowSize.y);
+    sf::IntRect right(windowSize.x - moveBorderSize, 0, moveBorderSize, windowSize.y);
+
+    sf::Vector2i mouse = sf::Mouse::getPosition(stealth.window);
+
+    if(top.contains(mouse))
+        view.move(0, -movementSpeed * clock.getElapsedTime().asMilliseconds());
+    else if(bottom.contains(mouse))
+        view.move(0, movementSpeed * clock.getElapsedTime().asMilliseconds());
+    if(right.contains(mouse))
+        view.move(movementSpeed * clock.getElapsedTime().asMilliseconds(), 0);
+    else if(left.contains(mouse))
+        view.move(-movementSpeed * clock.getElapsedTime().asMilliseconds(), 0);
+
+    clock.restart();
+
+    sf::Vector2f viewSize = view.getSize();
+    sf::Vector2u mapSize = map.getMapActualSize();
+
+    /*
+     * Prevent view from getting out of map
+     */
+    if(view.getCenter().x < viewSize.x / 2)
+        view.setCenter(viewSize.x / 2, view.getCenter().y);
+    else if(view.getCenter().x > mapSize.x - viewSize.x / 2)
+        view.setCenter(mapSize.x - viewSize.x / 2, view.getCenter().y);
+    if(view.getCenter().y < viewSize.y / 2)
+        view.setCenter(view.getCenter().x, viewSize.y / 2);
+    else if(view.getCenter().y > mapSize.y - viewSize.y / 2)
+        view.setCenter(view.getCenter().x, mapSize.y - viewSize.y / 2);
+
+    stealth.window.setView(view);
 }

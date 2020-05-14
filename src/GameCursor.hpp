@@ -13,14 +13,14 @@ class GameCursor : public sf::Drawable, public sf::Transformable {
 public:
     GameCursor();
 
-    void update(Game &game, sf::Window &window);
+    void update(Game &game, sf::RenderWindow &window);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
     sf::Texture cursorTexture;
-    sf::Vector2i position;
+    sf::Vector2f position;
 };
 
 
