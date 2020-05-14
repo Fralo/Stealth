@@ -3,6 +3,7 @@
 //
 
 #include "Enemy.hpp"
+#include "HunterStrategy.hpp"
 
 Enemy::Enemy(sf::Vector2i position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy)
         : orientation(orientation), defaultStrategy(defaultStrategy), weapon(weapon), view(view) {
@@ -24,6 +25,7 @@ Enemy::Enemy(sf::Vector2i position, float orientation, Weapon weapon, EnemyView 
 }
 
 void Enemy::update(Game &game) {
+    //strategy = new HunterStrategy();
     sf::Vector2f next = strategy->getNextMove(*this, game);
 
     float movementFactor = 0.05f;

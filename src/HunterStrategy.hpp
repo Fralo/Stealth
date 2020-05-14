@@ -8,12 +8,12 @@
 
 #include "Strategy.hpp"
 #include "AStar.hpp"
+#include "Game.hpp"
 
 class HunterStrategy : public Strategy {
 public:
     sf::Vector2f getNextMove(GameObject &gameObject, Game &game) override;
 private:
-
     AStar *aStar;
 };
 
