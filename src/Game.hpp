@@ -26,13 +26,12 @@ namespace xml = tinyxml2;
 class Game : public GameState {
 public:
     void init(Stealth &stealth) override;
-
     void update(Stealth &stealth) override;
 
     std::forward_list<Enemy*> enemies;
-    std::forward_list<Obstacle> obstacles;
+    std::forward_list<Obstacle*> obstacles;
     Player *player;
-    TiledMap map;
+    TiledMap *map;
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;

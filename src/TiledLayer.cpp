@@ -32,6 +32,19 @@ bool TiledLayer::setTileSprite(unsigned int row, unsigned int col, sf::Sprite *s
     return true;
 }
 
+void TiledLayer::removeTileSprite(unsigned int col, unsigned int row) {
+    if(row >= layerSize.y || col >= layerSize.x)
+        return;
+
+    if(!tiles.contains(row))
+        return;
+
+    if(!tiles.at(row).contains(col))
+        return;
+
+    tiles.at(row).erase(col);
+}
+
 void TiledLayer::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     sf::Sprite *tile;
     for(int row = 0; row < layerSize.y; row++)

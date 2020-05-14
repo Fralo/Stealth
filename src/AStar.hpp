@@ -25,20 +25,18 @@ struct Node{
 
 class AStar {
 public:
-
-
-    AStar(std::forward_list<Obstacle> &obs,sf::Vector2<unsigned int> mapSize, sf::Vector2<unsigned int> tSize);
+    AStar(std::forward_list<Obstacle*> &obs,sf::Vector2u &mapSize, sf::Vector2u &tSize);
     std::vector<Node> getPath(Node hunter,Node target);
 
 private:
-    std::vector<Node> makePath(  Node map[15][15], Node dest);
+    sf::Vector2u &mapSize;
+    sf::Vector2u &tileSize;
+    std::forward_list<Obstacle*> &obstacles;
+
+    std::vector<Node> makePath(Node map[15][15], Node dest);
     bool isDestination(int x, int y, Node dest);
     bool isValid(int x, int y);
     double calculateH(int x, int y, Node dest);
-
-    sf::Vector2<unsigned int> mapSize;
-    std::forward_list<Obstacle> *obstacles;
-    sf::Vector2<unsigned int> tileSize;
 };
 
 #endif //STEALTH_ASTAR_HPP

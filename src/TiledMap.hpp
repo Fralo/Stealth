@@ -14,6 +14,7 @@
 #include <sstream>
 #include "TiledLayer.hpp"
 #include "macro.h"
+#include "Obstacle.hpp"
 
 namespace xml = tinyxml2;
 
@@ -25,11 +26,12 @@ public:
     sf::Drawable &background = *new DrawableLayerGroup(backgroundLayers);
     sf::Drawable &foreground = *new DrawableLayerGroup(foregroundLayers);
 
-    TiledMap();
+    TiledMap() = delete;
+    TiledMap(std::forward_list<Obstacle*> &obstacles);
 
-    sf::Vector2u getMapSize();
-    sf::Vector2u getTileSize();
-    sf::Vector2u getMapActualSize();
+    sf::Vector2u getMapSize() const;
+    sf::Vector2u getTileSize() const;
+    sf::Vector2u getMapActualSize() const;
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
@@ -42,8 +44,8 @@ private:
     std::map<int, sf::Sprite*> tiles;
 
     void loadTiles(xml::XMLElement *map);
-    void loadLayerGroup(xml::XMLElement *group, std::list<TiledLayer*> &layerList);
-    TiledLayer * makeLayer(xml::XMLElement *layer);
+    void loadLayerGroup(xml::XMLElement &group, std::list<TiledLayer*> &layerList);
+    TiledLayer * makeLayer(xml::XMLElement &layer);
 
     class DrawableLayerGroup : public sf::Drawable, public sf::Transformable {
     public:

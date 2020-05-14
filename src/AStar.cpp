@@ -4,6 +4,8 @@
 
 #include "AStar.hpp"
 
+AStar::AStar(std::forward_list <Obstacle*> &obs, sf::Vector2u &mSize, sf::Vector2u &tSize) : obstacles(obs), mapSize(mSize), tileSize(tSize) {}
+
 std::vector <Node> AStar::getPath(Node hunter, Node dest) {std::vector<Node> empty;
     hunter.x = hunter.x/tileSize.x;
     hunter.y = hunter.y/tileSize.y;
@@ -183,18 +185,13 @@ bool AStar::isDestination(int x, int y, Node dest) {
 }
 
 bool AStar::isValid(int x, int y) {
-
-    for (auto it = obstacles->begin(); it != obstacles->end(); ++it) {
-        if (x < (it->left + it->width) && x > it->left && y < it->top && y > (it->top - it->height))
+    for (auto obs : obstacles)
+        if (x < (obs->left + obs->width) && x > obs->left && y < obs->top && y > (obs->top - obs->height))
             return false;
-    }
+
     return true;
 }
 
-AStar::AStar(std::forward_list <Obstacle> &obs, sf::Vector2<unsigned int> mSize, sf::Vector2<unsigned int> tSize) : obstacles(&obs), mapSize(
-        mSize), tileSize(tSize) {
-
-}
 
 
 

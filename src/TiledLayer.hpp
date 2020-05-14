@@ -16,6 +16,7 @@ public:
 
     sf::Sprite * getTileSprite(unsigned int col, unsigned int row) const;
     bool setTileSprite(unsigned int col, unsigned int row, sf::Sprite *sprite);
+    void removeTileSprite(unsigned int col, unsigned int row);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;

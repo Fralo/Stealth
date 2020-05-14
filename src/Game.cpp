@@ -6,6 +6,8 @@
 
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
+
+    map = new TiledMap(obstacles);
     loadMap();
 
     view.setCenter(sf::Vector2f(player->position));
@@ -30,11 +32,11 @@ void Game::update(Stealth &stealth) {
      */
     stealth.window.clear();
 
-    stealth.window.draw(map.background);
+    stealth.window.draw(map->background);
     for (Enemy *enemy : enemies)
         stealth.window.draw(*enemy);
     stealth.window.draw(*player);
-    stealth.window.draw(map.foreground);
+    stealth.window.draw(map->foreground);
     stealth.window.draw(cursor);
 
     stealth.window.display();
@@ -131,7 +133,7 @@ void Game::updateMapView(Stealth &stealth) {
     clock.restart();
 
     sf::Vector2f viewSize = view.getSize();
-    sf::Vector2u mapSize = map.getMapActualSize();
+    sf::Vector2u mapSize = map->getMapActualSize();
 
     /*
      * Prevent view from getting out of map

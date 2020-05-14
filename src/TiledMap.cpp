@@ -4,7 +4,7 @@
 
 #include "TiledMap.hpp"
 
-TiledMap::TiledMap() {
+TiledMap::TiledMap(std::forward_list<Obstacle*> &obstacles) {
     xml::XMLDocument xml;
     xml::XMLError error = xml.LoadFile(resource("maps/01-map.tmx")); // TODO: get map from constructor
 
@@ -25,9 +25,12 @@ TiledMap::TiledMap() {
 
     for(xml::XMLElement *group = map->FirstChildElement("group"); group != nullptr; group = group->NextSiblingElement("group"))
         if(std::strcmp(group->Attribute("name"), "background") == 0)
-            loadLayerGroup(group, backgroundLayers);
-        else if(std::strcmp(group->Attribute("name"), "foreground") == 0)
-            loadLayerGroup(group, foregroundLayers);
+            loadLayerGroup(*group, backgroundLayers);
+        else if(std::strcmp(group->Attribute("name"), "foreground") == 0) { // TODO: rename foreground layer into obstacles
+            loadLayerGroup(*group, foregroundLayers);
+
+        }
+
 }
 
 void TiledMap::loadTiles(xml::XMLElement *map) {
@@ -59,16 +62,16 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
     }
 }
 
-void TiledMap::loadLayerGroup(xml::XMLElement *group, std::list<TiledLayer *> &layerList) {
-    for(xml::XMLElement *layer = group->FirstChildElement("layer"); layer != nullptr; layer = layer->NextSiblingElement("layer"))
-        layerList.push_back(makeLayer(layer));
+void TiledMap::loadLayerGroup(xml::XMLElement &group, std::list<TiledLayer *> &layerList) {
+    for(xml::XMLElement *layer = group.FirstChildElement("layer"); layer != nullptr; layer = layer->NextSiblingElement("layer"))
+        layerList.push_back(makeLayer(*layer));
 }
 
-TiledLayer *TiledMap::makeLayer(xml::XMLElement *layer) {
+TiledLayer *TiledMap::makeLayer(xml::XMLElement &layer) {
     auto *tiledLayer = new TiledLayer(sf::Vector2u(mapWidth, mapHeight), sf::Vector2u(tileWidth, tileHeight));
 
     std::stringstream data;
-    data << layer->FirstChildElement("data")->GetText();
+    data << layer.FirstChildElement("data")->GetText();
 
     // using a rough CSV parser, map is just a collection of integers ids
 
@@ -94,15 +97,15 @@ TiledLayer *TiledMap::makeLayer(xml::XMLElement *layer) {
     return tiledLayer;
 }
 
-sf::Vector2u TiledMap::getMapSize() {
+sf::Vector2u TiledMap::getMapSize() const {
     return sf::Vector2u(mapWidth, mapHeight);
 }
 
-sf::Vector2u TiledMap::getTileSize() {
+sf::Vector2u TiledMap::getTileSize() const {
     return sf::Vector2u(tileWidth, tileHeight);
 }
 
-sf::Vector2u TiledMap::getMapActualSize() {
+sf::Vector2u TiledMap::getMapActualSize() const {
     return sf::Vector2u(mapWidth * tileWidth, mapHeight * tileHeight);
 }
 
