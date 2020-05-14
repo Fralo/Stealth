@@ -20,12 +20,9 @@ public:
     void addLocation(sf::Vector2i location);
     
 private:
-    std::list<sf::Vector2i> locations;
-    int nLocation;
+    std::vector<sf::Vector2i> locations;
     int currentTarget = 0;
     AStar *aStar;
-    bool isArrivedToTarget(Node check,Node Target);
-
 };
 
 

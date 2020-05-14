@@ -10,50 +10,43 @@ void SeekStrategy::addLocation(sf::Vector2i location) {
 
 sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
 
-    int i = 0;
-    for(auto it = locations.begin(); it != locations.end(); ++it)
-        i++;
-    nLocation = i;
+sf::Vector2f nextMove;
 
+if(locations.size() != 0) {
     aStar = new AStar(game.obstacles, game.map.getMapSize(), game.map.getTileSize());
 
     Node from = {gameObject.position.x, gameObject.position.y};
-    Node to{1200,1200};
-    /*
-    //set the current target
-    i = 0;
-    for (auto location : locations) {
-        if(i == currentTarget) {
-            to.x = location.x;
-            to.y = location.y;
-        }
-        i++;
-    }
-    */
-    std::vector<Node> path =  aStar->getPath(from,to);
+    Node to = {locations.at(currentTarget).x,locations.at(currentTarget).y};
+
+    std::cout<<to.x<<std::endl;
+    std::cout<<to.y<<std::endl;
+
+    std::vector<Node> path = aStar->getPath(from, to);
     Node next = path.at(1);
 
-/* TODO spiegare a fralo che è sta roba
-    if(isArrivedToTarget(next,to)) {
-        currentTarget++;
-        currentTarget = currentTarget % nLocation;
-    }
-*/
-    sf::Vector2f nextMove;
+//        std::cout<<"To x"<<to.x/game.map.getTileSize().x<<std::endl;
+//        std::cout<<"To y"<<to.y/game.map.getTileSize().y<<std::endl;
+//        std::cout<<"Next x"<<next.x<<std::endl;
+//        std::cout<<"Next y"<<next.y<<std::endl;
 
-    if(!path.empty()) {
-        //TODO FRITX TI ODIO
-        nextMove.x = float(next.x*game.map.getTileSize().x)-from.x;
-        nextMove.y = float(next.y*game.map.getTileSize().y)-from.y;
+
+
+    if (!path.empty()) {
+        nextMove.x = float(next.x * game.map.getTileSize().x) - from.x;
+        nextMove.y = float(next.y * game.map.getTileSize().y) - from.y;
     }
-    std::cout << nextMove.x <<" " << nextMove.y <<std::endl;
+
+    if (next.x == (to.x/game.map.getTileSize().x) && next.y == (to.y/game.map.getTileSize().y)) {
+
+        std::cout<<"change target"<<std::endl;
+        currentTarget++;
+        currentTarget = currentTarget % locations.size();
+
+    }
+}
+    //std::cout << nextMove.x <<" " << nextMove.y <<std::endl;
     return nextMove;
 
-
-    //return sf::Vector2f();
 }
 
-bool SeekStrategy::isArrivedToTarget(Node check, Node target) {
-    return check.y == target.y && check.x == target.x;
-}
 
