@@ -9,6 +9,14 @@ Made by [Leonardo Fralini](https://github.com/Fralo), [Mattia Marilli](https://g
  - cmake v3.1
  - libsfml v2.5
 
+### Build
+```sh
+$ git clone https://github.com/Fralo/Stealth.git --recursive
+$ mkdir Stealth/build && cd Stealth/build
+$ cmake ../
+$ make
+```
+
 #### TODOs
 *Priority*
  - [ ] Find the right music for the main menu
