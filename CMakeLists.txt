@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(SFML 2.5 COMPONENTS audio graphics window system REQUIRED)
 
-include_directories(lib)
-include_directories(third_party)
+include_directories(lib/)
+include_directories(third_party/)
 add_library(tinyxml2 STATIC third_party/tinyxml2/tinyxml2.cpp)
 
 # Boom executable

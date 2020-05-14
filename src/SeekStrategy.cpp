@@ -26,7 +26,7 @@ if(locations.size() != 0) {
         nextMove.y = float(next.y * game.map->getTileSize().y) - from.y;
     }
 
-    if (next.x == (to.x/game.map->getTileSize().x) && next.y == (to.y/game.map.getTileSize().y)) {
+    if (next.x == (to.x/game.map->getTileSize().x) && next.y == (to.y/game.map->getTileSize().y)) {
 
         std::cout<<"Location n. "<<currentTarget<<std::endl;
         std::cout<<"Arrived to : { x = " <<to.x<< " y = "<<to.y<<"}"<<std::endl;

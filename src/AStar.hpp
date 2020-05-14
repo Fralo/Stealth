@@ -25,12 +25,13 @@ struct Node{
 
 class AStar {
 public:
-    AStar(std::forward_list<Obstacle*> &obs,sf::Vector2u &mapSize, sf::Vector2u &tSize);
+    AStar(std::forward_list<Obstacle*> &obs, sf::Vector2u mapSize, sf::Vector2u tSize);
     std::vector<Node> getPath(Node hunter,Node target);
 
 private:
-    sf::Vector2u &mapSize;
-    sf::Vector2u &tileSize;
+    AStar() = default;
+    sf::Vector2u mapSize;
+    sf::Vector2u tileSize;
     std::forward_list<Obstacle*> &obstacles;
 
     std::vector<Node> makePath(Node map[15][15], Node dest);

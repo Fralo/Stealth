@@ -4,7 +4,7 @@
 
 #include "AStar.hpp"
 
-AStar::AStar(std::forward_list <Obstacle*> &obs, sf::Vector2u &mSize, sf::Vector2u &tSize) : obstacles(obs), mapSize(mSize), tileSize(tSize) {}
+AStar::AStar(std::forward_list <Obstacle*> &obs, sf::Vector2u mSize, sf::Vector2u tSize) : obstacles(obs), mapSize(mSize), tileSize(tSize) {}
 
 std::vector <Node> AStar::getPath(Node hunter, Node dest) {std::vector<Node> empty;
     hunter.x = hunter.x/tileSize.x;
