@@ -9,6 +9,8 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include <iostream>
+#include "macro.h"
+#include <sstream>
 
 class TiledLayer : public sf::Drawable, public sf::Transformable {
 public:
@@ -24,6 +26,9 @@ private:
     const sf::Vector2u mapTileSize;
     const sf::Vector2u layerSize;
     std::map<unsigned int, std::map<unsigned int, sf::Sprite*>> tiles;
+
+    // TODO: debug only, remove
+    sf::Font font;
 };
 
 

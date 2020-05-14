@@ -11,6 +11,5 @@ void Object::update(Game &game) {
 }
 
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    std::cout << "draw obj at " << position.x << ":" << position.y << std::endl;
     target.draw(tile);
 }

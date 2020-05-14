@@ -6,7 +6,6 @@
 #define STEALTH_OBJECT_HPP
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include "Tile.hpp"
 #include "GameObject.hpp"
 

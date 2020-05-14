@@ -5,7 +5,7 @@
 #include "TiledLayer.hpp"
 
 TiledLayer::TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize) : layerSize(layerSize), mapTileSize(mapTileSize){
-
+    font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
 }
 
 sf::Sprite *TiledLayer::getTileSprite(unsigned int col, unsigned int row) const {
@@ -48,5 +48,15 @@ void TiledLayer::draw(sf::RenderTarget &target, sf::RenderStates states) const {
             tileRect.setOutlineColor(sf::Color::Red);
             tileRect.setOutlineThickness(.5);
             target.draw(tileRect);
+
+
+            sf::Text txt;
+            txt.setFont(font);
+            std::stringstream coord;
+            coord << col << "," << row;
+            txt.setString(coord.str());
+            txt.setPosition(sf::Vector2f(col * mapTileSize.x + 5, row * mapTileSize.y + 5));
+            txt.setScale(0.4, 0.4);
+            target.draw(txt);
         }
 }
