@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(SFML 2.5 COMPONENTS audio graphics window system REQUIRED)
 
 include_directories(lib)
-add_library(tinyxml2 STATIC lib/tinyxml2/tinyxml2.cpp)
+include_directories(third_party)
+add_library(tinyxml2 STATIC third_party/tinyxml2/tinyxml2.cpp)
 
 # Boom executable
 set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/AStar.cpp src/AStar.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Obstacle.cpp src/Obstacle.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp)
