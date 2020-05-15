@@ -42,6 +42,7 @@ private:
     sf::Clock clock;
 
     void loadMapConfig();
+    void loadEnemies(xml::XMLElement *root);
     void updateMapView(Stealth &stealth);
 
 };

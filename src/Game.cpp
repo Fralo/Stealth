@@ -54,8 +54,23 @@ void Game::loadMapConfig() {
         throw std::exception();
     } else
         std::cout << "Map config file opened" << std::endl;
-
     xml::XMLElement *root = xml.FirstChildElement("stealth");
+    loadEnemies(root);
+
+
+    xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
+    xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
+    player = new Player({
+                                playerSpawn->IntAttribute("x"),
+                                playerSpawn->IntAttribute("y")
+                        },
+                        {
+                                xmlPlayerWeapon->IntAttribute("rate"),
+                                xmlPlayerWeapon->IntAttribute("damage")
+                        });
+}
+
+void Game::loadEnemies(xml::XMLElement *root) {
     xml::XMLElement *xmlEnemies = root->FirstChildElement("enemies");
 
     for (xml::XMLElement *enemy = xmlEnemies->FirstChildElement("enemy");
@@ -88,17 +103,6 @@ void Game::loadMapConfig() {
                 seekStrategy));
     }
     std::cout << "Enemies loaded" << std::endl;
-
-    xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
-    xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
-    player = new Player({
-                                playerSpawn->IntAttribute("x"),
-                                playerSpawn->IntAttribute("y")
-                        },
-                        {
-                                xmlPlayerWeapon->IntAttribute("rate"),
-                                xmlPlayerWeapon->IntAttribute("damage")
-                        });
 }
 
 /*
@@ -119,13 +123,13 @@ void Game::updateMapView(Stealth &stealth) {
 
     sf::Vector2i mouse = sf::Mouse::getPosition(stealth.window);
 
-    if(top.contains(mouse))
+    if (top.contains(mouse))
         view.move(0, -movementSpeed * clock.getElapsedTime().asMilliseconds());
-    else if(bottom.contains(mouse))
+    else if (bottom.contains(mouse))
         view.move(0, movementSpeed * clock.getElapsedTime().asMilliseconds());
-    if(right.contains(mouse))
+    if (right.contains(mouse))
         view.move(movementSpeed * clock.getElapsedTime().asMilliseconds(), 0);
-    else if(left.contains(mouse))
+    else if (left.contains(mouse))
         view.move(-movementSpeed * clock.getElapsedTime().asMilliseconds(), 0);
 
     clock.restart();
@@ -136,13 +140,13 @@ void Game::updateMapView(Stealth &stealth) {
     /*
      * Prevent view from getting out of map
      */
-    if(view.getCenter().x < viewSize.x / 2)
+    if (view.getCenter().x < viewSize.x / 2)
         view.setCenter(viewSize.x / 2, view.getCenter().y);
-    else if(view.getCenter().x > mapSize.x - viewSize.x / 2)
+    else if (view.getCenter().x > mapSize.x - viewSize.x / 2)
         view.setCenter(mapSize.x - viewSize.x / 2, view.getCenter().y);
-    if(view.getCenter().y < viewSize.y / 2)
+    if (view.getCenter().y < viewSize.y / 2)
         view.setCenter(view.getCenter().x, viewSize.y / 2);
-    else if(view.getCenter().y > mapSize.y - viewSize.y / 2)
+    else if (view.getCenter().y > mapSize.y - viewSize.y / 2)
         view.setCenter(view.getCenter().x, mapSize.y - viewSize.y / 2);
 
     stealth.window.setView(view);

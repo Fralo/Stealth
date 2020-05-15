@@ -4,13 +4,15 @@
 
 #include "AStar.hpp"
 
-AStar::AStar(std::list <Object*> &obs, sf::Vector2u mSize, sf::Vector2u tSize) : obstacles(obs), mapSize(mSize), tileSize(tSize) {}
+AStar::AStar(std::list<Object *> &obs, sf::Vector2u mSize, sf::Vector2u tSize) : obstacles(obs), mapSize(mSize),
+                                                                                 tileSize(tSize) {}
 
-std::vector <Node> AStar::getPath(Node hunter, Node dest) {std::vector<Node> empty;
-    hunter.x = hunter.x/tileSize.x;
-    hunter.y = hunter.y/tileSize.y;
-    dest.x = dest.x/tileSize.x;
-    dest.y = dest.y/tileSize.y;
+std::vector<Node> AStar::getPath(Node hunter, Node dest) {
+    std::vector<Node> empty;
+    hunter.x = hunter.x / tileSize.x;
+    hunter.y = hunter.y / tileSize.y;
+    dest.x = dest.x / tileSize.x;
+    dest.y = dest.y / tileSize.y;
     if (!isValid(dest.x, dest.y)) {
         //Destination is an obstacle;
         return empty;
@@ -49,7 +51,7 @@ std::vector <Node> AStar::getPath(Node hunter, Node dest) {std::vector<Node> emp
     openList.emplace_back(allMap[x][y]);
     bool destinationFound = false;
 
-    while (!openList.empty()&&openList.size()<(mapSize.x)*(mapSize.y)) {
+    while (!openList.empty() && openList.size() < (mapSize.x) * (mapSize.y)) {
         Node node;
         do {
             float temp = FLT_MAX;
@@ -61,7 +63,7 @@ std::vector <Node> AStar::getPath(Node hunter, Node dest) {std::vector<Node> emp
                     itNode = it;
                 }
             }
-            if(openList.empty()) {
+            if (openList.empty()) {
                 //Not existing path
                 return empty;
             }
@@ -79,61 +81,56 @@ std::vector <Node> AStar::getPath(Node hunter, Node dest) {std::vector<Node> emp
                 double gNew, hNew, fNew;
                 //trying to deny diagonals
 
-                    if (isDestination(x + newX, y + newY, dest))
-                    {
-                        //Destination found - make path
+                if (isDestination(x + newX, y + newY, dest)) {
+                    //Destination found - make path
+                    allMap[x + newX][y + newY].parentX = x;
+                    allMap[x + newX][y + newY].parentY = y;
+                    destinationFound = true;
+                    try {
+                        int x = dest.x;
+                        int y = dest.y;
+                        std::stack<Node> path;
+                        std::vector<Node> usablePath;
+
+                        while (!(allMap[x][y].parentX == x && allMap[x][y].parentY == y)
+                               && allMap[x][y].x != -1 && allMap[x][y].y != -1) {
+                            path.push(allMap[x][y]);
+                            int tempX = allMap[x][y].parentX;
+                            int tempY = allMap[x][y].parentY;
+                            x = tempX;
+                            y = tempY;
+
+                        }
+                        path.push(allMap[x][y]);
+
+                        while (!path.empty()) {
+                            Node top = path.top();
+                            path.pop();
+                            usablePath.emplace_back(top);
+                        }
+                        return usablePath;
+                    }
+                    catch (const std::exception &e) {
+                        std::cout << e.what() << std::endl;
+                    }
+                } else if (!closedList[x + newX][y + newY]) {
+                    gNew = node.gCost + 1.0;
+                    hNew = calculateH(x + newX, y + newY, dest);
+                    fNew = gNew + hNew;
+                    // Check if this path is better than the one already present
+                    if (allMap[x + newX][y + newY].fCost == FLT_MAX ||
+                        allMap[x + newX][y + newY].fCost > fNew) {
+                        // Update the details of this neighbour node
+                        allMap[x + newX][y + newY].fCost = fNew;
+                        allMap[x + newX][y + newY].gCost = gNew;
+                        allMap[x + newX][y + newY].hCost = hNew;
                         allMap[x + newX][y + newY].parentX = x;
                         allMap[x + newX][y + newY].parentY = y;
-                        destinationFound = true;
-                        try {
-                            int x = dest.x;
-                            int y = dest.y;
-                            std::stack<Node> path;
-                            std::vector<Node> usablePath;
-
-                            while (!(allMap[x][y].parentX == x && allMap[x][y].parentY == y)
-                                   && allMap[x][y].x != -1 && allMap[x][y].y != -1)
-                            {
-                                path.push(allMap[x][y]);
-                                int tempX = allMap[x][y].parentX;
-                                int tempY = allMap[x][y].parentY;
-                                x = tempX;
-                                y = tempY;
-
-                            }
-                            path.push(allMap[x][y]);
-
-                            while (!path.empty()) {
-                                Node top = path.top();
-                                path.pop();
-                                usablePath.emplace_back(top);
-                            }
-                            return usablePath;
-                        }
-                        catch(const std::exception& e){
-                            std::cout << e.what() << std::endl;
-                        }
-                    }
-                    else if (!closedList[x + newX][y + newY])
-                    {
-                        gNew = node.gCost + 1.0;
-                        hNew = calculateH(x + newX, y + newY, dest);
-                        fNew = gNew + hNew;
-                        // Check if this path is better than the one already present
-                        if (allMap[x + newX][y + newY].fCost == FLT_MAX ||
-                            allMap[x + newX][y + newY].fCost > fNew)
-                        {
-                            // Update the details of this neighbour node
-                            allMap[x + newX][y + newY].fCost = fNew;
-                            allMap[x + newX][y + newY].gCost = gNew;
-                            allMap[x + newX][y + newY].hCost = hNew;
-                            allMap[x + newX][y + newY].parentX = x;
-                            allMap[x + newX][y + newY].parentY = y;
-                            openList.emplace_back(allMap[x + newX][y + newY]);
-                        }
+                        openList.emplace_back(allMap[x + newX][y + newY]);
                     }
                 }
             }
+        }
 
     }
     if (!destinationFound) {
@@ -141,38 +138,7 @@ std::vector <Node> AStar::getPath(Node hunter, Node dest) {std::vector<Node> emp
         return empty;
     }
 }
-/*
-std::vector <Node> AStar::makePath( Node allMap[][], Node dest) {
-    try {
-        int x = dest.x;
-        int y = dest.y;
-        std::stack<Node> path;
-        std::vector<Node> usablePath;
 
-        while (!(allMap[x][y].parentX == x && allMap[x][y].parentY == y)
-               && allMap[x][y].x != -1 && allMap[x][y].y != -1)
-        {
-            path.push(allMap[x][y]);
-            int tempX = allMap[x][y].parentX;
-            int tempY = allMap[x][y].parentY;
-            x = tempX;
-            y = tempY;
-
-        }
-        path.push(allMap[x][y]);
-
-        while (!path.empty()) {
-            Node top = path.top();
-            path.pop();
-            usablePath.emplace_back(top);
-        }
-        return usablePath;
-    }
-    catch(const std::exception& e){
-        std::cout << e.what() << std::endl;
-    }
-}
-*/
 double AStar::calculateH(int x, int y, Node dest) {
 
     double H = (sqrt((x - dest.x) * (x - dest.x) + (y - dest.y) * (y - dest.y)));
@@ -185,9 +151,10 @@ bool AStar::isDestination(int x, int y, Node dest) {
 }
 
 bool AStar::isValid(int x, int y) {
-    for (auto object : obstacles){
+    for (auto object : obstacles) {
         auto obstacle = object->tile.collisionBox;
-        if (x < (obstacle.left + obstacle.width) && x > obstacle.left && y < obstacle.top && y > (obstacle.top - obstacle.height))
+        if (x < (obstacle.left + obstacle.width) && x > obstacle.left && y < obstacle.top &&
+            y > (obstacle.top - obstacle.height))
             return false;
     }
 

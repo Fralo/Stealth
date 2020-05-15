@@ -35,7 +35,6 @@ private:
     sf::Vector2u tileSize;
     std::list<Object*> &obstacles;
 
-    std::vector<Node> makePath(Node map[15][15], Node dest);
     bool isDestination(int x, int y, Node dest);
     bool isValid(int x, int y);
     double calculateH(int x, int y, Node dest);
