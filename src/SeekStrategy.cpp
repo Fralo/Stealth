@@ -38,7 +38,6 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
         if (!path.empty()) {
             int tileOffsetX = (game.map->getTileSize().x + 1);
             int tileOffsetY = (game.map->getTileSize().y + 1);
-            std::cout << -tileOffsetX << " " << -tileOffsetY << std::endl;
             nextMove.x = (static_cast<float>(next.x * game.map->getTileSize().x) - from.x) < 0 ? -tileOffsetX : tileOffsetX;
             nextMove.y = (static_cast<float>(next.y * game.map->getTileSize().y) - from.y) < 0 ? -tileOffsetY : tileOffsetY;
             return nextMove;

@@ -32,6 +32,7 @@ public:
     std::list<Object*> objects;
     Player *player;
     TiledMap *map;
+    AStar *mainAStar;
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;

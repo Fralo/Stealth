@@ -7,8 +7,8 @@
 
 void GameState::pollEvents(Stealth &stealth) {
     sf::Event event;
-    while(stealth.window.pollEvent(event))
-        switch(event.type) {
+    while (stealth.window.pollEvent(event))
+        switch (event.type) {
             case sf::Event::Closed:
                 stealth.window.close();
                 break;

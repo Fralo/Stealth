@@ -13,6 +13,7 @@ void Game::init(Stealth &stealth) {
     view.setCenter(sf::Vector2f(player->position));
 
     clock.restart();
+    mainAStar = new AStar(objects, map->getMapSize(), map->getTileSize());
 }
 
 void Game::update(Stealth &stealth) {
@@ -42,7 +43,11 @@ void Game::update(Stealth &stealth) {
 }
 
 void Game::handleEvent(Stealth &stealth, sf::Event &event) {
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+       player->setNextPos({event.mouseButton.x, event.mouseButton.y});
+       player->move = true;
 
+    }
 }
 
 void Game::loadMapConfig() {

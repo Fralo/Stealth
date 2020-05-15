@@ -15,11 +15,14 @@ public:
     Player(sf::Vector2i position, Weapon weapon);
     void update(Game &game) override;
 
+    void setNextPos( sf::Vector2i next );
+    bool move;
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
     Weapon weapon;
+    sf::Vector2i nextPos;
 };
 
 
