@@ -6,7 +6,7 @@
 
 AStar2::AStar2(std::list<sf::IntRect> &obstacles, sf::Vector2u mapSize) : obstacles(obstacles), mapSize(mapSize) {}
 
-std::forward_list<sf::Vector2<uint8>> * AStar2::getPath(sf::Vector2<uint8> a, sf::Vector2<uint8> b) {
+std::list<sf::Vector2<uint8>> * AStar2::getPath(sf::Vector2<uint8> a, sf::Vector2<uint8> b) {
     return getPath({nullptr, a.x, a.y, 0}, {nullptr, b.x, b.y});
 }
 
@@ -21,9 +21,9 @@ bool AStar2::isBlocked(uint8 x, uint8 y) {
     return false;
 }
 
-std::forward_list<sf::Vector2<uint8>> * AStar2::getPath(Node from, Node to) {
+std::list<sf::Vector2<uint8>> * AStar2::getPath(Node from, Node to) {
     from.g = 0;
-    from.h = h(from, to);
+    from.f = h(from, to);
 
     openList.push_back(from);
 
@@ -39,7 +39,7 @@ std::forward_list<sf::Vector2<uint8>> * AStar2::getPath(Node from, Node to) {
          * Pathfinding done, return path
          */
         if(currentNode == to) {
-            auto path = new std::forward_list<sf::Vector2<uint8>>;
+            auto path = new std::list<sf::Vector2<uint8>>;
 
             for(Node *pathNode = &currentNode; pathNode != nullptr; pathNode = pathNode->parent)
                 path->push_front({pathNode->x, pathNode->y});
@@ -48,7 +48,6 @@ std::forward_list<sf::Vector2<uint8>> * AStar2::getPath(Node from, Node to) {
         }
 
         openList.remove(currentNode);
-
         closedList.push_front(currentNode);
 
         for(char x = -1; x <= 1; x++)
@@ -57,7 +56,7 @@ std::forward_list<sf::Vector2<uint8>> * AStar2::getPath(Node from, Node to) {
                 if(!x && !y)
                     continue;
 
-                // ignore child if out of map
+                // ignore neighbor if out of map
                 if(!isValid(currentNode.x + x, currentNode.y + y))
                     continue;
 
@@ -65,32 +64,34 @@ std::forward_list<sf::Vector2<uint8>> * AStar2::getPath(Node from, Node to) {
                 if(isBlocked(currentNode.x + x, currentNode.y + y))
                     continue;
 
-                Node child = {&currentNode, static_cast<uint8>(currentNode.x + x), static_cast<uint8>(currentNode.y + y)};
+                Node neighbor = {&currentNode, static_cast<uint8>(currentNode.x + x), static_cast<uint8>(currentNode.y + y)};
 
-                // if child in closed list ignore
-                if(std::find(closedList.begin(), closedList.end(), child) != closedList.end())
+                // if neighbor in closed list ignore
+                auto&& closedNeighbour = std::find(closedList.begin(), closedList.end(), neighbor);
+                if(closedNeighbour != closedList.end())
                     continue;
-
-                /*
+/*
                  * Uses (x * y) to determine diagolal children as with coordinates from -1 to 1
                  * all elements in center row or center column multiply by x=0 or y=0
                  */
-                child.g = currentNode.g + ((x * y) ? NORMAL_COST : NORMAL_COST);
-                child.h = h(child, to);
+                neighbor.g = currentNode.g + ((x * y) ? DIAGONAL_COST : NORMAL_COST);
+                neighbor.f = neighbor.g + h(neighbor, to);
 
                 /*
-                 * if (x,y) is in openList and child is less than the one in the list updates list's child with child
-                 * parameters, otherwise add child to openList
+                 * if (x,y) is in openList and neighbor is less than the one in the list updates list's neighbor with neighbor
+                 * parameters, otherwise add neighbor to openList
                  */
-                auto&& listChild = std::find(openList.begin(), openList.end(), child);
-                if(listChild != openList.end()) { // x,y is already in openList
-                    if(child < *listChild) {
-                        listChild->g = child.g;
-                        listChild->parent = child.parent;
+                auto&& listChild = std::find(openList.begin(), openList.end(), neighbor);
+                if (listChild == openList.end())
+                    openList.push_back(neighbor);
+                else // neighbor in openList
+                    if (neighbor < *listChild) {
+                        listChild->g = neighbor.g;
+                        listChild->parent = neighbor.parent;
                     }
-                } else
-                    openList.push_back(child);
             }
+
+
     }
 
     return nullptr;
