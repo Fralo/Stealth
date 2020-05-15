@@ -151,11 +151,10 @@ Object *TiledMap::makeObject(xml::XMLElement &xmlObject) {
             xmlObject.BoolAttribute("explosive", false)
     };
 
-    auto *obj = new Object(*tiles[spriteId], properties);
-    obj->position = {
-            xmlObject.IntAttribute("x"),
-            xmlObject.IntAttribute("y")
-    };
+    auto *obj = new Object(*tiles[spriteId], {
+            xmlObject.FloatAttribute("x"),
+            xmlObject.FloatAttribute("y") - tiles[spriteId]->getTextureRect().height
+    }, properties);
     return obj;
 }
 

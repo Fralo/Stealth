@@ -16,7 +16,7 @@ struct ObjectProperties {
 
 class Object : public GameObject {
 public:
-    Object(Tile &tile, ObjectProperties properties);
+    Object(Tile &tile, sf::Vector2f position, ObjectProperties properties);
 
     void update(Game &game) override;
 
@@ -24,7 +24,7 @@ protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
-
+    sf::Vector2f position;
     Tile &tile;
     ObjectProperties properties;
 };

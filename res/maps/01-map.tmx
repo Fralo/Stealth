@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="48" tileheight="48" infinite="0" nextlayerid="17" nextobjectid="10">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="48" tileheight="48" infinite="0" nextlayerid="17" nextobjectid="20">
  <tileset firstgid="1" name="grass" tilewidth="48" tileheight="48" tilecount="48" columns="8">
   <image source="grass.png" width="384" height="288"/>
  </tileset>
@@ -10,7 +10,7 @@
   <image source="trees.png" width="384" height="192"/>
   <tile id="0">
    <objectgroup draworder="index" id="3">
-    <object id="2" type="cbox" x="13.6288" y="47.5346" width="75.7895" height="33.5734"/>
+    <object id="2" type="cbox" x="26.5928" y="47.5346" width="47.2022" height="33.5734"/>
     <object id="3" type="cx" x="47.2022" y="70.8033">
      <point/>
     </object>
@@ -116,8 +116,17 @@
   </layer>
  </group>
  <group id="14" name="objects">
-  <objectgroup id="15" name="objects">
-   <object id="9" gid="97" x="682.667" y="292" width="96" height="96"/>
+  <objectgroup id="15" name="objects" offsetx="0" offsety="1.33333">
+   <object id="10" gid="97" x="220.833" y="322.167" width="96" height="96"/>
+   <object id="11" gid="97" x="287" y="167.667" width="96" height="96"/>
+   <object id="12" gid="98" x="434" y="155.167" width="96" height="96"/>
+   <object id="13" gid="98" x="458" y="154.167" width="96" height="96"/>
+   <object id="14" gid="98" x="480" y="159.167" width="96" height="96"/>
+   <object id="15" gid="98" x="499.5" y="161.667" width="96" height="96"/>
+   <object id="16" gid="98" x="438" y="171.667" width="96" height="96"/>
+   <object id="17" gid="98" x="464" y="185.167" width="96" height="96"/>
+   <object id="18" gid="98" x="484.5" y="188.667" width="96" height="96"/>
+   <object id="19" gid="98" x="501.5" y="183.667" width="96" height="96"/>
   </objectgroup>
  </group>
 </map>
