@@ -23,6 +23,10 @@ private:
     std::vector<sf::Vector2i> locations;
     int currentTarget = 0;
     AStar *aStar;
+    sf::Vector2f nextMove = {0, 0};
+    std::vector<Node> path;
+
+    int cache = 0;
 };
 
 
