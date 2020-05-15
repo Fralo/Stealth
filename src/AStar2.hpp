@@ -10,10 +10,11 @@
 #include <list>
 #include <forward_list>
 #include <cmath>
+#include <algorithm>
 #include "Object.hpp"
 
-#define DIAGONAL_COST 1414
-#define NORMAL_COST 1000
+#define DIAGONAL_COST 14
+#define NORMAL_COST 10
 
 #define manhattanH(node, to) (std::abs(node.x - to.x) + std::abs(node.y - to.y))
 #define euclideanHSquared(node, to) ((to.x   - node.x) * (to.x   - node.x) + (to.y   - node.y) * (to.y   - node.y))
@@ -29,12 +30,12 @@ typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned int uint32;
 
+
 struct Node {
     Node *parent;
     uint8 x;
     uint8 y;
-    uint32 g;
-    // uint32 h;
+    uint16 g;
     uint32 f;
 
     /*
@@ -46,12 +47,10 @@ struct Node {
 
     // maj/min compares f value
     bool operator>(const struct Node& other) const {
-        //return (this->g + this->h) > (other.g + other.h);
         return this->f > other.f;
     }
 
     bool operator<(const struct Node& other) const {
-        //return (this->g + this->h) < (other.g + other.h);
         return this->f < other.f;
     }
 };
@@ -65,14 +64,13 @@ public:
 private:
     const std::list<sf::IntRect> &obstacles;
     const sf::Vector2u mapSize;
+    std::list<Node*> openList;
+    std::list<Node*> closedList;
 
-    std::list<Node> openList;
-    std::list<Node> closedList;
-
-    std::list<sf::Vector2<uint8>> * getPath(Node from, Node to);
     bool isValid(uint16 x, uint16 y) const;
     bool isBlocked(uint8 x, uint8 y);
-
+    std::list<sf::Vector2<uint8>> * getPath(Node *from, Node *to);
+    void clearLists();
 
 };
 

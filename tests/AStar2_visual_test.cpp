@@ -11,15 +11,17 @@ TEST_CASE("AStar2 algorithm drawing", "[AStar2]") {
 
     std::list<sf::IntRect> obstacles;
 
+    /**/
     obstacles.push_front({5, 0, 1, 28});
     obstacles.push_front({20, 0, 2, 20});
     obstacles.push_front({12, 2, 1, 28});
     obstacles.push_front({14, 14, 8, 3});
+    /**/
 
     sf::Vector2u mapSize(30, 30);
 
     sf::Vector2<unsigned char> from = {0, 0};
-    sf::Vector2<unsigned char> to = {22, 3};
+    sf::Vector2<unsigned char> to = {22, 2};
 
     auto&& astar2 = new AStar2(obstacles, mapSize);
 
