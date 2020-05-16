@@ -38,6 +38,7 @@ private:
     Weapon weapon;
 
     sf::ConvexShape getSightTraigle() const;
+    std::vector<sf::Vector2f> getVertices() const;
 };
 
 
