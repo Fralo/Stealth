@@ -32,8 +32,8 @@ typedef unsigned int uint32;
 
 typedef std::forward_list<sf::Vector2<uint8>> Path;
 
-struct Node2 {
-    Node2 *parent;
+struct Node {
+    Node *parent;
     uint8 x;
     uint8 y;
     uint16 g;
@@ -42,16 +42,16 @@ struct Node2 {
     /*
      * Equality compares coordinates
      */
-    bool operator==(const struct Node2& other) const {
+    bool operator==(const struct Node& other) const {
         return other.x == this->x && other.y == this->y;
     }
 
     // maj/min compares f value
-    bool operator>(const struct Node2& other) const {
+    bool operator>(const struct Node& other) const {
         return this->f > other.f;
     }
 
-    bool operator<(const struct Node2& other) const {
+    bool operator<(const struct Node& other) const {
         return this->f < other.f;
     }
 };
@@ -65,12 +65,12 @@ public:
 private:
     const std::forward_list<sf::IntRect> &obstacles;
     const sf::Vector2u mapSize;
-    std::forward_list<Node2*> openList;
-    std::forward_list<Node2*> closedList;
+    std::forward_list<Node*> openList;
+    std::forward_list<Node*> closedList;
 
     bool isValid(uint16 x, uint16 y) const;
     bool isBlocked(uint8 x, uint8 y);
-    Path *getPath(Node2 *from, Node2 *to);
+    Path *getPath(Node *from, Node *to);
     void clearLists();
 
 };

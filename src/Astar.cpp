@@ -7,7 +7,7 @@
 AStar2::AStar2(std::forward_list<sf::IntRect> &obstacles, sf::Vector2u mapSize) : obstacles(obstacles), mapSize(mapSize) {}
 
 std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(sf::Vector2<uint8> a, sf::Vector2<uint8> b) {
-    return getPath(new Node2({nullptr, a.x, a.y}), new Node2({nullptr, b.x, b.y}));
+    return getPath(new Node({nullptr, a.x, a.y}), new Node({nullptr, b.x, b.y}));
 }
 
 bool AStar2::isValid(uint16 x, uint16 y) const {
@@ -21,7 +21,7 @@ bool AStar2::isBlocked(uint8 x, uint8 y) {
     return false;
 }
 
-std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node2 *from, Node2 *to) {
+std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node *from, Node *to) {
     from->g = 0;
     from->f = h((*from), (*to));
 
@@ -29,28 +29,28 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node2 *from, Node2 *to) {
 
     while (!openList.empty()) {
 
-        Node2 *currentNode2 = openList.front();
-        for (Node2 *node : openList) {
-            if (node->f < currentNode2->f)
-                currentNode2 = node;
+        Node *currentNode = openList.front();
+        for (Node *node : openList) {
+            if (node->f < currentNode->f)
+                currentNode = node;
         }
 
         /*
          * Pathfinding done, return path
          */
-        if (*currentNode2 == *to) {
+        if (*currentNode == *to) {
             auto path = new std::forward_list<sf::Vector2<uint8>>;
 
-            for (Node2 *pathNode2 = currentNode2; pathNode2 != nullptr; pathNode2 = pathNode2->parent)
-                path->push_front({pathNode2->x, pathNode2->y});
+            for (Node *pathNode = currentNode; pathNode != nullptr; pathNode = pathNode->parent)
+                path->push_front({pathNode->x, pathNode->y});
 
             clearLists();
 
             return path;
         }
 
-        openList.remove(currentNode2);
-        closedList.push_front(currentNode2);
+        openList.remove(currentNode);
+        closedList.push_front(currentNode);
 
         for (char x = -1; x <= 1; x++)
             for (char y = -1; y <= 1; y++) {
@@ -63,30 +63,30 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node2 *from, Node2 *to) {
                 /*
                  * Ignore nodes outside map limits
                  */
-                if (!isValid(currentNode2->x + x, currentNode2->y + y))
+                if (!isValid(currentNode->x + x, currentNode->y + y))
                     continue;
 
                 /*
                  * Ignore nodes between blocked boundaries
                  */
-                if (isBlocked(currentNode2->x + x, currentNode2->y + y))
+                if (isBlocked(currentNode->x + x, currentNode->y + y))
                     continue;
 
                 /*
                  * Pointer to current neighbor node, will be retrieved from one of the lists if exists or created if not
                  */
-                Node2 *neighbor = nullptr;
+                Node *neighbor = nullptr;
 
                 /*
                  * Uses (x * y) to determine diagolal children as with coordinates from -1 to 1
                  * all elements in center row or center column multiply by x=0 or y=0
                  */
-                uint16 g = currentNode2->g + ((x * y) ? DIAGONAL_COST : NORMAL_COST);
+                uint16 g = currentNode->g + ((x * y) ? DIAGONAL_COST : NORMAL_COST);
 
                 auto &&closedNeighbor = std::find_if(closedList.begin(), closedList.end(),
-                                                     [x, y, &currentNode2](const Node2 *other) {
-                                                          return currentNode2->x + x == other->x &&
-                                                                 currentNode2->y + y == other->y;
+                                                     [x, y, &currentNode](const Node *other) {
+                                                          return currentNode->x + x == other->x &&
+                                                                 currentNode->y + y == other->y;
                                                       });
 
 
@@ -108,9 +108,9 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node2 *from, Node2 *to) {
                  * parameters, otherwise add neighbor to openList
                  */
                 auto &&openNeighbor = std::find_if(openList.begin(), openList.end(),
-                                                   [x, y, &currentNode2](const Node2 *other) {
-                                                        return currentNode2->x + x == other->x &&
-                                                               currentNode2->y + y == other->y;
+                                                   [x, y, &currentNode](const Node *other) {
+                                                        return currentNode->x + x == other->x &&
+                                                               currentNode->y + y == other->y;
                                                     });
 
                 /*
@@ -119,15 +119,15 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node2 *from, Node2 *to) {
                 if (openNeighbor != openList.end() && neighbor == nullptr)
                     neighbor = *openNeighbor;
                 else
-                    neighbor = new Node2({currentNode2, static_cast<uint8>(currentNode2->x + x),
-                                         static_cast<uint8>(currentNode2->y + y), g});
+                    neighbor = new Node({currentNode, static_cast<uint8>(currentNode->x + x),
+                                         static_cast<uint8>(currentNode->y + y), g});
 
                 /*
                  * A* handling
                  */
                 if (openNeighbor == openList.end() || g < neighbor->g) {;
 
-                    neighbor->parent = currentNode2;
+                    neighbor->parent = currentNode;
                     neighbor->g = g;
                     neighbor->f = g + h((*neighbor), (*to));
 
@@ -142,12 +142,12 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node2 *from, Node2 *to) {
 }
 
 void AStar2::clearLists() {
-    for(Node2 *n : openList) {
+    for(Node *n : openList) {
         delete n;
         n = nullptr;
     }
 
-    for(Node2 *n : closedList) {
+    for(Node *n : closedList) {
         delete n;
         n = nullptr;
     }
