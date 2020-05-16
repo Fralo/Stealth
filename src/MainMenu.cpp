@@ -49,10 +49,10 @@ void MainMenu::init(Stealth &stealth) {
     selectCursor.loadFromSystem(sf::Cursor::Hand);
     defaultCursor.loadFromSystem(sf::Cursor::Arrow);
 
-    music.openFromFile("../res/music/davie.ogg");
+    music.openFromFile("../res/music/shining_end.ogg");
     music.setLoop(true);
     music.setVolume(50);
-    //music.play();
+    music.play();
 }
 
 void MainMenu::update(Stealth &stealth) {

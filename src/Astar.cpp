@@ -2,26 +2,26 @@
 // Created by vivedo on 15/05/20.
 //
 
-#include "AStar2.hpp"
+#include "Astar.hpp"
 
-AStar2::AStar2(std::forward_list<sf::IntRect> &obstacles, sf::Vector2u mapSize) : obstacles(obstacles), mapSize(mapSize) {}
+Astar::Astar(std::forward_list<sf::IntRect> &obstacles, Vector2u8 mapSize) : obstacles(obstacles), mapSize(mapSize) {}
 
-std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(sf::Vector2<uint8> a, sf::Vector2<uint8> b) {
+std::forward_list<Vector2u8> *Astar::getPath(Vector2u8 a, Vector2u8 b) {
     return getPath(new Node({nullptr, a.x, a.y}), new Node({nullptr, b.x, b.y}));
 }
 
-bool AStar2::isValid(uint16 x, uint16 y) const {
+bool Astar::isValid(uint16_t x, uint16_t y) const {
     return (x >= 0) && (y >= 0) && (x < mapSize.x) && (y < mapSize.y);
 }
 
-bool AStar2::isBlocked(uint8 x, uint8 y) {
+bool Astar::isBlocked(uint8_t x, uint8_t y) {
     for (sf::IntRect obstacle : obstacles)
         if (obstacle.contains(x, y))
             return true;
     return false;
 }
 
-std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node *from, Node *to) {
+std::forward_list<Vector2u8> *Astar::getPath(Node *from, Node *to) {
     from->g = 0;
     from->f = h((*from), (*to));
 
@@ -39,7 +39,7 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node *from, Node *to) {
          * Pathfinding done, return path
          */
         if (*currentNode == *to) {
-            auto path = new std::forward_list<sf::Vector2<uint8>>;
+            auto path = new std::forward_list<Vector2u8>;
 
             for (Node *pathNode = currentNode; pathNode != nullptr; pathNode = pathNode->parent)
                 path->push_front({pathNode->x, pathNode->y});
@@ -81,7 +81,7 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node *from, Node *to) {
                  * Uses (x * y) to determine diagolal children as with coordinates from -1 to 1
                  * all elements in center row or center column multiply by x=0 or y=0
                  */
-                uint16 g = currentNode->g + ((x * y) ? DIAGONAL_COST : NORMAL_COST);
+                uint16_t g = currentNode->g + ((x * y) ? DIAGONAL_COST : NORMAL_COST);
 
                 auto &&closedNeighbor = std::find_if(closedList.begin(), closedList.end(),
                                                      [x, y, &currentNode](const Node *other) {
@@ -119,8 +119,8 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node *from, Node *to) {
                 if (openNeighbor != openList.end() && neighbor == nullptr)
                     neighbor = *openNeighbor;
                 else
-                    neighbor = new Node({currentNode, static_cast<uint8>(currentNode->x + x),
-                                         static_cast<uint8>(currentNode->y + y), g});
+                    neighbor = new Node({currentNode, static_cast<uint8_t>(currentNode->x + x),
+                                         static_cast<uint8_t>(currentNode->y + y), g});
 
                 /*
                  * A* handling
@@ -141,7 +141,7 @@ std::forward_list<sf::Vector2<uint8>> *AStar2::getPath(Node *from, Node *to) {
     return nullptr;
 }
 
-void AStar2::clearLists() {
+void Astar::clearLists() {
     for(Node *n : openList) {
         delete n;
         n = nullptr;

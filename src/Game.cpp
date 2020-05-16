@@ -19,6 +19,13 @@ void Game::update(Stealth &stealth) {
     pollEvents(stealth);
 
     /*
+     * Updates and draws scene 1000 / TICKDELAY times per second
+     */
+    if(tickClock.getElapsedTime().asMilliseconds() <= TICKDELAY)
+        return;
+    tickClock.restart();
+
+    /*
      * Update objects
      */
     for (Enemy *enemy : enemies)
@@ -72,8 +79,8 @@ void Game::loadMapConfig() {
 
         enemies.push_front(new Enemy(
                 {
-                        spawn->IntAttribute("x"),
-                        spawn->IntAttribute("y")
+                        spawn->FloatAttribute("x"),
+                        spawn->FloatAttribute("y")
                 },
                 spawn->FloatAttribute("orientation"),
                 {
@@ -92,8 +99,8 @@ void Game::loadMapConfig() {
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
     xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
     player = new Player({
-                                playerSpawn->IntAttribute("x"),
-                                playerSpawn->IntAttribute("y")
+                                playerSpawn->FloatAttribute("x"),
+                                playerSpawn->FloatAttribute("y")
                         },
                         {
                                 xmlPlayerWeapon->IntAttribute("rate"),

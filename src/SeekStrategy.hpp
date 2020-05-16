@@ -11,8 +11,9 @@
 #include <vector>
 #include <cfloat>
 #include <vector>
+#include <iostream>
 #include "Strategy.hpp"
-#include "AStar2.hpp"
+#include "Astar.hpp"
 #include "Object.hpp"
 #include "Game.hpp"
 
@@ -22,13 +23,11 @@ public:
     void addLocation(sf::Vector2i location);
     
 private:
-    std::vector<sf::Vector2<uint8>> locations;
+    std::vector<Vector2u8> locations;
     int currentTarget = 0;
 
     sf::Clock cacheTime;
     Path *path = nullptr;
-
-    int cache = 0;
 };
 
 

@@ -6,8 +6,8 @@
 
 Stealth::Stealth() {
     window.create(sf::VideoMode(800, 600), "Stealth", sf::Style::Default);
-    window.setFramerateLimit(60);
-    window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(30);
+    //window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
 
     changeState(new LoadScreen());
