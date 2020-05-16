@@ -39,6 +39,8 @@ private:
     int mapWidth;
     std::forward_list<sf::Texture*> tilesets;
     std::map<int, Tile*> tiles;
+    sf::RenderTexture renderedMap;
+    sf::Sprite renderedMapSprite;
 
     void loadTiles(xml::XMLElement *map);
     void loadLayerGroup(xml::XMLElement &group, std::list<TiledLayer*> &layerList);

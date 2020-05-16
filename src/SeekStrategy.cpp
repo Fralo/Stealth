@@ -5,46 +5,62 @@
 #include "SeekStrategy.hpp"
 
 void SeekStrategy::addLocation(sf::Vector2i location) {
-    locations.push_back(location);
+    locations.emplace_back(location / GRID_SCALE_FACTOR);
 }
 
 sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
+    if (locations.empty())
+        return {0, 0};
 
-    sf::Vector2f nextMove;
+    auto position = Vector2u8(gameObject.position / (float) GRID_SCALE_FACTOR);
 
-    if (locations.size() != 0) {
-        if ((gameObject.position.x / game.map->getTileSize().x) ==
-            (locations.at(currentTarget).x / game.map->getTileSize().x) &&
-            (gameObject.position.y / game.map->getTileSize().y) ==
-            (locations.at(currentTarget).y / game.map->getTileSize().y)) {
+    int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
 
-            std::cout << "Arrived To {x = " << gameObject.position.x / game.map->getTileSize().x << "} y = { "
-                      << gameObject.position.y / game.map->getTileSize().x << std::endl;
-            currentTarget++;
-            currentTarget = currentTarget % locations.size();
-            std::cout << "Go To {x = " << locations.at(currentTarget).x << "} y = { " << locations.at(currentTarget).y
-                      << std::endl;
+    /*
+     * if path is nullptr (previous A* search did not found a route) wait 500ms before another search.
+     * In every case refresh every 2s or when path is empty
+     */
+    if (path == nullptr && elapsedCacheTime > 500 || elapsedCacheTime > (2000) || (path != nullptr && path->empty())) {
+        std::forward_list<sf::IntRect> obstacles;
+
+        for (auto &&obj : game.objects) {
+            auto cb = sf::IntRect(obj->tile.collisionBox);
+
+            obstacles.push_front({static_cast<int>((obj->position.x + cb.left) / GRID_SCALE_FACTOR), static_cast<int>((obj->position.y + cb.top) / GRID_SCALE_FACTOR),
+                                  static_cast<int>(std::ceil(((float) cb.width) / GRID_SCALE_FACTOR)), static_cast<int>(std::ceil(((float) cb.height) / GRID_SCALE_FACTOR))});
         }
 
-        aStar = new AStar(game.objects, game.map->getMapSize(), game.map->getTileSize());
+        auto astar = new Astar(obstacles, sf::Vector2<uint8_t>(game.map->getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
+        path = astar->getPath(position, locations.at(currentTarget));
 
-        Node from = {gameObject.position.x, gameObject.position.y};
-        Node to = {locations.at(currentTarget).x, locations.at(currentTarget).y};
-
-
-        std::vector<Node> path = aStar->getPath(from, to);
-        Node next = path.at(1);
-
-        if (!path.empty()) {
-            int tileOffsetX = (game.map->getTileSize().x + 1);
-            int tileOffsetY = (game.map->getTileSize().y + 1);
-            nextMove.x = (static_cast<float>(next.x * game.map->getTileSize().x) - from.x) < 0 ? -tileOffsetX : tileOffsetX;
-            nextMove.y = (static_cast<float>(next.y * game.map->getTileSize().y) - from.y) < 0 ? -tileOffsetY : tileOffsetY;
-            return nextMove;
-        }
-
-
+        cacheTime.restart();
     }
+
+    if(path != nullptr && !path->empty()) {
+        if (path->front() == position)
+            path->pop_front();
+
+        if (!path->empty()) {
+            auto &&pNext = path->front();
+
+            int dX = pNext.x - position.x;
+            int dY = pNext.y - position.y;
+
+            /*
+             * make vector modulus 1
+             */
+            float scaler = 1.0f / (dX * dX + dY * dY);
+            sf::Vector2f nextDirection = sf::Vector2f(dX * scaler, dY * scaler);
+
+            return nextDirection;
+        }
+
+        currentTarget++;
+        currentTarget %= locations.size();
+        path = nullptr;
+    }
+
+    return {0, 0};
 }
 
 

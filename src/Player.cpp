@@ -5,37 +5,51 @@
 #include "Player.hpp"
 
 void Player::update(Game &game) {
-    Node from = {position.x, position.y};
-    Node to = {nextPos.x, nextPos.y};
-    if (!((from.x / game.map->getTileSize().x) ==
-        (to.x / game.map->getTileSize().x) &&
-        (from.y / game.map->getTileSize().y) ==
-        (to.y / game.map->getTileSize().y)) && this->move) {
-        sf::Vector2f nextMove;
-        nextMove.x = 0;
-        nextMove.y = 0;
-        std::vector<Node> path = game.mainAStar->getPath(from, to);
-        Node next = path.at(1);
+    auto scaledPos = Vector2u8(position / (float) GRID_SCALE_FACTOR);
+    auto scaledTargetPos = Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
 
-        if (!path.empty()) {
-            int tileOffsetX = (game.map->getTileSize().x + 1);
-            int tileOffsetY = (game.map->getTileSize().y + 1);
-            nextMove.x =
-                    (static_cast<float>(next.x * game.map->getTileSize().x) - from.x) < 0 ? -tileOffsetX : tileOffsetX;
-            nextMove.y =
-                    (static_cast<float>(next.y * game.map->getTileSize().y) - from.y) < 0 ? -tileOffsetY : tileOffsetY;
-        } else {
-            sf::Vector2f nextMove;
-            nextMove.x = 0;
-            nextMove.y = 0;
+    int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
+
+    /*
+     * if path is nullptr (previous A* search did not found a route) wait 500ms before another search.
+     * In every case refresh every 2s or when path is empty
+     */
+    if (path == nullptr && elapsedCacheTime > 500 || elapsedCacheTime > (2000) || (path != nullptr && path->empty())) {
+        std::forward_list<sf::IntRect> obstacles;
+
+        for (auto &&obj : game.objects) {
+            auto cb = sf::IntRect(obj->tile.collisionBox);
+
+            obstacles.push_front({static_cast<int>((obj->position.x + cb.left) / GRID_SCALE_FACTOR), static_cast<int>((obj->position.y + cb.top) / GRID_SCALE_FACTOR),
+                                  static_cast<int>(std::ceil(((float) cb.width) / GRID_SCALE_FACTOR)), static_cast<int>(std::ceil(((float) cb.height) / GRID_SCALE_FACTOR))});
         }
 
+        auto astar = new Astar(obstacles, Vector2u8(game.map->getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
 
-        float movementFactor = 0.05f;
-        position = sf::Vector2i(position.x + nextMove.x * movementFactor, position.y + nextMove.y * movementFactor);
+        path = astar->getPath(scaledPos, scaledTargetPos);
+
+        cacheTime.restart();
     }
-    else {
-        this->move = false;
+
+    if(path != nullptr && !path->empty()) {
+        if (path->front() == scaledPos)
+            path->pop_front();
+
+        if (!path->empty()) {
+            auto &&pNext = path->front();
+
+            int dX = pNext.x - scaledPos.x;
+            int dY = pNext.y - scaledPos.y;
+
+            /*
+             * make vector modulus 1
+             */
+            float scaler = 1.0f / (dX * dX + dY * dY);
+            sf::Vector2f next = sf::Vector2f(dX * scaler, dY * scaler);
+
+            float movementFactor = 3;
+            position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
+        }
     }
 }
 
@@ -46,19 +60,11 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(enemyShape);
 }
 
-Player::Player(sf::Vector2i position, Weapon weapon) : weapon(weapon) {
+Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
     this->position = position;
-    this->move = false;
-    std::cout << "Created Player" << std::endl
-              << "  Position " << std::endl
-              << "     x: " << position.x << std::endl
-              << "     y: " << position.y << std::endl
-              << "  Weapon:" << std::endl
-              << "     Rate:   " << weapon.rate << std::endl
-              << "     Damage: " << weapon.damage << std::endl;
+    this->nextPos = position;
 }
 
-void Player::setNextPos(sf::Vector2i nextPos) {
-    this->nextPos.x = nextPos.x;
-    this->nextPos.y = nextPos.y;
+void Player::setNextPos(sf::Vector2f next) {
+    nextPos = next;
 }

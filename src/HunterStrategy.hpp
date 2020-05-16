@@ -5,16 +5,19 @@
 #ifndef STEALTH_HUNTERSTRATEGY_HPP
 #define STEALTH_HUNTERSTRATEGY_HPP
 
+#define GRID_SCALE_FACTOR 16
 
 #include "Strategy.hpp"
-#include "AStar.hpp"
+#include "Astar.hpp"
 #include "Game.hpp"
 
 class HunterStrategy : public Strategy {
 public:
     sf::Vector2f getNextMove(GameObject &gameObject, Game &game) override;
+
 private:
-    AStar *aStar;
+    sf::Clock cacheTime;
+    Path *path = nullptr;
 };
 
 

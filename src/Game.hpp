@@ -23,6 +23,11 @@ class Enemy;
 
 namespace xml = tinyxml2;
 
+/*
+ * TICKDELAY = 1000ms / tickrate
+ */
+#define TICKDELAY 20
+
 class Game : public GameState {
 public:
     void init(Stealth &stealth) override;
@@ -32,7 +37,6 @@ public:
     std::list<Object*> objects;
     Player *player;
     TiledMap *map;
-    AStar *mainAStar;
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
@@ -41,6 +45,8 @@ private:
     GameCursor cursor;
     sf::View view;
     sf::Clock clock;
+
+    sf::Clock tickClock;
 
     void loadMapConfig();
     void loadEnemies(xml::XMLElement *root);

@@ -5,11 +5,13 @@
 #include "Enemy.hpp"
 #include "HunterStrategy.hpp"
 
-Enemy::Enemy(sf::Vector2i position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy)
+Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy)
         : orientation(orientation), defaultStrategy(defaultStrategy), weapon(weapon), view(view) {
     this->position = position;
     strategy = defaultStrategy;
+    orientationTarget = orientation;
 
+    /*
     std::cout << "Created Enemy" << std::endl
             << "  Position " << std::endl
             << "     x: " << position.x << std::endl
@@ -22,16 +24,26 @@ Enemy::Enemy(sf::Vector2i position, float orientation, Weapon weapon, EnemyView 
             << "     Distance: " << view.distance << std::endl
             << "     Angle:    " << view.angle << std::endl
             << "     Swing:    " << view.swing << std::endl;
+            */
 }
 
 void Enemy::update(Game &game) {
     //strategy = new HunterStrategy();
     sf::Vector2f next = strategy->getNextMove(*this, game);
 
-    float movementFactor = 0.05f;
-    position = sf::Vector2i(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
+    float movementFactor = 1;
+    position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
 
-    sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 1000.0f);
+    if(next.x || next.y)
+        orientationTarget = -std::atan2(next.y, next.x) / M_PI;
+
+    if(orientation != orientationTarget) {
+        float diff = orientationTarget - orientation;
+        diff += (diff > 1) ? -2 : (diff < -1) ? 2 : 0;
+        orientation += diff / 10;
+    }
+
+    sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
 }
 
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {

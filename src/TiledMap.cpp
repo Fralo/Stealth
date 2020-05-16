@@ -26,12 +26,31 @@ TiledMap::TiledMap(std::list<Object *> &objects) : objects(objects) {
 
     loadTiles(map);
 
+    /*
+     * Load layer groups
+     */
     for (xml::XMLElement *group = map->FirstChildElement("group");
          group != nullptr; group = group->NextSiblingElement("group"))
         if (std::strcmp(group->Attribute("name"), "background") == 0)
             loadLayerGroup(*group, mapLayers);
-        else if (std::strcmp(group->Attribute("name"), "objects") == 0)
+
+    /*
+     * Load object group
+     */
+    for (xml::XMLElement *group = map->FirstChildElement("objectgroup");
+         group != nullptr; group = group->NextSiblingElement("objectgroup"))
+        if (std::strcmp(group->Attribute("name"), "objects") == 0)
             loadObjectGroup(*group, objects);
+
+    /*
+     * Render background to texture only once
+     */
+    renderedMap.create(mapWidth * mapTileWidth, mapHeight * mapTileHeight);
+    renderedMap.clear();
+    for (TiledLayer *layer : mapLayers)
+        renderedMap.draw(*layer);
+    renderedMap.display();
+    renderedMapSprite.setTexture(renderedMap.getTexture());
 }
 
 /*
@@ -70,7 +89,7 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
             sf::IntRect rect = {col * layerTileWidth, row * layerTileHeight, layerTileWidth, layerTileHeight};
             sprite->setTextureRect(rect);
 
-            std::cout << rect.left << ":" << rect.top << ":" << rect.width << ":" << rect.height << std::endl;
+            //std::cout << rect.left << ":" << rect.top << ":" << rect.width << ":" << rect.height << std::endl;
 
             tiles[firstGlobalId + i] = sprite;
         }
@@ -143,12 +162,9 @@ TiledLayer *TiledMap::makeLayer(xml::XMLElement &layer) {
 }
 
 void TiledMap::loadObjectGroup(xml::XMLElement &group, std::list<Object *> &objectList) {
-    std::cout << "loadObjectGroup" << std::endl;
-    for (xml::XMLElement *objectgroup = group.FirstChildElement("objectgroup");
-         objectgroup != nullptr; objectgroup = objectgroup->NextSiblingElement("objectgroup"))
-        for (xml::XMLElement *object = objectgroup->FirstChildElement("object");
-             object != nullptr; object = object->NextSiblingElement("object"))
-            objectList.push_back(makeObject(*object));
+    for (xml::XMLElement *object = group.FirstChildElement("object");
+         object != nullptr; object = object->NextSiblingElement("object"))
+        objectList.push_back(makeObject(*object));
 }
 
 Object *TiledMap::makeObject(xml::XMLElement &xmlObject) {
@@ -178,10 +194,7 @@ sf::Vector2u TiledMap::getMapActualSize() const {
 }
 
 void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    for (TiledLayer *layer : mapLayers)
-        target.draw(*layer);
-
-    std::cout << "objects: " << objects.size() << std::endl;
+    target.draw(renderedMapSprite);
 
     // TODO: draw objects based on player y position
     for (Object *obj : objects)

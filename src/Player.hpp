@@ -9,20 +9,26 @@
 #include "GameObject.hpp"
 #include "Weapon.h"
 #include "Game.hpp"
+#include "Astar.hpp"
+
+#define GRID_SCALE_FACTOR 16
 
 class Player : public GameObject {
 public:
-    Player(sf::Vector2i position, Weapon weapon);
+    Player(sf::Vector2f position, Weapon weapon);
     void update(Game &game) override;
 
-    void setNextPos( sf::Vector2i next );
+    void setNextPos(sf::Vector2f next);
     bool move;
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
     Weapon weapon;
-    sf::Vector2i nextPos;
+    sf::Vector2f nextPos;
+
+    sf::Clock cacheTime;
+    Path *path = nullptr;
 };
 
 

@@ -21,7 +21,7 @@ struct EnemyView {
 
 class Enemy : public GameObject {
 public:
-    Enemy(sf::Vector2i position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
+    Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
     void update(Game &game) override;
     EnemyView view;
 
@@ -33,6 +33,7 @@ private:
     Strategy *defaultStrategy;
     Strategy *strategy;
     float orientation;
+    float orientationTarget;
     float sightSwingVariation = 0;
     Weapon weapon;
 

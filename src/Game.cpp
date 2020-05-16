@@ -12,12 +12,17 @@ void Game::init(Stealth &stealth) {
 
     view.setCenter(sf::Vector2f(player->position));
 
-    clock.restart();
-    mainAStar = new AStar(objects, map->getMapSize(), map->getTileSize());
-}
+    clock.restart();}
 
 void Game::update(Stealth &stealth) {
     pollEvents(stealth);
+
+    /*
+     * Updates and draws scene 1000 / TICKDELAY times per second
+     */
+    if(tickClock.getElapsedTime().asMilliseconds() <= TICKDELAY)
+        return;
+    tickClock.restart();
 
     /*
      * Update objects
@@ -44,9 +49,8 @@ void Game::update(Stealth &stealth) {
 
 void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-       player->setNextPos({event.mouseButton.x, event.mouseButton.y});
+       player->setNextPos({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)});
        player->move = true;
-
     }
 }
 
@@ -59,15 +63,15 @@ void Game::loadMapConfig() {
         throw std::exception();
     } else
         std::cout << "Map config file opened" << std::endl;
+
     xml::XMLElement *root = xml.FirstChildElement("stealth");
     loadEnemies(root);
-
 
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
     xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
     player = new Player({
-                                playerSpawn->IntAttribute("x"),
-                                playerSpawn->IntAttribute("y")
+                                playerSpawn->FloatAttribute("x"),
+                                playerSpawn->FloatAttribute("y")
                         },
                         {
                                 xmlPlayerWeapon->IntAttribute("rate"),
@@ -92,8 +96,8 @@ void Game::loadEnemies(xml::XMLElement *root) {
 
         enemies.push_front(new Enemy(
                 {
-                        spawn->IntAttribute("x"),
-                        spawn->IntAttribute("y")
+                        spawn->FloatAttribute("x"),
+                        spawn->FloatAttribute("y")
                 },
                 spawn->FloatAttribute("orientation"),
                 {
