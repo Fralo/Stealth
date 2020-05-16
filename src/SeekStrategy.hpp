@@ -5,12 +5,14 @@
 #ifndef STEALTH_SEEKSTRATEGY_HPP
 #define STEALTH_SEEKSTRATEGY_HPP
 
+#define GRID_SCALE_FACTOR 16
+
 #include <list>
 #include <vector>
 #include <cfloat>
 #include <vector>
 #include "Strategy.hpp"
-#include "AStar.hpp"
+#include "AStar2.hpp"
 #include "Object.hpp"
 #include "Game.hpp"
 
@@ -20,11 +22,11 @@ public:
     void addLocation(sf::Vector2i location);
     
 private:
-    std::vector<sf::Vector2i> locations;
+    std::vector<sf::Vector2<uint8>> locations;
     int currentTarget = 0;
-    AStar *aStar;
-    sf::Vector2f nextMove = {0, 0};
-    std::vector<Node> path;
+
+    sf::Clock cacheTime;
+    Path *path = nullptr;
 
     int cache = 0;
 };

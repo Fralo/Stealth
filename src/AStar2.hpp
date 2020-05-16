@@ -30,9 +30,10 @@ typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned int uint32;
 
+typedef std::forward_list<sf::Vector2<uint8>> Path;
 
-struct Node {
-    Node *parent;
+struct Node2 {
+    Node2 *parent;
     uint8 x;
     uint8 y;
     uint16 g;
@@ -41,35 +42,35 @@ struct Node {
     /*
      * Equality compares coordinates
      */
-    bool operator==(const struct Node& other) const {
+    bool operator==(const struct Node2& other) const {
         return other.x == this->x && other.y == this->y;
     }
 
     // maj/min compares f value
-    bool operator>(const struct Node& other) const {
+    bool operator>(const struct Node2& other) const {
         return this->f > other.f;
     }
 
-    bool operator<(const struct Node& other) const {
+    bool operator<(const struct Node2& other) const {
         return this->f < other.f;
     }
 };
 
 class AStar2 {
 public:
-    AStar2(std::list<sf::IntRect> &obstacles, sf::Vector2u mapSize);
+    AStar2(std::forward_list<sf::IntRect> &obstacles, sf::Vector2u mapSize);
 
-    std::list<sf::Vector2<uint8>> * getPath(sf::Vector2<uint8> a, sf::Vector2<uint8> b);
+    Path *getPath(sf::Vector2<uint8> a, sf::Vector2<uint8> b);
 
 private:
-    const std::list<sf::IntRect> &obstacles;
+    const std::forward_list<sf::IntRect> &obstacles;
     const sf::Vector2u mapSize;
-    std::list<Node*> openList;
-    std::list<Node*> closedList;
+    std::forward_list<Node2*> openList;
+    std::forward_list<Node2*> closedList;
 
     bool isValid(uint16 x, uint16 y) const;
     bool isBlocked(uint8 x, uint8 y);
-    std::list<sf::Vector2<uint8>> * getPath(Node *from, Node *to);
+    Path *getPath(Node2 *from, Node2 *to);
     void clearLists();
 
 };

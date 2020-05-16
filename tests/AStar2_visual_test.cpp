@@ -9,7 +9,7 @@
 
 TEST_CASE("AStar2 algorithm drawing", "[AStar2]") {
 
-    std::list<sf::IntRect> obstacles;
+    std::forward_list<sf::IntRect> obstacles;
 
     /**/
     obstacles.push_front({5, 0, 1, 28});
@@ -49,11 +49,9 @@ TEST_CASE("AStar2 algorithm drawing", "[AStar2]") {
             grid[node.y][node.x] = '*';
         }
 
-        std::cout << "path length: " << path->size() << std::endl;
-
         auto&& first = path->front();
 
-        std::cout << "first: " << (int) first.x << ":" << (int) first.y <<  std::endl;
+        //std::cout << "first: " << (int) first.x << ":" << (int) first.y <<  std::endl;
     }
 
     grid[from.y][from.x] = 'F';

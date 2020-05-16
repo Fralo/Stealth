@@ -11,7 +11,7 @@
 class Strategy {
 public:
     /*
-     * Returns direction vector entity has to follow
+     * Returns a vector of length 1 indicating direction of next movement
      */
     virtual sf::Vector2f getNextMove(GameObject &gameObject, Game &game) = 0;
 };

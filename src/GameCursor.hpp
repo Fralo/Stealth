@@ -6,6 +6,7 @@
 #define STEALTH_GAMECURSOR_HPP
 
 #include <SFML/Graphics.hpp>
+#include <sstream>
 #include "GameObject.hpp"
 #include "macro.h"
 
@@ -21,6 +22,8 @@ protected:
 private:
     sf::Texture cursorTexture;
     sf::Vector2f position;
+
+    sf::Font font;
 };
 
 

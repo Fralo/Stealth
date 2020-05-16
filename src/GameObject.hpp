@@ -12,7 +12,7 @@ class Game;
 class GameObject : public sf::Drawable, public sf::Transformable {
 public:
     virtual void update(Game &game) = 0;
-    sf::Vector2i position;
+    sf::Vector2f position;
 };
 
 

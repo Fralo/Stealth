@@ -68,7 +68,7 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
             sf::IntRect rect = {col * layerTileWidth, row * layerTileHeight, layerTileWidth, layerTileHeight};
             sprite->setTextureRect(rect);
 
-            std::cout << rect.left << ":" << rect.top << ":" << rect.width << ":" << rect.height << std::endl;
+            //std::cout << rect.left << ":" << rect.top << ":" << rect.width << ":" << rect.height << std::endl;
 
             tiles[firstGlobalId + i] = sprite;
         }
@@ -173,8 +173,6 @@ sf::Vector2u TiledMap::getMapActualSize() const {
 void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     for(TiledLayer *layer : mapLayers)
         target.draw(*layer);
-
-    std::cout << "objects: " << objects.size() << std::endl;
 
     // TODO: draw objects based on player y position
     for(Object *obj : objects)

@@ -12,7 +12,7 @@
 
 class Player : public GameObject {
 public:
-    Player(sf::Vector2i position, Weapon weapon);
+    Player(sf::Vector2f position, Weapon weapon);
     void update(Game &game) override;
 
 protected:

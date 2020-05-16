@@ -15,7 +15,7 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(enemyShape);
 }
 
-Player::Player(sf::Vector2i position, Weapon weapon) : weapon(weapon) {
+Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
     this->position = position;
 
     std::cout << "Created Player" << std::endl
