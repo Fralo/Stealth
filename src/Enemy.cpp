@@ -88,6 +88,53 @@ std::vector<sf::Vector2f> Enemy::getVertices() const{
 
 }
 
+/*
+ * Compute the sum of the angles made between the test point and each pair of points making up the polygon.
+ * If it is 2*pi, then it is an interior point. If it is 0, then it is an exterior point.
+*/
+
+bool Enemy::isPlayerOnView(std::vector<sf::Vector2f> coordinates, Game &game) {
+
+    int x1,y1,x2,y2;
+    double angle = 0;
+
+    for(int i = 0; i<3; i++)
+    {
+        x1 = coordinates.at(i).x - game.player->position.x;
+        y1 = coordinates.at(i).y - game.player->position.y;
+        x2 = coordinates.at((i+1) % 3).x - game.player->position.x;
+        y2 = coordinates.at((i+1) %3 ).y - game.player->position.y;
+        angle += Angle2D(x1,y1,x2,y2);
+    }
+
+    if (abs(angle) < M_PI)
+        return false;
+    else
+        return true;
+}
+
+/*
+   Return the angle between two vectors on a plane
+   The angle is from vector 1 to vector 2, positive anticlockwise
+   The result is between -pi -> pi
+*/
+
+double Enemy::Angle2D(double x1, double y1, double x2, double y2) {
+    double dtheta,theta1,theta2;
+
+    theta1 = atan2(y1,x1);
+    theta2 = atan2(y2,x2);
+    dtheta = theta2 - theta1;
+    while (dtheta > M_PI)
+        dtheta -= 2*M_PI;
+    while (dtheta < -M_PI)
+        dtheta += 2*M_PI;
+
+    return(dtheta);
+}
+
+
+
 
 
 

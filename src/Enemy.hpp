@@ -7,6 +7,7 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <math.h>
 #include "GameObject.hpp"
 #include "Strategy.hpp"
 #include "Weapon.h"
@@ -39,6 +40,8 @@ private:
 
     sf::ConvexShape getSightTraigle() const;
     std::vector<sf::Vector2f> getVertices() const;
+    bool isPlayerOnView(std::vector<sf::Vector2f> coordinates, Game &game);
+    double Angle2D(double x1, double y1, double x2, double y2);
 };
 
 
