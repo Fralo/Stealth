@@ -40,9 +40,9 @@ void Enemy::update(Game &game) {
 
     sf::Vector2f next = strategy->getNextMove(*this, game);
 
-    if(distanceFromPlayer(game) > weapon.distanceOfUse)
+    if(distanceBetweenTwoPoints(this->position,game.player->position) > weapon.distanceOfUse)
     {
-        std::cout<<"Troppo lontano"<< distanceFromPlayer(game) <<std::endl;
+        std::cout<<"Troppo lontano"<< distanceBetweenTwoPoints(this->position,game.player->position) <<std::endl;
 
         float movementFactor = 1;
         position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
@@ -159,10 +159,9 @@ sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
     return absolute;
 }
 
-float Enemy::distanceFromPlayer(Game &game) {
+float Enemy::distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2) {
 
-    return sqrt((game.player->position.x - this->position.x) * (game.player->position.x - this->position.x)
-    +(game.player->position.y - this->position.y)*(game.player->position.x - this->position.y));
+    return sqrtf((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y));
 }
 
 
