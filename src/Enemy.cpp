@@ -28,8 +28,16 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 }
 
 void Enemy::update(Game &game) {
-    //strategy = new HunterStrategy();
+
+    std::vector<sf::Vector2f> coordinates;
+    coordinates.push_back(this->position);
+    coordinates.push_back(getAbsoluteCoordinates(getVertices().at(0)));
+    coordinates.push_back(getAbsoluteCoordinates(getVertices().at(1)));
+    if(isPlayerOnView(coordinates,game))
+        strategy = new HunterStrategy();
+
     sf::Vector2f next = strategy->getNextMove(*this, game);
+
 
     float movementFactor = 1;
     position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
@@ -95,7 +103,7 @@ std::vector<sf::Vector2f> Enemy::getVertices() const{
 
 bool Enemy::isPlayerOnView(std::vector<sf::Vector2f> coordinates, Game &game) {
 
-    int x1,y1,x2,y2;
+    float x1,y1,x2,y2;
     double angle = 0;
 
     for(int i = 0; i<3; i++)
@@ -119,7 +127,7 @@ bool Enemy::isPlayerOnView(std::vector<sf::Vector2f> coordinates, Game &game) {
    The result is between -pi -> pi
 */
 
-double Enemy::Angle2D(double x1, double y1, double x2, double y2) {
+double Enemy::Angle2D(float x1, float y1, float x2, float y2) {
     double dtheta,theta1,theta2;
 
     theta1 = atan2(y1,x1);
@@ -131,6 +139,14 @@ double Enemy::Angle2D(double x1, double y1, double x2, double y2) {
         dtheta += 2*M_PI;
 
     return(dtheta);
+}
+
+sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
+    sf::Vector2f absolute;
+    absolute.x = relatives.x + this->position.x;
+    absolute.y = relatives.y + this->position.y;
+
+    return absolute;
 }
 
 

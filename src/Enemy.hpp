@@ -40,8 +40,9 @@ private:
 
     sf::ConvexShape getSightTraigle() const;
     std::vector<sf::Vector2f> getVertices() const;
+    sf::Vector2f getAbsoluteCoordinates(sf::Vector2f relatives) const;
     bool isPlayerOnView(std::vector<sf::Vector2f> coordinates, Game &game);
-    double Angle2D(double x1, double y1, double x2, double y2);
+    double Angle2D(float x1, float y1, float x2, float y2);
 };
 
 
