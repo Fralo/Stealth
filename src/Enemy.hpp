@@ -38,11 +38,14 @@ private:
     Weapon weapon;
 
     sf::ConvexShape getSightTraigle() const;
-    std::vector<sf::Vector2f> getVertices() const;
+    std::vector<sf::Vector2f> getViewVertices() const;
+    std::vector<sf::Vector2f> getRectVertices() const;
     sf::Vector2f getAbsoluteCoordinates(sf::Vector2f relatives) const;
     float distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2);
     bool isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target);
     double Angle2D(float x1, float y1, float x2, float y2);
+    bool checkObstacles(Game &game);
+    bool lineLine(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 };
 
 
