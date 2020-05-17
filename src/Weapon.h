@@ -8,6 +8,7 @@
 struct Weapon {
     int rate;
     int damage;
+    int distanceOfUse;
 };
 
 #endif //STEALTH_WEAPON_H

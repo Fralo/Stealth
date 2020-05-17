@@ -29,29 +29,39 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 
 void Enemy::update(Game &game) {
 
+    //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(this->position);
     coordinates.push_back(getAbsoluteCoordinates(getVertices().at(0)));
     coordinates.push_back(getAbsoluteCoordinates(getVertices().at(1)));
+
     if(isPlayerOnView(coordinates,game))
         strategy = new HunterStrategy();
 
     sf::Vector2f next = strategy->getNextMove(*this, game);
 
+    if(distanceFromPlayer(game) > weapon.distanceOfUse)
+    {
+        std::cout<<"Troppo lontano"<< distanceFromPlayer(game) <<std::endl;
 
-    float movementFactor = 1;
-    position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
+        float movementFactor = 1;
+        position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
 
-    if(next.x || next.y)
-        orientationTarget = -std::atan2(next.y, next.x) / M_PI;
+        if(next.x || next.y)
+            orientationTarget = -std::atan2(next.y, next.x) / M_PI;
 
-    if(orientation != orientationTarget) {
-        float diff = orientationTarget - orientation;
-        diff += (diff > 1) ? -2 : (diff < -1) ? 2 : 0;
-        orientation += diff / 10;
+        if(orientation != orientationTarget) {
+            float diff = orientationTarget - orientation;
+            diff += (diff > 1) ? -2 : (diff < -1) ? 2 : 0;
+            orientation += diff / 10;
+        }
+
+        sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
+    }
+    else {
+        std::cout << "In Linea di tiro"<<std::endl;
     }
 
-    sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
 }
 
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -147,6 +157,12 @@ sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
     absolute.y = relatives.y + this->position.y;
 
     return absolute;
+}
+
+float Enemy::distanceFromPlayer(Game &game) {
+
+    return sqrt((game.player->position.x - this->position.x) * (game.player->position.x - this->position.x)
+    +(game.player->position.y - this->position.y)*(game.player->position.x - this->position.y));
 }
 
 

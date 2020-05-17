@@ -102,7 +102,8 @@ void Game::loadEnemies(xml::XMLElement *root) {
                 spawn->FloatAttribute("orientation"),
                 {
                         weapon->IntAttribute("rate"),
-                        weapon->IntAttribute("damage")
+                        weapon->IntAttribute("damage"),
+                        weapon->IntAttribute("distance")
                 },
                 {
                         enemy->FloatAttribute("sight-angle"),
