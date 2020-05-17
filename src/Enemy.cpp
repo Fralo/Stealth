@@ -35,8 +35,9 @@ void Enemy::update(Game &game) {
     coordinates.push_back(getAbsoluteCoordinates(getVertices().at(0)));
     coordinates.push_back(getAbsoluteCoordinates(getVertices().at(1)));
 
-    if(isPlayerOnView(coordinates,game))
-        strategy = new HunterStrategy();
+    if(distanceBetweenTwoPoints(game.player->position,this->position) < distanceBetweenTwoPoints(coordinates.at(1),this->position))
+        if(isTargetInside(coordinates, game.player->position))
+            strategy = new HunterStrategy();
 
     sf::Vector2f next = strategy->getNextMove(*this, game);
 
@@ -110,20 +111,18 @@ std::vector<sf::Vector2f> Enemy::getVertices() const{
  * If it is 2*pi, then it is an interior point. If it is 0, then it is an exterior point.
 */
 
-bool Enemy::isPlayerOnView(std::vector<sf::Vector2f> coordinates, Game &game) {
+bool Enemy::isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target) {
 
-    if(distanceBetweenTwoPoints(game.player->position,this->position) > distanceBetweenTwoPoints(coordinates.at(1),this->position))
-        return false;
 
     float x1,y1,x2,y2;
     double angle = 0;
 
-    for(int i = 0; i<3; i++)
+    for(int i = 0; i<coordinates.size(); i++)
     {
-        x1 = coordinates.at(i).x - game.player->position.x;
-        y1 = coordinates.at(i).y - game.player->position.y;
-        x2 = coordinates.at((i+1) % 3).x - game.player->position.x;
-        y2 = coordinates.at((i+1) %3 ).y - game.player->position.y;
+        x1 = coordinates.at(i).x - target.x;
+        y1 = coordinates.at(i).y - target.y;
+        x2 = coordinates.at((i+1) % 3).x - target.x;
+        y2 = coordinates.at((i+1) %3 ).y - target.y;
         angle += Angle2D(x1,y1,x2,y2);
     }
 

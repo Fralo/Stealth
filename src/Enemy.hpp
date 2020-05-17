@@ -41,7 +41,7 @@ private:
     std::vector<sf::Vector2f> getVertices() const;
     sf::Vector2f getAbsoluteCoordinates(sf::Vector2f relatives) const;
     float distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2);
-    bool isPlayerOnView(std::vector<sf::Vector2f> coordinates, Game &game);
+    bool isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target);
     double Angle2D(float x1, float y1, float x2, float y2);
 };
 
