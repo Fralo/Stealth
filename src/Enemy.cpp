@@ -42,7 +42,6 @@ void Enemy::update(Game &game) {
 
     if(distanceBetweenTwoPoints(this->position,game.player->position) > weapon.distanceOfUse)
     {
-        std::cout<<"Troppo lontano"<< distanceBetweenTwoPoints(this->position,game.player->position) <<std::endl;
 
         float movementFactor = 1;
         position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
@@ -59,7 +58,7 @@ void Enemy::update(Game &game) {
         sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
     }
     else {
-        std::cout << "In Linea di tiro"<<std::endl;
+       // std::cout << "In Linea di tiro"<<std::endl;
     }
 
 }
@@ -112,6 +111,9 @@ std::vector<sf::Vector2f> Enemy::getVertices() const{
 */
 
 bool Enemy::isPlayerOnView(std::vector<sf::Vector2f> coordinates, Game &game) {
+
+    if(distanceBetweenTwoPoints(game.player->position,this->position) > distanceBetweenTwoPoints(coordinates.at(1),this->position))
+        return false;
 
     float x1,y1,x2,y2;
     double angle = 0;
