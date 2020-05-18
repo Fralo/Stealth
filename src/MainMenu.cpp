@@ -49,7 +49,7 @@ void MainMenu::init(Stealth &stealth) {
     selectCursor.loadFromSystem(sf::Cursor::Hand);
     defaultCursor.loadFromSystem(sf::Cursor::Arrow);
 
-    music.openFromFile("../res/music/shining_end.ogg");
+    music.openFromFile("../res/music/Stealth_menu.ogg");
     music.setLoop(true);
     music.setVolume(50);
     music.play();

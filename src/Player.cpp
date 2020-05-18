@@ -4,6 +4,14 @@
 
 #include "Player.hpp"
 
+Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
+    this->position = position;
+    this->nextPos = position;
+
+    movingSfxBuffer.loadFromFile("../res/music/yes_commander.ogg");
+    movingSfx.setBuffer(movingSfxBuffer);
+}
+
 void Player::update(Game &game) {
     auto scaledPos = Vector2u8(position / (float) GRID_SCALE_FACTOR);
     auto scaledTargetPos = Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
@@ -60,11 +68,7 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(enemyShape);
 }
 
-Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
-    this->position = position;
-    this->nextPos = position;
-}
-
 void Player::setNextPos(sf::Vector2f next) {
     nextPos = next;
+    movingSfx.play();
 }

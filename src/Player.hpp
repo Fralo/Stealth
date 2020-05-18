@@ -29,6 +29,9 @@ private:
 
     sf::Clock cacheTime;
     Path *path = nullptr;
+
+    sf::SoundBuffer movingSfxBuffer;
+    sf::Sound movingSfx;
 };
 
 
