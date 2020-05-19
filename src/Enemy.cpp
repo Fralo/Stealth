@@ -40,8 +40,7 @@ void Enemy::update(Game &game) {
             if(checkObstacles(game))
                 strategy = new HunterStrategy();
             else
-                std::cout<<"Lo porei vedere ma..."<<std::endl;
-
+                std::cout<<"ti potrei vedere"<<std::endl;
     sf::Vector2f next = strategy->getNextMove(*this, game);
 
     if(distanceBetweenTwoPoints(this->position,game.player->position) > weapon.distanceOfUse)
@@ -168,32 +167,31 @@ float Enemy::distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2) {
 }
 
 bool Enemy::checkObstacles(Game &game){
-
     bool checkObstacle = true;
-    for (std::list<Object*>::iterator it=game.objects.begin(); it != game.objects.end(); ++it)
+
+    for (Object *obj : game.objects)
     {
         bool top = lineLine(this->position.x, this->position.y, game.player->position.x, game.player->position.y,
-                            it.operator*()->tile.collisionBox.left,
-                            it.operator*()->tile.collisionBox.top,
-                            it.operator*()->tile.collisionBox.left + it.operator*()->tile.collisionBox.width,
-                            it.operator*()->tile.collisionBox.top);
+                            obj->tile.collisionBox.left,
+                            obj->tile.collisionBox.top,
+                            obj->tile.collisionBox.left + obj->tile.collisionBox.width,
+                            obj->tile.collisionBox.top);
         bool left = lineLine(this->position.x, this->position.y, game.player->position.x, game.player->position.y,
-                             it.operator*()->tile.collisionBox.left,
-                             it.operator*()->tile.collisionBox.top,
-                             it.operator*()->tile.collisionBox.left,
-                             it.operator*()->tile.collisionBox.top -it.operator*()->tile.collisionBox.height);
+                             obj->tile.collisionBox.left,
+                             obj->tile.collisionBox.top,
+                             obj->tile.collisionBox.left,
+                             obj->tile.collisionBox.top - obj->tile.collisionBox.height);
         bool bottom = lineLine(this->position.x, this->position.y, game.player->position.x, game.player->position.y,
-                               it.operator*()->tile.collisionBox.top,
-                               it.operator*()->tile.collisionBox.top -it.operator*()->tile.collisionBox.height,
-                               it.operator*()->tile.collisionBox.left + it.operator*()->tile.collisionBox.width,
-                               it.operator*()->tile.collisionBox.top -it.operator*()->tile.collisionBox.height);
+                               obj->tile.collisionBox.top,
+                               obj->tile.collisionBox.top -obj->tile.collisionBox.height,
+                               obj->tile.collisionBox.left + obj->tile.collisionBox.width,
+                               obj->tile.collisionBox.top - obj->tile.collisionBox.height);
         bool right = lineLine(this->position.x, this->position.y, game.player->position.x, game.player->position.y,
-                              it.operator*()->tile.collisionBox.left + it.operator*()->tile.collisionBox.width,
-                              it.operator*()->tile.collisionBox.top -it.operator*()->tile.collisionBox.height,
-                              it.operator*()->tile.collisionBox.left + it.operator*()->tile.collisionBox.width,
-                              it.operator*()->tile.collisionBox.top);
+                              obj->tile.collisionBox.left + obj->tile.collisionBox.width,
+                              obj->tile.collisionBox.top - obj->tile.collisionBox.height,
+                              obj->tile.collisionBox.left + obj->tile.collisionBox.width,
+                              obj->tile.collisionBox.top);
 
-        // change text at bottom depending on whether you are seen or not
         if (top || left || bottom || right)
             checkObstacle = false;
     }
@@ -207,7 +205,6 @@ bool Enemy::lineLine(float x1, float y1, float x2, float y2, float x3, float y3,
     float uA = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
     float uB = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
 
-    // collision?
     if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
         return true;
     }
