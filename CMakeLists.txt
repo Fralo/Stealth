@@ -29,6 +29,6 @@ set(CATCH_INCLUDE_DIR tests)
 add_library(Catch INTERFACE)
 target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 
-set(TEST_SOURCES ${SOURCE_FILES} tests/tests.cpp tests/AStar_test.cpp)
+set(TEST_SOURCES ${SOURCE_FILES} tests/tests.cpp tests/AStar_test.cpp tests/Enemy_test.cpp)
 add_executable(Tests ${TEST_SOURCES})
 target_link_libraries(Tests sfml-system sfml-window sfml-graphics sfml-audio GLX tinyxml2)
