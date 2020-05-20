@@ -23,6 +23,8 @@ TEST_CASE("Check if a target is inside a polygon", "[Enemy]") {
     coordinates.push_back({1,5});
     coordinates.push_back({5,1});
 
+    REQUIRE( enemy->isTargetInside(coordinates,{2,2}) == true );
+
 
     BENCHMARK("Enemy::isTargetInside()") {
                                     return  enemy->isTargetInside(coordinates,{2,2});
