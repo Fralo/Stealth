@@ -29,6 +29,8 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 
 void Enemy::update(Game &game) {
 
+    //TODO: check health
+
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(this->position);
@@ -76,6 +78,12 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     sightTriangle.setFillColor(sf::Color(0x0, 0xd0, 0x20, 0x7f));
 
     target.draw(sightTriangle);
+
+    sf::RectangleShape re({static_cast<float>(health) / 5, 2});
+    re.setPosition({position.x, position.y - 20});
+    re.setFillColor(sf::Color::Red);
+
+    target.draw(re);
 }
 
 /*
@@ -211,6 +219,10 @@ bool Enemy::lineLine(float x1, float y1, float x2, float y2, float x3, float y3,
     else {
         return false;
     }
+}
+
+void Enemy::applyDamage(int damage) {
+    health -= damage;
 }
 
 

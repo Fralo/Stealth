@@ -12,7 +12,8 @@ void Game::init(Stealth &stealth) {
 
     view.setCenter(sf::Vector2f(player->position));
 
-    clock.restart();}
+    clock.restart();
+}
 
 void Game::update(Stealth &stealth) {
     pollEvents(stealth);

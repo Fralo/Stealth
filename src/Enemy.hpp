@@ -26,10 +26,13 @@ public:
     bool isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target);
     EnemyView view;
 
+    void applyDamage(int damage);
+
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
+    int health = 100;
     sf::Clock clock;
     Strategy *defaultStrategy;
     Strategy *strategy;
