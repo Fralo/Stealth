@@ -20,6 +20,7 @@ public:
 
     void setNextPos(sf::Vector2f next);
     bool move;
+    float life;
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
@@ -28,6 +29,7 @@ private:
     sf::Vector2f nextPos;
     sf::Clock cacheTime;
     Path *path = nullptr;
+
 
     sf::SoundBuffer movingSfxBuffer;
     sf::Sound movingSfx;

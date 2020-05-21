@@ -43,7 +43,7 @@ private:
 
     sf::ConvexShape getSightTraigle() const;
     std::vector<sf::Vector2f> getViewVertices() const;
-    std::vector<sf::Vector2f> getRectVertices() const;
+    std::vector<sf::Vector2f> getFireVertices() const;
     sf::Vector2f getAbsoluteCoordinates(sf::Vector2f relatives) const;
     float distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2);
     double Angle2D(float x1, float y1, float x2, float y2);

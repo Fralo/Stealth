@@ -43,9 +43,10 @@ void Enemy::update(Game &game) {
                 strategy = new HunterStrategy();
             else
                 std::cout<<"ti potrei vedere"<<std::endl;
+
     sf::Vector2f next = strategy->getNextMove(*this, game);
 
-    if(distanceBetweenTwoPoints(this->position,game.player->position) > weapon.distanceOfUse)
+    if(distanceBetweenTwoPoints(this->position,game.player->position) > weapon.distanceOfUse -10)
     {
 
         float movementFactor = 1;
@@ -63,7 +64,20 @@ void Enemy::update(Game &game) {
         sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
     }
     else {
-       // std::cout << "In Linea di tiro"<<std::endl;
+        //fire
+
+        coordinates.empty();
+        coordinates.push_back(this->position);
+        coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(0)));
+        coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(1)));
+
+        if(isTargetInside(coordinates,game.player->position))
+            if(game.player->life > 0)
+                game.player->life =  game.player->life - 1;
+            else
+                std::cout<<"player Killed"<<std::endl;
+
+
     }
 
 }
@@ -115,6 +129,21 @@ std::vector<sf::Vector2f> Enemy::getViewVertices() const{
     return vertices;
 
 }
+
+std::vector<sf::Vector2f> Enemy::getFireVertices() const {
+
+    std::vector<sf::Vector2f>  vertices;
+    float radius = weapon.distanceOfUse / std::cos(M_PI * 10 / 2);
+
+    sf::Vector2f A(radius * std::cos((-orientation + sightSwingVariation - 10/2) * M_PI), radius * std::sin((-orientation + sightSwingVariation - 10/2) * M_PI));
+    sf::Vector2f B(radius * std::cos((-orientation + sightSwingVariation + 10/2) * M_PI), radius * std::sin((-orientation + sightSwingVariation + 10/2) * M_PI));
+
+    vertices.push_back(A);
+    vertices.push_back(B);
+
+    return vertices;
+}
+
 
 /*
  * Compute the sum of the angles made between the test point and each pair of points making up the polygon.
@@ -224,6 +253,7 @@ bool Enemy::lineLine(float x1, float y1, float x2, float y2, float x3, float y3,
 void Enemy::applyDamage(int damage) {
     health -= damage;
 }
+
 
 
 
