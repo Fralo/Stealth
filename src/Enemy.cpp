@@ -72,8 +72,8 @@ void Enemy::update(Game &game) {
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(1)));
 
         if(isTargetInside(coordinates,game.player->position))
-            if(game.player->life > 0)
-                game.player->life =  game.player->life - 1;
+            if(game.player->getHealth() > 0)
+                game.player->applyDamage(1) ;
             else
                 std::cout<<"player Killed"<<std::endl;
 
@@ -254,6 +254,10 @@ bool Enemy::lineLine(float x1, float y1, float x2, float y2, float x3, float y3,
 
 void Enemy::applyDamage(int damage) {
     health -= damage;
+}
+
+int Enemy::getHealth() const {
+    return health;
 }
 
 

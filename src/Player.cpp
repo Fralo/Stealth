@@ -8,8 +8,6 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
     this->position = position;
     this->nextPos = position;
 
-    life = 100;
-
     movingSfxBuffer.loadFromFile("../res/music/yes_commander.ogg");
     movingSfx.setBuffer(movingSfxBuffer);
 }
@@ -66,7 +64,7 @@ void Player::update(Game &game) {
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
-    sf::RectangleShape liferect({life,20});
+    sf::RectangleShape liferect({static_cast<float>(health),20});
     sf::CircleShape enemyShape(10);
 
     liferect.setFillColor(sf::Color(0,200,0));
@@ -83,4 +81,12 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 void Player::setNextPos(sf::Vector2f next) {
     nextPos = next;
     movingSfx.play();
+}
+
+void Player::applyDamage(int damage) {
+    health-=damage;
+}
+
+int Player::getHealth() const {
+    return health;
 }

@@ -33,6 +33,10 @@ protected:
 
 private:
     int health = 100;
+public:
+    int getHealth() const;
+
+private:
     sf::Clock clock;
     Strategy *defaultStrategy;
     Strategy *strategy;

@@ -20,9 +20,14 @@ public:
 
     void setNextPos(sf::Vector2f next);
     bool move;
-    float life;
+    void applyDamage(int damage);
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+
+private:
+    int health = 100;
+public:
+    int getHealth() const;
 
 private:
     Weapon weapon;
