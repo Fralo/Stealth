@@ -26,7 +26,6 @@ protected:
 private:
     Weapon weapon;
     sf::Vector2f nextPos;
-
     sf::Clock cacheTime;
     Path *path = nullptr;
 

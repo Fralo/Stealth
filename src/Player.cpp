@@ -13,6 +13,7 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
 }
 
 void Player::update(Game &game) {
+
     auto scaledPos = Vector2u8(position / (float) GRID_SCALE_FACTOR);
     auto scaledTargetPos = Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
 
@@ -62,10 +63,19 @@ void Player::update(Game &game) {
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+
+    sf::RectangleShape liferect({100,20});
     sf::CircleShape enemyShape(10);
+
+    liferect.setFillColor(sf::Color(0,200,0));
     enemyShape.setFillColor(sf::Color(200, 0, 0));
+
+    liferect.setPosition(target.getView().getCenter().x - 380,target.getView().getCenter().y + 260);
     enemyShape.setPosition(position.x, position.y);
+
+    target.draw(liferect);
     target.draw(enemyShape);
+
 }
 
 void Player::setNextPos(sf::Vector2f next) {
