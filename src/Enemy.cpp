@@ -132,6 +132,8 @@ std::vector<sf::Vector2f> Enemy::getViewVertices() const{
 
 std::vector<sf::Vector2f> Enemy::getFireVertices() const {
 
+    //TODO: use the angle from the weapon hen it will be implemented
+
     std::vector<sf::Vector2f>  vertices;
     float radius = weapon.distanceOfUse / std::cos(M_PI * 10 / 2);
 
