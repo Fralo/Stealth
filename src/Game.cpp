@@ -55,8 +55,7 @@ void Game::update(Stealth &stealth) {
 
 void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-       player->setNextPos({static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)});
-       player->move = true;
+       player->setNextPos(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
     }
 }
 
