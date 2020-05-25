@@ -12,6 +12,11 @@ void Game::init(Stealth &stealth) {
 
     view.setCenter(sf::Vector2f(player->position));
 
+    levelMusic.openFromFile(resource("music/Stealth_level1.ogg"));
+    levelMusic.setLoop(true);
+    levelMusic.setVolume(20);
+    levelMusic.play();
+
     clock.restart();
 }
 

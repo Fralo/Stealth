@@ -48,6 +48,8 @@ private:
 
     sf::Clock tickClock;
 
+    sf::Music levelMusic;
+
     void loadMapConfig();
     void loadEnemies(xml::XMLElement *root);
     void updateMapView(Stealth &stealth);
