@@ -7,7 +7,7 @@
 
 Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy)
         : orientation(orientation), defaultStrategy(defaultStrategy), weapon(weapon), view(view) {
-    this->position = position;
+    setPos(position);
     strategy = defaultStrategy;
     orientationTarget = orientation;
 
@@ -33,13 +33,13 @@ void Enemy::update(const std::list<Object*> &objects,Player &player,TiledMap &ma
 
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
-    coordinates.push_back(this->position);
+    coordinates.push_back(getPos());
     coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(0)));
     coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(1)));
 
-    if (distanceBetweenTwoPoints(player.position, this->position) <
-        distanceBetweenTwoPoints(coordinates.at(1), this->position))
-        if (isTargetInside(coordinates, player.position))
+    if (distanceBetweenTwoPoints(player.getPos(), getPos()) <
+        distanceBetweenTwoPoints(coordinates.at(1), getPos()))
+        if (isTargetInside(coordinates, player.getPos()))
             if (checkObstacles(objects, player))
                 strategy = new HunterStrategy();
             else
@@ -47,10 +47,10 @@ void Enemy::update(const std::list<Object*> &objects,Player &player,TiledMap &ma
 
     sf::Vector2f next = strategy->getNextMove(*this,objects,player,map);
 
-    if (distanceBetweenTwoPoints(this->position, player.position) > weapon.distanceOfUse - 10) {
+    if (distanceBetweenTwoPoints(getPos(), player.getPos()) > weapon.distanceOfUse - 10) {
 
         float movementFactor = 1;
-        position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
+        setPos(sf::Vector2f(getPos().x + next.x * movementFactor, getPos().y + next.y * movementFactor));
 
         if (next.x || next.y)
             orientationTarget = -std::atan2(next.y, next.x) / M_PI;
@@ -66,11 +66,11 @@ void Enemy::update(const std::list<Object*> &objects,Player &player,TiledMap &ma
         //fire
 
         coordinates.empty();
-        coordinates.push_back(this->position);
+        coordinates.push_back(getPos());
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(0)));
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(1)));
 
-        if (isTargetInside(coordinates, player.position))
+        if (isTargetInside(coordinates, player.getPos()))
             if (player.getHealth() > 0)
                 player.applyDamage(1);
             else
@@ -137,7 +137,7 @@ void Enemy::update(const std::list<Object*> &objects,Player &player,TiledMap &ma
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     sf::CircleShape enemyShape(10);
     enemyShape.setFillColor(sf::Color(100, 250, 50));
-    enemyShape.setPosition(position.x - 10, position.y - 10);
+    enemyShape.setPosition(getPos().x - 10, getPos().y - 10);
     target.draw(enemyShape);
 
     sf::ConvexShape sightTriangle = getSightTraigle();
@@ -146,7 +146,7 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(sightTriangle);
 
     sf::RectangleShape re({static_cast<float>(getHealth()) / 5, 2});
-    re.setPosition({position.x, position.y - 20});
+    re.setPosition({getPos().x, getPos().y - 20});
     re.setFillColor(sf::Color::Red);
 
     target.draw(re);
@@ -164,7 +164,7 @@ sf::ConvexShape Enemy::getSightTraigle() const {
     triangle.setPoint(1, getViewVertices().at(0));
     triangle.setPoint(2, getViewVertices().at(1));
 
-    triangle.setPosition(sf::Vector2f(position));
+    triangle.setPosition(sf::Vector2f(getPos()));
     return triangle;
 }
 
@@ -247,8 +247,8 @@ double Enemy::Angle2D(float x1, float y1, float x2, float y2) {
 
 sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
     sf::Vector2f absolute;
-    absolute.x = relatives.x + this->position.x;
-    absolute.y = relatives.y + this->position.y;
+    absolute.x = relatives.x + getPos().x;
+    absolute.y = relatives.y + getPos().y;
 
     return absolute;
 }
@@ -262,22 +262,22 @@ bool Enemy::checkObstacles(const std::list<Object*> &objects,Player &player){
 
     for (Object *obj : objects)
     {
-        bool top = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
+        bool top = lineLine(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
                             obj->tile->collisionBox.left,
                             obj->tile->collisionBox.top,
                             obj->tile->collisionBox.left + obj->tile->collisionBox.width,
                             obj->tile->collisionBox.top);
-        bool left = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
+        bool left = lineLine(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
                              obj->tile->collisionBox.left,
                              obj->tile->collisionBox.top,
                              obj->tile->collisionBox.left,
                              obj->tile->collisionBox.top - obj->tile->collisionBox.height);
-        bool bottom = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
+        bool bottom = lineLine(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
                                obj->tile->collisionBox.top,
                                obj->tile->collisionBox.top -obj->tile->collisionBox.height,
                                obj->tile->collisionBox.left + obj->tile->collisionBox.width,
                                obj->tile->collisionBox.top - obj->tile->collisionBox.height);
-        bool right = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
+        bool right = lineLine(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
                               obj->tile->collisionBox.left + obj->tile->collisionBox.width,
                               obj->tile->collisionBox.top - obj->tile->collisionBox.height,
                               obj->tile->collisionBox.left + obj->tile->collisionBox.width,

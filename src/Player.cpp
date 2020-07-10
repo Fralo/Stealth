@@ -5,7 +5,7 @@
 #include "Player.hpp"
 
 Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
-    this->position = position;
+    setPos(position);
     this->nextPos = position;
 
     movingSfxBuffer.loadFromFile("../res/music/yes_commander.ogg");
@@ -14,7 +14,7 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
 
 void Player::update(const std::list<Object*>& objects, TiledMap &map) {
 
-    auto scaledPos = Vector2u8(position / (float) GRID_SCALE_FACTOR);
+    auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
     auto scaledTargetPos = Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
 
     int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
@@ -57,7 +57,7 @@ void Player::update(const std::list<Object*>& objects, TiledMap &map) {
             sf::Vector2f next = sf::Vector2f(dX * scaler, dY * scaler);
 
             float movementFactor = 3;
-            position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
+            setPos(sf::Vector2f(getPos().x + next.x * movementFactor, getPos().y + next.y * movementFactor));
         }
     }
 }
@@ -71,7 +71,7 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     enemyShape.setFillColor(sf::Color(200, 0, 0));
 
     liferect.setPosition(target.getView().getCenter().x - 380,target.getView().getCenter().y + 260);
-    enemyShape.setPosition(position.x, position.y);
+    enemyShape.setPosition(getPos().x, getPos().y);
 
     target.draw(liferect);
     target.draw(enemyShape);

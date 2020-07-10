@@ -12,7 +12,7 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, const std::list<O
     if (locations.empty())
         return {0, 0};
 
-    auto position = Vector2u8(gameObject.position / (float) GRID_SCALE_FACTOR);
+    auto position = Vector2u8(gameObject.getPos() / (float) GRID_SCALE_FACTOR);
 
     int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
 

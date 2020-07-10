@@ -10,7 +10,7 @@ void Game::init(Stealth &stealth) {
     map = new TiledMap(objects);
     loadMapConfig();
 
-    view.setCenter(sf::Vector2f(player->position));
+    view.setCenter(sf::Vector2f(player->getPos()));
 
     levelMusic.openFromFile(resource("music/Stealth_level1.ogg"));
     levelMusic.setLoop(true);

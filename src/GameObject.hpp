@@ -11,13 +11,13 @@
 class GameObject : public sf::Drawable, public sf::Transformable {
 public:
     virtual ~GameObject() override {};
-    sf::Vector2f position;
+
 
     sf::Vector2f getPos() const {
         return position;
     }
 
-    void setPos(sf::Vector2f &pos) {
+    void setPos(sf::Vector2<float> pos) {
         position = pos;
     }
 
@@ -35,6 +35,7 @@ public:
 
 private:
     int health = 100;
+    sf::Vector2f position;
 
 
 };
