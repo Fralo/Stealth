@@ -4,9 +4,9 @@
 
 #include "HunterStrategy.hpp"
 
-sf::Vector2f HunterStrategy::getNextMove(GameObject &gameObject, Game &game) {
+sf::Vector2f HunterStrategy::getNextMove(GameObject &gameObject,const std::list<Object*> &objects,Player &player,TiledMap &map) {
     auto position = Vector2u8(gameObject.position / (float) GRID_SCALE_FACTOR);
-    auto playerPosition = Vector2u8(game.player->position / (float) GRID_SCALE_FACTOR);
+    auto playerPosition = Vector2u8(player.position / (float) GRID_SCALE_FACTOR);
 
     int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
 
@@ -17,14 +17,14 @@ sf::Vector2f HunterStrategy::getNextMove(GameObject &gameObject, Game &game) {
     if (path == nullptr && elapsedCacheTime > 500 || elapsedCacheTime > (2000) || (path != nullptr && path->empty())) {
         std::forward_list<sf::IntRect> obstacles;
 
-        for (auto &&obj : game.objects) {
+        for (auto &&obj : objects) {
             auto cb = sf::IntRect(obj->tile.collisionBox);
 
             obstacles.push_front({static_cast<int>((obj->position.x + cb.left) / GRID_SCALE_FACTOR), static_cast<int>((obj->position.y + cb.top) / GRID_SCALE_FACTOR),
                                   static_cast<int>(std::ceil(((float) cb.width) / GRID_SCALE_FACTOR)), static_cast<int>(std::ceil(((float) cb.height) / GRID_SCALE_FACTOR))});
         }
 
-        auto astar = new Astar(obstacles, Vector2u8(game.map->getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
+        auto astar = new Astar(obstacles, Vector2u8(map.getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
 
         path = astar->getPath(position, playerPosition);
 

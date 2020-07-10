@@ -28,8 +28,54 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 }
 
 
-void Enemy::update(const std::list<Object*> &objects,Player &player) {
+void Enemy::update(const std::list<Object*> &objects,Player &player,TiledMap &map) {
+    //TODO: check health
 
+    //generate the vector of vertices to find the player
+    std::vector<sf::Vector2f> coordinates;
+    coordinates.push_back(this->position);
+    coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(0)));
+    coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(1)));
+
+    if (distanceBetweenTwoPoints(player.position, this->position) <
+        distanceBetweenTwoPoints(coordinates.at(1), this->position))
+        if (isTargetInside(coordinates, player.position))
+            if (checkObstacles(objects, player))
+                strategy = new HunterStrategy();
+            else
+                std::cout << "ti potrei vedere" << std::endl;
+
+    sf::Vector2f next = strategy->getNextMove(*this,objects,player,map);
+
+    if (distanceBetweenTwoPoints(this->position, player.position) > weapon.distanceOfUse - 10) {
+
+        float movementFactor = 1;
+        position = sf::Vector2f(position.x + next.x * movementFactor, position.y + next.y * movementFactor);
+
+        if (next.x || next.y)
+            orientationTarget = -std::atan2(next.y, next.x) / M_PI;
+
+        if (orientation != orientationTarget) {
+            float diff = orientationTarget - orientation;
+            diff += (diff > 1) ? -2 : (diff < -1) ? 2 : 0;
+            orientation += diff / 10;
+        }
+
+        sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
+    } else {
+        //fire
+
+        coordinates.empty();
+        coordinates.push_back(this->position);
+        coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(0)));
+        coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(1)));
+
+        if (isTargetInside(coordinates, player.position))
+            if (player.getHealth() > 0)
+                player.applyDamage(1);
+            else
+                std::cout << "player Killed" << std::endl;
+    }
 }
 
 
@@ -211,27 +257,27 @@ float Enemy::distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2) {
     return sqrtf((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y));
 }
 
-bool Enemy::checkObstacles(Game &game){
+bool Enemy::checkObstacles(const std::list<Object*> &objects,Player &player){
     bool checkObstacle = true;
 
-    for (Object *obj : game.objects)
+    for (Object *obj : objects)
     {
-        bool top = lineLine(this->position.x, this->position.y, game.player->position.x, game.player->position.y,
+        bool top = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
                             obj->tile.collisionBox.left,
                             obj->tile.collisionBox.top,
                             obj->tile.collisionBox.left + obj->tile.collisionBox.width,
                             obj->tile.collisionBox.top);
-        bool left = lineLine(this->position.x, this->position.y, game.player->position.x, game.player->position.y,
+        bool left = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
                              obj->tile.collisionBox.left,
                              obj->tile.collisionBox.top,
                              obj->tile.collisionBox.left,
                              obj->tile.collisionBox.top - obj->tile.collisionBox.height);
-        bool bottom = lineLine(this->position.x, this->position.y, game.player->position.x, game.player->position.y,
+        bool bottom = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
                                obj->tile.collisionBox.top,
                                obj->tile.collisionBox.top -obj->tile.collisionBox.height,
                                obj->tile.collisionBox.left + obj->tile.collisionBox.width,
                                obj->tile.collisionBox.top - obj->tile.collisionBox.height);
-        bool right = lineLine(this->position.x, this->position.y, game.player->position.x, game.player->position.y,
+        bool right = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
                               obj->tile.collisionBox.left + obj->tile.collisionBox.width,
                               obj->tile.collisionBox.top - obj->tile.collisionBox.height,
                               obj->tile.collisionBox.left + obj->tile.collisionBox.width,

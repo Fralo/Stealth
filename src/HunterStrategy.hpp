@@ -13,7 +13,7 @@
 
 class HunterStrategy : public Strategy {
 public:
-    sf::Vector2f getNextMove(GameObject &gameObject, Game &game) override;
+    sf::Vector2f getNextMove(GameObject &gameObject,const std::list<Object*> &objects,Player &player,TiledMap &map) override;
 
 private:
     sf::Clock cacheTime;

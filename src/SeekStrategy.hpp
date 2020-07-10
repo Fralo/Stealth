@@ -19,7 +19,7 @@
 
 class SeekStrategy : public Strategy {
 public:
-    sf::Vector2f getNextMove(GameObject &gameObject, Game &game) override;
+    sf::Vector2f getNextMove(GameObject &gameObject, const std::list<Object*> &objects,Player &player,TiledMap &map) override;
     void addLocation(sf::Vector2i location);
     
 private:

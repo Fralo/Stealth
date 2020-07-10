@@ -7,13 +7,15 @@
 
 #include <SFML/System.hpp>
 #include "GameObject.hpp"
+#include "Object.hpp"
+#include "Player.hpp"
 
 class Strategy {
 public:
     /*
      * Returns a vector of length 1 indicating direction of next movement
      */
-    virtual sf::Vector2f getNextMove(GameObject &gameObject, Game &game) = 0;
+    virtual sf::Vector2f getNextMove(GameObject &gameObject, const std::list<Object*> &objects,Player &player,TiledMap &map) = 0;
 };
 
 

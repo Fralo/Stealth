@@ -24,7 +24,7 @@ public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
     //void update(Game &game) override;
     void applyDamage(int damage);
-    void update(const std::list<Object*> &objects,Player &player);
+    void update(const std::list<Object*> &objects,Player &player,TiledMap &map);
     bool isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target);
     int getHealth() const;
     EnemyView view;
@@ -49,7 +49,7 @@ private:
     sf::Vector2f getAbsoluteCoordinates(sf::Vector2f relatives) const;
     float distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2);
     double Angle2D(float x1, float y1, float x2, float y2);
-    bool checkObstacles(Game &game);
+    bool checkObstacles(const std::list<Object*> &objects,Player &player);
     bool lineLine(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 };
 

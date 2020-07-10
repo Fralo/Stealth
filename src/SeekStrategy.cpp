@@ -8,7 +8,7 @@ void SeekStrategy::addLocation(sf::Vector2i location) {
     locations.emplace_back(location / GRID_SCALE_FACTOR);
 }
 
-sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
+sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, const std::list<Object*> &objects,Player &player,TiledMap &map) {
     if (locations.empty())
         return {0, 0};
 
@@ -23,14 +23,14 @@ sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, Game &game) {
     if (path == nullptr && elapsedCacheTime > 500 || elapsedCacheTime > (2000) || (path != nullptr && path->empty())) {
         std::forward_list<sf::IntRect> obstacles;
 
-        for (auto &&obj : game.objects) {
+        for (auto &&obj : objects) {
             auto cb = sf::IntRect(obj->tile.collisionBox);
 
             obstacles.push_front({static_cast<int>((obj->position.x + cb.left) / GRID_SCALE_FACTOR), static_cast<int>((obj->position.y + cb.top) / GRID_SCALE_FACTOR),
                                   static_cast<int>(std::ceil(((float) cb.width) / GRID_SCALE_FACTOR)), static_cast<int>(std::ceil(((float) cb.height) / GRID_SCALE_FACTOR))});
         }
 
-        auto astar = new Astar(obstacles, sf::Vector2<uint8_t>(game.map->getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
+        auto astar = new Astar(obstacles, sf::Vector2<uint8_t>(map.getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
         path = astar->getPath(position, locations.at(currentTarget));
 
         cacheTime.restart();
