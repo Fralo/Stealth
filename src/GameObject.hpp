@@ -31,7 +31,7 @@ public:
 
 // protected:
     // TODO: make tile private and add getters and setters
-    Tile &tile;
+    Tile *tile;
 
 private:
     int health = 100;

@@ -263,25 +263,25 @@ bool Enemy::checkObstacles(const std::list<Object*> &objects,Player &player){
     for (Object *obj : objects)
     {
         bool top = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
-                            obj->tile.collisionBox.left,
-                            obj->tile.collisionBox.top,
-                            obj->tile.collisionBox.left + obj->tile.collisionBox.width,
-                            obj->tile.collisionBox.top);
+                            obj->tile->collisionBox.left,
+                            obj->tile->collisionBox.top,
+                            obj->tile->collisionBox.left + obj->tile->collisionBox.width,
+                            obj->tile->collisionBox.top);
         bool left = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
-                             obj->tile.collisionBox.left,
-                             obj->tile.collisionBox.top,
-                             obj->tile.collisionBox.left,
-                             obj->tile.collisionBox.top - obj->tile.collisionBox.height);
+                             obj->tile->collisionBox.left,
+                             obj->tile->collisionBox.top,
+                             obj->tile->collisionBox.left,
+                             obj->tile->collisionBox.top - obj->tile->collisionBox.height);
         bool bottom = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
-                               obj->tile.collisionBox.top,
-                               obj->tile.collisionBox.top -obj->tile.collisionBox.height,
-                               obj->tile.collisionBox.left + obj->tile.collisionBox.width,
-                               obj->tile.collisionBox.top - obj->tile.collisionBox.height);
+                               obj->tile->collisionBox.top,
+                               obj->tile->collisionBox.top -obj->tile->collisionBox.height,
+                               obj->tile->collisionBox.left + obj->tile->collisionBox.width,
+                               obj->tile->collisionBox.top - obj->tile->collisionBox.height);
         bool right = lineLine(this->position.x, this->position.y, player.position.x, player.position.y,
-                              obj->tile.collisionBox.left + obj->tile.collisionBox.width,
-                              obj->tile.collisionBox.top - obj->tile.collisionBox.height,
-                              obj->tile.collisionBox.left + obj->tile.collisionBox.width,
-                              obj->tile.collisionBox.top);
+                              obj->tile->collisionBox.left + obj->tile->collisionBox.width,
+                              obj->tile->collisionBox.top - obj->tile->collisionBox.height,
+                              obj->tile->collisionBox.left + obj->tile->collisionBox.width,
+                              obj->tile->collisionBox.top);
 
         if (top || left || bottom || right)
             checkObstacle = false;
