@@ -35,7 +35,7 @@ void Game::update(Stealth &stealth) {
      */
     for (Enemy *enemy : enemies)
         enemy->update(*this);
-    player->update(*this);
+    player->update(objects, *map);
     cursor.update(*this, stealth.window);
 
     updateMapView(stealth);

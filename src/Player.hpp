@@ -16,7 +16,13 @@
 class Player : public GameObject {
 public:
     Player(sf::Vector2f position, Weapon weapon);
-    void update(Game &game) override;
+
+    /*
+     * TODO: remove GameObject::update(Game&)
+     */
+    void update(Game &game) override {};
+
+    void update(const std::list<Object*>& objects, TiledMap &map);
 
     void setNextPos(sf::Vector2f next);
     bool move;

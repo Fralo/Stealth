@@ -12,7 +12,7 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
     movingSfx.setBuffer(movingSfxBuffer);
 }
 
-void Player::update(Game &game) {
+void Player::update(const std::list<Object*>& objects, TiledMap &map) {
 
     auto scaledPos = Vector2u8(position / (float) GRID_SCALE_FACTOR);
     auto scaledTargetPos = Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
@@ -26,14 +26,14 @@ void Player::update(Game &game) {
     if (path == nullptr && elapsedCacheTime > 500 || elapsedCacheTime > (2000) || (path != nullptr && path->empty())) {
         std::forward_list<sf::IntRect> obstacles;
 
-        for (auto &&obj : game.objects) {
+        for (auto &&obj : objects) {
             auto cb = sf::IntRect(obj->tile.collisionBox);
 
             obstacles.push_front({static_cast<int>((obj->position.x + cb.left) / GRID_SCALE_FACTOR), static_cast<int>((obj->position.y + cb.top) / GRID_SCALE_FACTOR),
                                   static_cast<int>(std::ceil(((float) cb.width) / GRID_SCALE_FACTOR)), static_cast<int>(std::ceil(((float) cb.height) / GRID_SCALE_FACTOR))});
         }
 
-        auto astar = new Astar(obstacles, Vector2u8(game.map->getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
+        auto astar = new Astar(obstacles, Vector2u8(map.getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
 
         path = astar->getPath(scaledPos, scaledTargetPos);
 
