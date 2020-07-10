@@ -26,7 +26,6 @@ public:
     void applyDamage(int damage);
     void update(const std::list<Object*> &objects,Player &player,TiledMap &map);
     bool isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target);
-    int getHealth() const;
     EnemyView view;
 
 
@@ -41,7 +40,6 @@ private:
     float orientationTarget;
     float sightSwingVariation = 0;
     Weapon weapon;
-    int health = 100;
 
     sf::ConvexShape getSightTraigle() const;
     std::vector<sf::Vector2f> getViewVertices() const;

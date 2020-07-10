@@ -11,6 +11,19 @@ class GameObject : public sf::Drawable, public sf::Transformable {
 public:
     virtual ~GameObject() override {};
     sf::Vector2f position;
+
+    int getHealth() const {
+        return health;
+    }
+
+    void setHealth(int health) {
+        GameObject::health = health;
+    }
+
+private:
+    int health = 100;
+
+
 };
 
 

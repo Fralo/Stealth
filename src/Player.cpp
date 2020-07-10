@@ -64,7 +64,7 @@ void Player::update(const std::list<Object*>& objects, TiledMap &map) {
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
-    sf::RectangleShape liferect({static_cast<float>(health),20});
+    sf::RectangleShape liferect({static_cast<float>(getHealth()),20});
     sf::CircleShape enemyShape(10);
 
     liferect.setFillColor(sf::Color(0,200,0));
@@ -84,9 +84,6 @@ void Player::setNextPos(sf::Vector2f next) {
 }
 
 void Player::applyDamage(int damage) {
-    health-=damage;
+    setHealth(getHealth()-damage);
 }
 
-int Player::getHealth() const {
-    return health;
-}
