@@ -13,16 +13,13 @@ Stealth::Stealth() {
     changeState(new LoadScreen());
 
     while(window.isOpen()) {
-        gameState->update(*this);
-
-        delete garbageState;
-        garbageState = nullptr;
+        if(!stateStack.empty())
+            stateStack.front()->update(*this);
     }
 
 }
 
 void Stealth::changeState(GameState *newGameState) {
-    garbageState = gameState;
-    gameState = newGameState;
-    gameState->init(*this);
+    stateStack.push_front(newGameState);
+    newGameState->init(*this);
 }

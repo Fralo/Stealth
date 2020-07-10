@@ -20,8 +20,7 @@ public:
     void changeState(GameState *newGameState);
 
 private:
-    GameState *gameState = nullptr;
-    GameState *garbageState = nullptr;
+    std::forward_list<GameState*> stateStack;
 };
 
 

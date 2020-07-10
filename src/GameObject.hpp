@@ -7,8 +7,6 @@
 
 #include <SFML/Graphics.hpp>
 
-class Game;
-
 class GameObject : public sf::Drawable, public sf::Transformable {
 public:
     virtual ~GameObject() override {};
