@@ -145,7 +145,7 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
     target.draw(sightTriangle);
 
-    sf::RectangleShape re({static_cast<float>(health) / 5, 2});
+    sf::RectangleShape re({static_cast<float>(getHealth()) / 5, 2});
     re.setPosition({position.x, position.y - 20});
     re.setFillColor(sf::Color::Red);
 
@@ -305,12 +305,10 @@ bool Enemy::lineLine(float x1, float y1, float x2, float y2, float x3, float y3,
 }
 
 void Enemy::applyDamage(int damage) {
-    health -= damage;
+    setHealth(getHealth()-damage);
 }
 
-int Enemy::getHealth() const {
-    return health;
-}
+
 
 
 
