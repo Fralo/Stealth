@@ -6,27 +6,32 @@
 #define STEALTH_GAMEOBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Tile.hpp"
 
 class GameObject : public sf::Drawable, public sf::Transformable {
 public:
     virtual ~GameObject() override {};
     sf::Vector2f position;
 
-    const sf::Vector2f &getPosition1() const {
+    sf::Vector2f getPos() const {
         return position;
     }
 
-    void setPosition1(const sf::Vector2f &position) {
-        GameObject::position = position;
+    void setPos(sf::Vector2f &pos) {
+        position = pos;
     }
 
     int getHealth() const {
         return health;
     }
 
-    void setHealth(int health) {
-        GameObject::health = health;
+    void setHealth(int h) {
+        health = h;
     }
+
+// protected:
+    // TODO: make tile private and add getters and setters
+    Tile &tile;
 
 private:
     int health = 100;

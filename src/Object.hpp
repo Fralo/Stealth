@@ -17,14 +17,13 @@ struct ObjectProperties {
 class Object : public GameObject {
 public:
     Object(Tile &tile, sf::Vector2f position, ObjectProperties properties);
-    void setHealth(int health) const ;
+    void setHealth(int health) const;
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
     sf::Vector2f position;
-    Tile &tile;
     ObjectProperties properties;
 };
 
