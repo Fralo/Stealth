@@ -12,14 +12,16 @@ Stealth::Stealth() {
 
     changeState(new LoadScreen());
 
-    while(window.isOpen()) {
+    while(window.isOpen())
         if(!stateStack.empty())
             stateStack.front()->update(*this);
-    }
 
 }
 
 void Stealth::changeState(GameState *newGameState) {
+    if(!stateStack.empty())
+        stateStack.front()->unload();
+
     stateStack.push_front(newGameState);
     newGameState->init(*this);
 }

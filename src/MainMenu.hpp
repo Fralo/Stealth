@@ -22,6 +22,7 @@ public:
     ~MainMenu();
 
     void init(Stealth &stealth) override;
+    void unload() override;
     void update(Stealth &stealth) override;
 
 protected:
@@ -29,7 +30,7 @@ protected:
 
 private:
     sf::Clock clock;
-    sf::Music music;
+    sf::Music *music;
     sf::SoundBuffer selectionSfxBuffer;
     sf::SoundBuffer unselectionSfxBuffer;
     sf::Sound selectionSfx;

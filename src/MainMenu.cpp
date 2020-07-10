@@ -5,7 +5,7 @@
 #include "MainMenu.hpp"
 
 MainMenu::~MainMenu() {
-    music.stop();
+    this->unload();
 }
 
 void MainMenu::init(Stealth &stealth) {
@@ -49,10 +49,18 @@ void MainMenu::init(Stealth &stealth) {
     selectCursor.loadFromSystem(sf::Cursor::Hand);
     defaultCursor.loadFromSystem(sf::Cursor::Arrow);
 
-    music.openFromFile("../res/music/Stealth_menu.ogg");
-    music.setLoop(true);
-    music.setVolume(50);
-    music.play();
+    music = new sf::Music();
+    music->openFromFile("../res/music/Stealth_menu.ogg");
+    music->setLoop(true);
+    music->setVolume(50);
+    music->play();
+}
+
+void MainMenu::unload() {
+    // Unload heavy assets
+    delete music;
+
+    // TODO: unload more heavy things
 }
 
 void MainMenu::update(Stealth &stealth) {
