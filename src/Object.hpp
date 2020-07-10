@@ -18,8 +18,6 @@ class Object : public GameObject {
 public:
     Object(Tile &tile, sf::Vector2f position, ObjectProperties properties);
 
-    void update(Game &game) override;
-
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 

@@ -6,9 +6,6 @@
 
 Object::Object(Tile &tile, sf::Vector2f position, ObjectProperties properties) : tile(tile), position(position), properties(properties) {}
 
-void Object::update(Game &game) {
-
-}
 
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     tile.setPosition(position);

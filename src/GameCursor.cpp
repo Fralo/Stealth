@@ -38,6 +38,6 @@ void GameCursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 }
 
-void GameCursor::update(Game &game, sf::RenderWindow &window) {
+void GameCursor::update(sf::RenderWindow &window) {
     position = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }

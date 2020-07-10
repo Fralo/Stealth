@@ -11,7 +11,7 @@
 #include "Strategy.hpp"
 #include "Weapon.h"
 #include "Player.hpp"
-#include "Game.hpp"
+
 
 struct EnemyView {
     float angle;

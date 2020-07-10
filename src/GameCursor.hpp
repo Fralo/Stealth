@@ -6,6 +6,7 @@
 #define STEALTH_GAMECURSOR_HPP
 
 #include <SFML/Graphics.hpp>
+#
 #include <sstream>
 #include "GameObject.hpp"
 #include "macro.h"
@@ -14,7 +15,7 @@ class GameCursor : public sf::Drawable, public sf::Transformable {
 public:
     GameCursor();
 
-    void update(Game &game, sf::RenderWindow &window);
+    void update(sf::RenderWindow &window);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;

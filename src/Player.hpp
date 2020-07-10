@@ -6,10 +6,11 @@
 #define STEALTH_PLAYER_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "GameObject.hpp"
 #include "Weapon.h"
-#include "Game.hpp"
 #include "Astar.hpp"
+#include "TiledMap.hpp"
 
 #define GRID_SCALE_FACTOR 16
 
@@ -20,20 +21,14 @@ public:
     /*
      * TODO: remove GameObject::update(Game&)
      */
-    void update(Game &game) override {};
-
     void update(const std::list<Object*>& objects, TiledMap &map);
-
     void setNextPos(sf::Vector2f next);
     bool move;
     void applyDamage(int damage);
+    int getHealth() const;
+
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-
-private:
-    int health = 100;
-public:
-    int getHealth() const;
 
 private:
     Weapon weapon;
@@ -41,7 +36,7 @@ private:
     sf::Clock cacheTime;
     Path *path = nullptr;
 
-
+    int health = 100;
     sf::SoundBuffer movingSfxBuffer;
     sf::Sound movingSfx;
 };

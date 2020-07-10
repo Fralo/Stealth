@@ -12,7 +12,6 @@ class Game;
 class GameObject : public sf::Drawable, public sf::Transformable {
 public:
     virtual ~GameObject() override {};
-    virtual void update(Game &game) = 0;
     sf::Vector2f position;
 };
 
