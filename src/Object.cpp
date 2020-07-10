@@ -20,3 +20,8 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     }
 
 }
+
+void Object::setHealth(int health) const {
+    if(properties.destroyable)
+        setHealth(health);
+}

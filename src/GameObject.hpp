@@ -12,6 +12,14 @@ public:
     virtual ~GameObject() override {};
     sf::Vector2f position;
 
+    const sf::Vector2f &getPosition1() const {
+        return position;
+    }
+
+    void setPosition1(const sf::Vector2f &position) {
+        GameObject::position = position;
+    }
+
     int getHealth() const {
         return health;
     }
