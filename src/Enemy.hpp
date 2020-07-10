@@ -22,19 +22,16 @@ struct EnemyView {
 class Enemy : public GameObject {
 public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
-    void update(Game &game) override;
+    //void update(Game &game) override;
+    void applyDamage(int damage);
+    void update(const std::list<Object*> &objects,Player &player);
     bool isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target);
+    int getHealth() const;
     EnemyView view;
 
-    void applyDamage(int damage);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-
-private:
-    int health = 100;
-public:
-    int getHealth() const;
 
 private:
     sf::Clock clock;
@@ -44,6 +41,7 @@ private:
     float orientationTarget;
     float sightSwingVariation = 0;
     Weapon weapon;
+    int health = 100;
 
     sf::ConvexShape getSightTraigle() const;
     std::vector<sf::Vector2f> getViewVertices() const;

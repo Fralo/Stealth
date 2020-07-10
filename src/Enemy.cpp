@@ -27,7 +27,13 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
             */
 }
 
-void Enemy::update(Game &game) {
+
+void Enemy::update(const std::list<Object*> &objects,Player &player) {
+
+}
+
+
+/*void Enemy::update(Game &game) {
 
     //TODO: check health
 
@@ -80,7 +86,7 @@ void Enemy::update(Game &game) {
 
     }
 
-}
+}*/
 
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     sf::CircleShape enemyShape(10);
@@ -259,6 +265,8 @@ void Enemy::applyDamage(int damage) {
 int Enemy::getHealth() const {
     return health;
 }
+
+
 
 
 
