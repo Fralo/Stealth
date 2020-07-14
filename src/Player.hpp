@@ -18,10 +18,7 @@ class Player : public GameObject {
 public:
     Player(sf::Vector2f position, Weapon weapon);
 
-    /*
-     * TODO: remove GameObject::update(Game&)
-     */
-    void update(const std::list<Object*>& objects, TiledMap &map);
+    void update(const std::list<std::shared_ptr<Object>> &objects, TiledMap &map);
     void setNextPos(sf::Vector2f next);
     bool move;
     void applyDamage(int damage);

@@ -5,7 +5,7 @@
 #ifndef STEALTH_TILEDLAYER_HPP
 #define STEALTH_TILEDLAYER_HPP
 
-
+#include "cfg.hpp"
 #include <SFML/Graphics.hpp>
 #include <map>
 #include <iostream>
@@ -28,8 +28,9 @@ private:
     const sf::Vector2u layerSize;
     std::map<unsigned int, std::map<unsigned int, std::shared_ptr<sf::Sprite>>> tiles;
 
-    // TODO: debug only, remove
+#ifdef STEALTH_GRAPHIC_DEBUG
     sf::Font font;
+#endif
 };
 
 

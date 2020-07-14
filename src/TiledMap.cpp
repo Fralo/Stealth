@@ -9,7 +9,7 @@
 /*
  * Deserializes TMX map
  */
-TiledMap::TiledMap(std::list<Object *> &objects) : objects(objects) {
+TiledMap::TiledMap(std::list<std::shared_ptr<Object>> &objects) : objects(objects) {
     xml::XMLDocument xml;
     xml::XMLError error = xml.LoadFile(resource("maps/01-map.tmx")); // TODO: get map from constructor
 
@@ -49,7 +49,7 @@ TiledMap::TiledMap(std::list<Object *> &objects) : objects(objects) {
      */
     renderedMap.create(mapWidth * mapTileWidth, mapHeight * mapTileHeight);
     renderedMap.clear();
-    for (TiledLayer *layer : mapLayers)
+    for (std::shared_ptr<TiledLayer> layer : mapLayers)
         renderedMap.draw(*layer);
     renderedMap.display();
     renderedMapSprite.setTexture(renderedMap.getTexture());
@@ -129,14 +129,14 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
     }
 }
 
-void TiledMap::loadLayerGroup(xml::XMLElement &group, std::list<TiledLayer *> &layerList) {
+void TiledMap::loadLayerGroup(xml::XMLElement &group, std::list<std::shared_ptr<TiledLayer>> &layerList) {
     for (xml::XMLElement *layer = group.FirstChildElement("layer");
          layer != nullptr; layer = layer->NextSiblingElement("layer"))
         layerList.push_back(makeLayer(*layer));
 }
 
-TiledLayer *TiledMap::makeLayer(xml::XMLElement &layer) {
-    auto *tiledLayer = new TiledLayer(sf::Vector2u(mapWidth, mapHeight), sf::Vector2u(mapTileWidth, mapTileHeight));
+std::shared_ptr<TiledLayer> TiledMap::makeLayer(xml::XMLElement &layer) {
+    auto tiledLayer = std::make_shared<TiledLayer>(sf::Vector2u(mapWidth, mapHeight), sf::Vector2u(mapTileWidth, mapTileHeight));
 
     std::stringstream data;
     data << layer.FirstChildElement("data")->GetText();
@@ -163,23 +163,23 @@ TiledLayer *TiledMap::makeLayer(xml::XMLElement &layer) {
     return tiledLayer;
 }
 
-void TiledMap::loadObjectGroup(xml::XMLElement &group, std::list<Object *> &objectList) {
+void TiledMap::loadObjectGroup(xml::XMLElement &group, std::list<std::shared_ptr<Object>> &objectList) {
     for (xml::XMLElement *object = group.FirstChildElement("object");
          object != nullptr; object = object->NextSiblingElement("object"))
         objectList.push_back(makeObject(*object));
 }
 
-Object *TiledMap::makeObject(xml::XMLElement &xmlObject) {
+std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
     int spriteId = xmlObject.IntAttribute("gid");
     ObjectProperties properties = {
             xmlObject.BoolAttribute("destroyable", false),
             xmlObject.BoolAttribute("explosive", false)
     };
 
-    auto *obj = new Object(*tiles[spriteId], {
+    auto obj = std::make_shared<Object>(*tiles[spriteId], sf::Vector2f(
             xmlObject.FloatAttribute("x"),
             xmlObject.FloatAttribute("y") - tiles[spriteId]->getTextureRect().height
-    }, properties);
+    ), properties);
     return obj;
 }
 
@@ -191,6 +191,6 @@ void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(renderedMapSprite);
 
     // TODO: draw objects based on player y position
-    for (Object *obj : objects)
+    for (const std::shared_ptr<Object>& obj : objects)
         target.draw(*obj);
 }

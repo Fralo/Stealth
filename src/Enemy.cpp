@@ -10,25 +10,10 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
     setPos(position);
     strategy = std::unique_ptr<Strategy>(defaultStrategy);
     orientationTarget = orientation;
-
-    /*
-    std::cout << "Created Enemy" << std::endl
-            << "  Position " << std::endl
-            << "     x: " << position.x << std::endl
-            << "     y: " << position.y << std::endl
-            << "     o: " << orientation << std::endl
-            << "  Weapon:" << std::endl
-            << "     Rate:   " << weapon.rate << std::endl
-            << "     Damage: " << weapon.damage << std::endl
-            << "  View: " << std::endl
-            << "     Distance: " << view.distance << std::endl
-            << "     Angle:    " << view.angle << std::endl
-            << "     Swing:    " << view.swing << std::endl;
-            */
 }
 
 
-void Enemy::update(const std::list<Object*> &objects,Player &player,TiledMap &map) {
+void Enemy::update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map) {
     //TODO: check health
 
     //generate the vector of vertices to find the player
@@ -257,10 +242,10 @@ float Enemy::distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2) {
     return sqrtf((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y));
 }
 
-bool Enemy::checkObstacles(const std::list<Object*> &objects,Player &player){
+bool Enemy::checkObstacles(const std::list<std::shared_ptr<Object>> &objects,Player &player){
     bool checkObstacle = true;
 
-    for (Object *obj : objects)
+    for (std::shared_ptr<Object> obj : objects)
     {
         bool top = lineLine(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
                             obj->tile->collisionBox.left,

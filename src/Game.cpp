@@ -7,7 +7,7 @@
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
 
-    map = new TiledMap(objects);
+    map = std::make_shared<TiledMap>(objects);
     loadMapConfig();
 
     view.setCenter(sf::Vector2f(player->getPos()));
@@ -33,7 +33,7 @@ void Game::update(Stealth &stealth) {
     /*
      * Update objects
      */
-    for (Enemy *enemy : enemies)
+    for (std::shared_ptr<Enemy> enemy : enemies)
         enemy->update(objects,*player,*map);
     player->update(objects, *map);
     cursor.update(stealth.window);
@@ -45,7 +45,7 @@ void Game::update(Stealth &stealth) {
     stealth.window.clear();
 
     stealth.window.draw(*map);
-    for (Enemy *enemy : enemies)
+    for (std::shared_ptr<Enemy> enemy : enemies)
         stealth.window.draw(*enemy);
     stealth.window.draw(*player);
     stealth.window.draw(cursor);
@@ -74,11 +74,12 @@ void Game::loadMapConfig() {
 
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
     xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
-    player = new Player({
+    player = std::make_shared<Player>(
+                        sf::Vector2f(
                                 playerSpawn->FloatAttribute("x"),
                                 playerSpawn->FloatAttribute("y")
-                        },
-                        {
+                        ),
+                        Weapon {
                                 xmlPlayerWeapon->IntAttribute("rate"),
                                 xmlPlayerWeapon->IntAttribute("damage")
                         });
@@ -99,18 +100,18 @@ void Game::loadEnemies(xml::XMLElement *root) {
 
         xml::XMLElement *weapon = enemy->FirstChildElement("weapon");
 
-        enemies.push_front(new Enemy(
-                {
+        enemies.push_front(std::make_shared<Enemy>(
+                sf::Vector2f(
                         spawn->FloatAttribute("x"),
                         spawn->FloatAttribute("y")
-                },
+                ),
                 spawn->FloatAttribute("orientation"),
-                {
+                Weapon {
                         weapon->IntAttribute("rate"),
                         weapon->IntAttribute("damage"),
                         weapon->IntAttribute("distance")
                 },
-                {
+                EnemyView {
                         enemy->FloatAttribute("sight-angle"),
                         enemy->UnsignedAttribute("sight-distance"),
                         enemy->FloatAttribute("swing")

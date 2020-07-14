@@ -5,7 +5,9 @@
 #include "TiledLayer.hpp"
 
 TiledLayer::TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize) : layerSize(layerSize), mapTileSize(mapTileSize){
+#ifdef STEALTH_GRAPHIC_DEBUG
     font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
+#endif
 }
 
 std::shared_ptr<sf::Sprite> TiledLayer::getTileSprite(unsigned int col, unsigned int row) const {
@@ -41,7 +43,7 @@ void TiledLayer::draw(sf::RenderTarget &target, sf::RenderStates states) const {
                 target.draw(*tile);
             }
 
-            // TODO: remove debug grid
+#ifdef STEALTH_GRAPHIC_DEBUG
             sf::RectangleShape tileRect(sf::Vector2f(mapTileSize.x, mapTileSize.y));
             tileRect.setPosition(sf::Vector2f(col * mapTileSize.x, row * mapTileSize.y));
             tileRect.setFillColor(sf::Color::Transparent);
@@ -58,5 +60,7 @@ void TiledLayer::draw(sf::RenderTarget &target, sf::RenderStates states) const {
             txt.setPosition(sf::Vector2f(col * mapTileSize.x + 5, row * mapTileSize.y + 5));
             txt.setScale(0.4, 0.4);
             target.draw(txt);
+#endif
+
         }
 }

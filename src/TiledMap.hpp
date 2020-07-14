@@ -22,11 +22,11 @@ namespace xml = tinyxml2;
 
 class TiledMap : public sf::Drawable, public sf::Transformable {
 public:
-    TiledMap(std::list<Object*> &objects);
+    TiledMap(std::list<std::shared_ptr<Object>> &objects);
     TiledMap() = delete;
 
-    std::list<TiledLayer*> mapLayers;
-    std::list<Object*> &objects;
+    std::list<std::shared_ptr<TiledLayer>> mapLayers;
+    std::list<std::shared_ptr<Object>> &objects;
     sf::Vector2u getMapActualSize() const;
 
 protected:
@@ -43,10 +43,10 @@ private:
     sf::Sprite renderedMapSprite;
 
     void loadTiles(xml::XMLElement *map);
-    void loadLayerGroup(xml::XMLElement &group, std::list<TiledLayer*> &layerList);
-    TiledLayer *makeLayer(xml::XMLElement &layer);
-    void loadObjectGroup(xml::XMLElement &group, std::list<Object*> &objectList);
-    Object *makeObject(xml::XMLElement &xmlObject);
+    void loadLayerGroup(xml::XMLElement &group, std::list<std::shared_ptr<TiledLayer>> &layerList);
+    std::shared_ptr<TiledLayer> makeLayer(xml::XMLElement &layer);
+    void loadObjectGroup(xml::XMLElement &group, std::list<std::shared_ptr<Object>> &objectList);
+   std::shared_ptr<Object> makeObject(xml::XMLElement &xmlObject);
 };
 
 

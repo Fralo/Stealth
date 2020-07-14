@@ -8,7 +8,7 @@ void SeekStrategy::addLocation(sf::Vector2i location) {
     locations.emplace_back(location / GRID_SCALE_FACTOR);
 }
 
-sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, const std::list<Object*> &objects,Player &player,TiledMap &map) {
+sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map) {
     if (locations.empty())
         return {0, 0};
 

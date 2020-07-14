@@ -4,7 +4,7 @@
 
 #include "HunterStrategy.hpp"
 
-sf::Vector2f HunterStrategy::getNextMove(GameObject &gameObject,const std::list<Object*> &objects,Player &player,TiledMap &map) {
+sf::Vector2f HunterStrategy::getNextMove(GameObject &gameObject,const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map) {
     auto position = Vector2u8(gameObject.getPos() / (float) GRID_SCALE_FACTOR);
     auto playerPosition = Vector2u8(player.getPos() / (float) GRID_SCALE_FACTOR);
 

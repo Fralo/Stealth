@@ -6,8 +6,9 @@
 
 GameCursor::GameCursor() {
     cursorTexture.loadFromFile(resource("cursors.png"));
-
+#ifdef STEALTH_GRAPHIC_DEBUG
     font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
+#endif
 }
 
 void GameCursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -18,7 +19,7 @@ void GameCursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     cursor.setScale(sf::Vector2f(1, 1));
     target.draw(cursor);
 
-    // TODO: debug, remove
+#ifdef STEALTH_GRAPHIC_DEBUG
     sf::Text txt;
     txt.setFont(font);
     std::stringstream coord;
@@ -34,8 +35,7 @@ void GameCursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
     target.draw(re);
     target.draw(txt);
-
-
+#endif
 }
 
 void GameCursor::update(sf::RenderWindow &window) {

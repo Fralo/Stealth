@@ -33,10 +33,10 @@ public:
     void init(Stealth &stealth) override;
     void update(Stealth &stealth) override;
 
-    std::forward_list<Enemy*> enemies;
-    std::list<Object*> objects;
-    Player *player;
-    TiledMap *map;
+    std::forward_list<std::shared_ptr<Enemy>> enemies;
+    std::list<std::shared_ptr<Object>> objects;
+    std::shared_ptr<Player> player;
+    std::shared_ptr<TiledMap> map;
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;

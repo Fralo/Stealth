@@ -12,7 +12,7 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
     movingSfx.setBuffer(movingSfxBuffer);
 }
 
-void Player::update(const std::list<Object*>& objects, TiledMap &map) {
+void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap &map) {
 
     auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
     auto scaledTargetPos = Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
