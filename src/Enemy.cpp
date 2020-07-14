@@ -8,7 +8,7 @@
 Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy)
         : orientation(orientation), defaultStrategy(defaultStrategy), weapon(weapon), view(view) {
     setPos(position);
-    strategy = defaultStrategy;
+    strategy = std::unique_ptr<Strategy>(defaultStrategy);
     orientationTarget = orientation;
 
     /*
@@ -41,7 +41,7 @@ void Enemy::update(const std::list<Object*> &objects,Player &player,TiledMap &ma
         distanceBetweenTwoPoints(coordinates.at(1), getPos()))
         if (isTargetInside(coordinates, player.getPos()))
             if (checkObstacles(objects, player))
-                strategy = new HunterStrategy();
+                strategy = std::make_shared<HunterStrategy>();
             else
                 std::cout << "ti potrei vedere" << std::endl;
 

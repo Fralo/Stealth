@@ -7,7 +7,6 @@
 Stealth::Stealth() {
     window.create(sf::VideoMode(800, 600), "Stealth", sf::Style::Default);
     window.setFramerateLimit(30);
-    //window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
 
     changeState(new LoadScreen());
@@ -22,6 +21,6 @@ void Stealth::changeState(GameState *newGameState) {
     if(!stateStack.empty())
         stateStack.front()->unload();
 
-    stateStack.push_front(newGameState);
+    stateStack.push_front(std::unique_ptr<GameState>(newGameState));
     newGameState->init(*this);
 }

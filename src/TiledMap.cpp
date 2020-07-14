@@ -4,6 +4,8 @@
 
 #include "TiledMap.hpp"
 
+#include <memory>
+
 /*
  * Deserializes TMX map
  */
@@ -67,7 +69,7 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
         /*
          * Loads and stores sf::Texture
          */
-        auto *imageTexture = new sf::Texture();
+        auto imageTexture = std::make_shared<sf::Texture>();
         imageTexture->loadFromFile(imagePath);
         tilesets.push_front(imageTexture);
 
@@ -82,7 +84,7 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
             int row = i / columns;
             int col = i % columns;
 
-            auto *sprite = new Tile();
+            auto sprite = std::make_shared<Tile>();
             sprite->setTexture(*imageTexture);
             int layerTileWidth = tileset->IntAttribute("tilewidth");
             int layerTileHeight = tileset->IntAttribute("tileheight");
@@ -179,14 +181,6 @@ Object *TiledMap::makeObject(xml::XMLElement &xmlObject) {
             xmlObject.FloatAttribute("y") - tiles[spriteId]->getTextureRect().height
     }, properties);
     return obj;
-}
-
-sf::Vector2u TiledMap::getMapSize() const {
-    return sf::Vector2u(mapWidth, mapHeight);
-}
-
-sf::Vector2u TiledMap::getTileSize() const {
-    return sf::Vector2u(mapTileWidth, mapTileHeight);
 }
 
 sf::Vector2u TiledMap::getMapActualSize() const {

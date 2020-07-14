@@ -8,7 +8,7 @@ TiledLayer::TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize) : layer
     font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
 }
 
-sf::Sprite *TiledLayer::getTileSprite(unsigned int col, unsigned int row) const {
+std::shared_ptr<sf::Sprite> TiledLayer::getTileSprite(unsigned int col, unsigned int row) const {
     if(row >= layerSize.y || col >= layerSize.x)
         return nullptr;
 
@@ -18,14 +18,14 @@ sf::Sprite *TiledLayer::getTileSprite(unsigned int col, unsigned int row) const 
     if(!tiles.at(row).contains(col))
         return nullptr;
 
-    sf::Sprite *tile = tiles.at(row).at(col);
+    auto tile = tiles.at(row).at(col);
     sf::IntRect tileSize = tile->getTextureRect();
     tile->setPosition(sf::Vector2f(col * mapTileSize.x, row * mapTileSize.y - (tileSize.height - mapTileSize.y)));
 
     return tile;
 }
 
-bool TiledLayer::setTileSprite(unsigned int row, unsigned int col, sf::Sprite *sprite) {
+bool TiledLayer::setTileSprite(unsigned int row, unsigned int col, std::shared_ptr<sf::Sprite> sprite) {
     if(row >= layerSize.y || col >= layerSize.x)
         return false;
 
@@ -34,7 +34,7 @@ bool TiledLayer::setTileSprite(unsigned int row, unsigned int col, sf::Sprite *s
 }
 
 void TiledLayer::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    sf::Sprite *tile;
+    std::shared_ptr<sf::Sprite> tile;
     for(int row = 0; row < layerSize.y; row++)
         for(int col = 0; col < layerSize.x; col++) {
             if ((tile = getTileSprite(col, row)) != nullptr) {

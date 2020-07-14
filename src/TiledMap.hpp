@@ -11,6 +11,7 @@
 #include <list>
 #include <iostream>
 #include <string>
+#include <memory>
 #include <sstream>
 #include "macro.h"
 #include "TiledLayer.hpp"
@@ -26,9 +27,8 @@ public:
 
     std::list<TiledLayer*> mapLayers;
     std::list<Object*> &objects;
-    sf::Vector2u getMapSize() const;
-    sf::Vector2u getTileSize() const;
     sf::Vector2u getMapActualSize() const;
+
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
@@ -37,8 +37,8 @@ private:
     int mapTileHeight;
     int mapHeight;
     int mapWidth;
-    std::forward_list<sf::Texture*> tilesets;
-    std::map<int, Tile*> tiles;
+    std::forward_list<std::shared_ptr<sf::Texture>> tilesets;
+    std::map<int, std::shared_ptr<Tile>> tiles;
     sf::RenderTexture renderedMap;
     sf::Sprite renderedMapSprite;
 

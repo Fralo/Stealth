@@ -7,6 +7,7 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <memory>
 #include "GameObject.hpp"
 #include "Strategy.hpp"
 #include "Weapon.h"
@@ -22,7 +23,6 @@ struct EnemyView {
 class Enemy : public GameObject {
 public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
-    //void update(Game &game) override;
     void applyDamage(int damage);
     void update(const std::list<Object*> &objects,Player &player,TiledMap &map);
     bool isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target);
@@ -34,8 +34,8 @@ protected:
 
 private:
     sf::Clock clock;
-    Strategy *defaultStrategy;
-    Strategy *strategy;
+    std::shared_ptr<Strategy> defaultStrategy;
+    std::shared_ptr<Strategy> strategy;
     float orientation;
     float orientationTarget;
     float sightSwingVariation = 0;

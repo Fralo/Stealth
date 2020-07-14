@@ -20,7 +20,7 @@ public:
     void changeState(GameState *newGameState);
 
 private:
-    std::forward_list<GameState*> stateStack;
+    std::forward_list<std::unique_ptr<GameState>> stateStack;
 };
 
 
