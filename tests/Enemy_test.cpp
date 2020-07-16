@@ -3,7 +3,7 @@
 //
 
 #define CATCH_CONFIG_ENABLE_BENCHMARKING
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include "../src/Enemy.hpp"
 
 TEST_CASE("Check if a target is inside a polygon", "[Enemy]") {
