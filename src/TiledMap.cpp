@@ -4,8 +4,6 @@
 
 #include "TiledMap.hpp"
 
-#include <memory>
-
 /*
  * Deserializes TMX map
  */
@@ -103,28 +101,42 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
              tileDef != nullptr; tileDef = tileDef->NextSiblingElement("tile")) {
             int tileDefId = tileDef->IntAttribute("id");
 
+            // load cx and cbox if present
             xml::XMLElement *objGroup = tileDef->FirstChildElement("objectgroup");
-            for (xml::XMLElement *object = objGroup->FirstChildElement("object");
-                 object != nullptr; object = object->NextSiblingElement("object")) {
-                const char *objType = object->Attribute("type");
+            if(objGroup)
+                for (xml::XMLElement *object = objGroup->FirstChildElement("object");
+                     object != nullptr; object = object->NextSiblingElement("object")) {
+                    const char *objType = object->Attribute("type");
 
-                if (objType == nullptr)
-                    continue;
+                    if (objType == nullptr)
+                        continue;
 
-                if (!std::strcmp(objType, "cx")) { // object is center object
-                    tiles[firstGlobalId + tileDefId]->drawingCenter = {
-                            object->FloatAttribute("x"),
-                            object->FloatAttribute("y")
-                    };
-                } else if (!std::strcmp(objType, "cbox")) { // object is collision box
-                    tiles[firstGlobalId + tileDefId]->collisionBox = {
-                            object->FloatAttribute("x"),
-                            object->FloatAttribute("y"),
-                            object->FloatAttribute("width"),
-                            object->FloatAttribute("height")
-                    };
+                    if (!std::strcmp(objType, "cx")) { // object is center object
+                        tiles[firstGlobalId + tileDefId]->drawingCenter = {
+                                object->FloatAttribute("x"),
+                                object->FloatAttribute("y")
+                        };
+                    } else if (!std::strcmp(objType, "cbox")) { // object is collision box
+                        tiles[firstGlobalId + tileDefId]->collisionBox = {
+                                object->FloatAttribute("x"),
+                                object->FloatAttribute("y"),
+                                object->FloatAttribute("width"),
+                                object->FloatAttribute("height")
+                        };
+                    }
                 }
-            }
+
+            std::string animationType = image->Attribute("type") ? image->Attribute("type") : "";
+            xml::XMLElement *animation = tileDef->FirstChildElement("animation");
+            if(animation)
+                for (xml::XMLElement *frame = animation->FirstChildElement("frame");
+                     frame != nullptr; frame = frame->NextSiblingElement("object")) {
+
+
+
+                }
+
+
         }
     }
 }
