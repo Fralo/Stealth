@@ -6,7 +6,7 @@
 
 Astar::Astar(std::forward_list<sf::IntRect> &obstacles, Vector2u8 mapSize) : obstacles(obstacles), mapSize(mapSize) {}
 
-std::forward_list<Vector2u8> *Astar::getPath(Vector2u8 a, Vector2u8 b) {
+Path *Astar::getPath(Vector2u8 a, Vector2u8 b) {
     return getPath(new Node({nullptr, a.x, a.y}), new Node({nullptr, b.x, b.y}));
 }
 
@@ -21,7 +21,7 @@ bool Astar::isBlocked(uint8_t x, uint8_t y) {
     return false;
 }
 
-std::forward_list<Vector2u8> *Astar::getPath(Node *from, Node *to) {
+Path *Astar::getPath(Node *from, Node *to) {
     from->g = 0;
     from->f = h((*from), (*to));
 
@@ -39,7 +39,7 @@ std::forward_list<Vector2u8> *Astar::getPath(Node *from, Node *to) {
          * Pathfinding done, return path
          */
         if (*currentNode == *to) {
-            auto path = new std::forward_list<Vector2u8>;
+            auto path = new Path;
 
             for (Node *pathNode = currentNode; pathNode != nullptr; pathNode = pathNode->parent)
                 path->push_front({pathNode->x, pathNode->y});

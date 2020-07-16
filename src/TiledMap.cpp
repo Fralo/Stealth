@@ -10,8 +10,8 @@
  * Deserializes TMX map
  */
 TiledMap::TiledMap(std::list<std::shared_ptr<Object>> &objects) : objects(objects) {
-    xml::XMLDocument xml;
-    xml::XMLError error = xml.LoadFile(resource("maps/01-map.tmx")); // TODO: get map from constructor
+    auto xml = std::make_unique<xml::XMLDocument>();
+    xml::XMLError error = xml->LoadFile(resource("maps/01-map.tmx")); // TODO: get map from constructor
 
     if (error != tinyxml2::XML_SUCCESS) {
         std::cout << "Error opening map TMX file" << std::endl;
@@ -19,7 +19,7 @@ TiledMap::TiledMap(std::list<std::shared_ptr<Object>> &objects) : objects(object
     } else
         std::cout << "Map TMX file opened" << std::endl;
 
-    xml::XMLElement *map = xml.FirstChildElement("map");
+    xml::XMLElement *map = xml->FirstChildElement("map");
 
     mapTileWidth = map->IntAttribute("tilewidth");
     mapTileHeight = map->IntAttribute("tileheight");
@@ -141,7 +141,7 @@ std::shared_ptr<TiledLayer> TiledMap::makeLayer(xml::XMLElement &layer) {
     std::stringstream data;
     data << layer.FirstChildElement("data")->GetText();
 
-    // using a rough CSV parser, map is just a collection of integers ids
+    // using a rough CSV parser, map is just a table of integers ids
     std::string line;
     for (int col = 0; std::getline(data, line) && col < mapHeight;) {
         std::stringstream lineStream;
@@ -157,7 +157,7 @@ std::shared_ptr<TiledLayer> TiledMap::makeLayer(xml::XMLElement &layer) {
                 tiledLayer->setTileSprite(col, row, tiles.at(tileId));
         }
 
-        col++; // increment col only if line is valid
+        col++;
     }
 
     return tiledLayer;
@@ -176,11 +176,10 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
             xmlObject.BoolAttribute("explosive", false)
     };
 
-    auto obj = std::make_shared<Object>(*tiles[spriteId], sf::Vector2f(
+    return std::make_shared<Object>(*tiles[spriteId], sf::Vector2f(
             xmlObject.FloatAttribute("x"),
             xmlObject.FloatAttribute("y") - tiles[spriteId]->getTextureRect().height
     ), properties);
-    return obj;
 }
 
 sf::Vector2u TiledMap::getMapActualSize() const {

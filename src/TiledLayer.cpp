@@ -4,6 +4,8 @@
 
 #include "TiledLayer.hpp"
 
+#include <utility>
+
 TiledLayer::TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize) : layerSize(layerSize), mapTileSize(mapTileSize){
 #ifdef STEALTH_GRAPHIC_DEBUG
     font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
@@ -31,7 +33,7 @@ bool TiledLayer::setTileSprite(unsigned int row, unsigned int col, std::shared_p
     if(row >= layerSize.y || col >= layerSize.x)
         return false;
 
-    tiles[row][col] = sprite;
+    tiles[row][col] = std::move(sprite);
     return true;
 }
 

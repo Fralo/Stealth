@@ -12,6 +12,7 @@
 #include "Strategy.hpp"
 #include "Weapon.h"
 #include "Player.hpp"
+#include "HunterStrategy.hpp"
 
 
 struct EnemyView {

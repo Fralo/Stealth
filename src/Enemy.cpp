@@ -3,7 +3,6 @@
 //
 
 #include "Enemy.hpp"
-#include "HunterStrategy.hpp"
 
 Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy)
         : orientation(orientation), defaultStrategy(defaultStrategy), weapon(weapon), view(view) {
