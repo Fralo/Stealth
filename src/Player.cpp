@@ -13,7 +13,6 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
 }
 
 void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap &map) {
-
     auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
     auto scaledTargetPos = Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
 
@@ -40,6 +39,9 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
         cacheTime.restart();
     }
 
+    // TODO: refine orientation detection methods
+    sf::Vector2f *next = nullptr;
+
     if(path != nullptr && !path->empty()) {
         if (path->front() == scaledPos)
             path->pop_front();
@@ -54,28 +56,47 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
              * make vector modulus 1
              */
             float scaler = 1.0f / (dX * dX + dY * dY);
-            sf::Vector2f next = sf::Vector2f(dX * scaler, dY * scaler);
+            next = new sf::Vector2f(dX * scaler, dY * scaler);
 
             float movementFactor = 3;
-            setPos(sf::Vector2f(getPos().x + next.x * movementFactor, getPos().y + next.y * movementFactor));
+            setPos(sf::Vector2f(getPos().x + next->x * movementFactor, getPos().y + next->y * movementFactor));
         }
     }
+
+    // TODO: cleanup and share code with enemy (maybe use an Animable class?)
+    // TODO: convert xy in polar to simplify checks
+    const char *dir = "idle";
+    if(next != nullptr) {
+        if(next->x > 0 && next->y == 0) dir = "walk_e";
+        else if(next->x > 0 && next->y > 0) dir = "walk_se";
+        else if(next->x == 0 && next->y > 0) dir = "walk_s";
+        else if(next->x < 0 && next->y > 0) dir = "walk_so";
+        else if(next->x < 0 && next->y == 0) dir = "walk_o";
+        else if(next->x < 0 && next->y < 0) dir = "walk_no";
+        else if(next->x == 0 && next->y < 0) dir = "walk_n";
+        else if(next->x > 0 && next->y < 0) dir = "walk_ne";
+    }
+
+    tile = map.animations["player"][dir].getCurrentFrame();
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
+    // base tmp shape
+    /*sf::CircleShape playerShape(10);
+    playerShape.setFillColor(sf::Color(200, 0, 0));
+    playerShape.setPosition(getPos().x, getPos().y);
+    target.draw(playerShape);*/
+
+
+    // health bar
     sf::RectangleShape liferect({static_cast<float>(getHealth()),20});
-    sf::CircleShape enemyShape(10);
-
     liferect.setFillColor(sf::Color(0,200,0));
-    enemyShape.setFillColor(sf::Color(200, 0, 0));
-
     liferect.setPosition(target.getView().getCenter().x - 380,target.getView().getCenter().y + 260);
-    enemyShape.setPosition(getPos().x, getPos().y);
-
     target.draw(liferect);
-    target.draw(enemyShape);
 
+    tile->setPosition(getPos().x - 20, getPos().y - 20);
+    target.draw(*tile);
 }
 
 void Player::setNextPos(sf::Vector2f next) {

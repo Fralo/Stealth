@@ -17,6 +17,7 @@
 #include "TiledLayer.hpp"
 #include "Object.hpp"
 #include "Tile.hpp"
+#include "Animation.hpp"
 
 namespace xml = tinyxml2;
 
@@ -26,6 +27,9 @@ public:
     TiledMap() = delete;
 
     sf::Vector2u getMapActualSize() const;
+
+    // TODO: restrict access with a getter
+    std::map<std::string, std::map<std::string, Animation>> animations;
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;

@@ -6,6 +6,7 @@
 #define STEALTH_GAMEOBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include "Tile.hpp"
 
 class GameObject : public sf::Drawable, public sf::Transformable {
@@ -29,9 +30,8 @@ public:
         health = h;
     }
 
-// protected:
-    // TODO: make tile private and add getters and setters
-    Tile *tile;
+    // TODO: make tile private and add getters for collision boxes
+    std::shared_ptr<Tile> tile;
 
 private:
     int health = 100;

@@ -126,17 +126,17 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
                     }
                 }
 
-            std::string animationType = image->Attribute("type") ? image->Attribute("type") : "";
             xml::XMLElement *animation = tileDef->FirstChildElement("animation");
             if(animation)
                 for (xml::XMLElement *frame = animation->FirstChildElement("frame");
-                     frame != nullptr; frame = frame->NextSiblingElement("object")) {
+                     frame != nullptr; frame = frame->NextSiblingElement("frame")) {
 
+                    const char *tileSetName = tileset->Attribute("name");
+                    const char *animationName = tileDef->Attribute("type");
 
-
+                    if(tileSetName != nullptr && animationName != nullptr)
+                        animations[tileSetName][animationName].addFrame(tiles[firstGlobalId + frame->IntAttribute("tileid")]);
                 }
-
-
         }
     }
 }
@@ -188,7 +188,7 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
             xmlObject.BoolAttribute("explosive", false)
     };
 
-    return std::make_shared<Object>(*tiles[spriteId], sf::Vector2f(
+    return std::make_shared<Object>(tiles[spriteId], sf::Vector2f(
             xmlObject.FloatAttribute("x"),
             xmlObject.FloatAttribute("y") - tiles[spriteId]->getTextureRect().height
     ), properties);

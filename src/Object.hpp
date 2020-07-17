@@ -17,7 +17,7 @@ struct ObjectProperties {
 
 class Object : public GameObject {
 public:
-    Object(Tile &tile, sf::Vector2f position, ObjectProperties properties);
+    Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties);
     void setHealth(int health) const;
 
 protected:
