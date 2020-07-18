@@ -56,7 +56,7 @@
     <frame tileid="5" duration="100"/>
    </animation>
   </tile>
-  <tile id="6" type="warl_ne">
+  <tile id="6" type="walk_ne">
    <animation>
     <frame tileid="6" duration="100"/>
     <frame tileid="7" duration="100"/>

@@ -95,7 +95,7 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
         }
 
         /*
-         * Adds optional details to tiles (mainly collision boxes for tiles used as objects)
+         * Adds optional details to tiles
          */
         for (xml::XMLElement *tileDef = tileset->FirstChildElement("tile");
              tileDef != nullptr; tileDef = tileDef->NextSiblingElement("tile")) {
@@ -126,6 +126,7 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
                     }
                 }
 
+            // load animation if present
             xml::XMLElement *animation = tileDef->FirstChildElement("animation");
             if(animation)
                 for (xml::XMLElement *frame = animation->FirstChildElement("frame");
