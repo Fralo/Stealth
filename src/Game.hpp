@@ -7,7 +7,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <tinyxml2/tinyxml2.h>
+#include <algorithm>
 #include <iostream>
+#include "cfg.hpp"
 #include "GameState.hpp"
 #include "Stealth.hpp"
 #include "TiledMap.hpp"

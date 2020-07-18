@@ -12,30 +12,21 @@
 class GameObject : public sf::Drawable, public sf::Transformable {
 public:
     virtual ~GameObject() override {};
+    sf::Vector2f getPos() const;
+    void setPos(sf::Vector2f pos);
+    int getHealth() const;
+    void setHealth(int h);
 
+    sf::Vector2f getAbsDrawingCenter();
+    sf::FloatRect getAbsCollisionBox();
 
-    sf::Vector2f getPos() const {
-        return position;
-    }
-
-    void setPos(sf::Vector2<float> pos) {
-        position = pos;
-    }
-
-    int getHealth() const {
-        return health;
-    }
-
-    void setHealth(int h) {
-        health = h;
-    }
 
     // TODO: make tile private and add getters for collision boxes
     std::shared_ptr<Tile> tile;
 
-private:
+protected:
+    sf::Vector2f position = {0, 0};
     int health = 100;
-    sf::Vector2f position;
 
 
 };

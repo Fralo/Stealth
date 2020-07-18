@@ -28,7 +28,7 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
         for (auto &&obj : objects) {
             auto cb = sf::IntRect(obj->tile->collisionBox);
 
-            obstacles.push_front({static_cast<int>((obj->position.x + cb.left) / GRID_SCALE_FACTOR), static_cast<int>((obj->position.y + cb.top) / GRID_SCALE_FACTOR),
+            obstacles.push_front({static_cast<int>(std::floor((obj->getPos().x + cb.left) / GRID_SCALE_FACTOR)), static_cast<int>(std::floor((obj->getPos().y + cb.top) / GRID_SCALE_FACTOR)),
                                   static_cast<int>(std::ceil(((float) cb.width) / GRID_SCALE_FACTOR)), static_cast<int>(std::ceil(((float) cb.height) / GRID_SCALE_FACTOR))});
         }
 
@@ -95,7 +95,7 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     liferect.setPosition(target.getView().getCenter().x - 380,target.getView().getCenter().y + 260);
     target.draw(liferect);
 
-    tile->setPosition(getPos().x - 20, getPos().y - 20);
+    tile->setPosition(getPos().x - 30, getPos().y - 30);
     target.draw(*tile);
 }
 

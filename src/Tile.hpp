@@ -12,7 +12,14 @@ public:
     Tile();
     Tile(sf::Vector2f drawingCenter, sf::FloatRect collisionBox);
 
+    /*
+     * Object center offset from tile position
+     */
     sf::Vector2f drawingCenter;
+
+    /*
+     * Object collision box with offset from tile position
+     */
     sf::FloatRect collisionBox;
 };
 

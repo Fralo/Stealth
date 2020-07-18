@@ -4,8 +4,9 @@
 
 #include "Object.hpp"
 
-Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties) : position(position), properties(properties) {
+Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties) : properties(properties) {
     GameObject::tile = tile;
+    GameObject::position = position;
 }
 
 

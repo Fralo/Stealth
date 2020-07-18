@@ -45,12 +45,12 @@ TiledMap::TiledMap(std::list<std::shared_ptr<Object>> &objects) : objects(object
     /*
      * Render background to texture only once
      */
-    renderedMap.create(mapWidth * mapTileWidth, mapHeight * mapTileHeight);
-    renderedMap.clear();
+    cachedBgTexture.create(mapWidth * mapTileWidth, mapHeight * mapTileHeight);
+    cachedBgTexture.clear();
     for (std::shared_ptr<TiledLayer> layer : mapLayers)
-        renderedMap.draw(*layer);
-    renderedMap.display();
-    renderedMapSprite.setTexture(renderedMap.getTexture());
+        cachedBgTexture.draw(*layer);
+    cachedBgTexture.display();
+    cachedBgSprite.setTexture(cachedBgTexture.getTexture());
 }
 
 /*
@@ -200,9 +200,10 @@ sf::Vector2u TiledMap::getMapActualSize() const {
 }
 
 void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    target.draw(renderedMapSprite);
+    target.draw(cachedBgSprite);
 
     // TODO: draw objects based on player y position
-    for (const std::shared_ptr<Object>& obj : objects)
+    /*for (const std::shared_ptr<Object>& obj : objects)
         target.draw(*obj);
+        */
 }

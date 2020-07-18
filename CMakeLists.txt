@@ -19,7 +19,7 @@ add_library(tinyxml2 STATIC third_party/tinyxml2/tinyxml2.cpp)
 include_directories(third_party/Catch2/single_include/)
 
 # Boom executable
-set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/HunterStrategy.cpp src/HunterStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Object.cpp src/Object.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp src/Tile.cpp src/Tile.hpp src/Astar.cpp src/Astar.hpp src/Inventory.cpp src/Inventory.hpp src/cfg.hpp src/Animation.cpp src/Animation.hpp)
+set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/HunterStrategy.cpp src/HunterStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Object.cpp src/Object.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp src/Tile.cpp src/Tile.hpp src/Astar.cpp src/Astar.hpp src/Inventory.cpp src/Inventory.hpp src/cfg.hpp src/Animation.cpp src/Animation.hpp src/GameObject.cpp)
 
 add_executable(Stealth src/main.cpp ${SOURCE_FILES})
 

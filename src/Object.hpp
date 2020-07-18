@@ -24,7 +24,6 @@ protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
-    sf::Vector2f position;
     ObjectProperties properties;
 };
 

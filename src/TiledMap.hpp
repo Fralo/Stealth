@@ -60,8 +60,8 @@ private:
     /*
      * Cache Background layers rendering them to a RenderTexture and storing it into a Sprite to draw it to sd::RenderWindow
      */
-    sf::RenderTexture renderedMap;
-    sf::Sprite renderedMapSprite;
+    sf::RenderTexture cachedBgTexture;
+    sf::Sprite cachedBgSprite;
 
 
     void loadTiles(xml::XMLElement *map);

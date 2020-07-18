@@ -45,11 +45,37 @@ void Game::update(Stealth &stealth) {
     stealth.window.clear();
 
     stealth.window.draw(*map);
-    for (std::shared_ptr<Enemy> enemy : enemies)
-        stealth.window.draw(*enemy);
-    stealth.window.draw(*player);
-    stealth.window.draw(cursor);
 
+    std::list<std::shared_ptr<GameObject>> gameObjects;
+
+    // TODO: this is great, but it is not working. Fix it.
+    auto gameObjectCmp = [](const std::shared_ptr<GameObject>& a, const std::shared_ptr<GameObject>& b) {
+        return a->getAbsDrawingCenter().y < b->getAbsDrawingCenter().y;
+    };
+
+    for (const std::shared_ptr<Enemy>& enemy : enemies)
+        gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), enemy, gameObjectCmp), enemy);
+
+    for(const std::shared_ptr<Object>& object : objects)
+        gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), object, gameObjectCmp), object);
+
+    gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), player, gameObjectCmp), player);
+
+    for(const std::shared_ptr<GameObject>& gameObject : gameObjects) {
+        stealth.window.draw(*gameObject);
+
+#ifdef STEALTH_GRAPHIC_DEBUG
+        sf::RectangleShape re({50, 1});
+        re.setPosition(gameObject->getAbsDrawingCenter() - sf::Vector2f(25, 0));
+        re.setFillColor(sf::Color::White);
+        stealth.window.draw(re);
+        re.setSize({1, 50});
+        re.setPosition(gameObject->getAbsDrawingCenter() - sf::Vector2f(0, 25));
+        stealth.window.draw(re);
+#endif
+    }
+
+    stealth.window.draw(cursor);
     stealth.window.display();
 }
 
