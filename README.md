@@ -6,8 +6,10 @@
 Made by [Leonardo Fralini](https://github.com/Fralo), [Mattia Marilli](https://github.com/mattiamarilli) and [Edoardo Viviani](https://github.com/vivedo)
 
 ### Dependencies
- - cmake v3.1
+ - cmake v3.2
  - libsfml v2.5
+ - Catch2 _(submodule)_
+ - tinyxml2 _(submodule)_
 
 ### Build
 ```sh
