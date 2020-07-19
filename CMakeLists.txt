@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.2)
 project(Stealth)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -18,12 +18,25 @@ add_library(tinyxml2 STATIC third_party/tinyxml2/tinyxml2.cpp)
 
 include_directories(third_party/Catch2/single_include/)
 
-# Boom executable
+# Pack resources into zip
+set(RES_ARCHIVE stealth.dat)
+file(GLOB RES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/res/*")
+add_custom_command(
+    COMMAND ${CMAKE_COMMAND} -E tar "cf" "${CMAKE_CURRENT_BINARY_DIR}/${RES_ARCHIVE}" --format=zip -- ${RES_FILES}
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/res"
+    OUTPUT  "${CMAKE_CURRENT_BINARY_DIR}/${RES_ARCHIVE}"
+    DEPENDS ${RES_FILES}
+    COMMENT "Zipping to ${CMAKE_CURRENT_BINARY_DIR}/${RES_ARCHIVE}"
+)
+
+add_custom_target("pack-data" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${RES_ARCHIVE}")
+
+# Stealth executable
 set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/HunterStrategy.cpp src/HunterStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Object.cpp src/Object.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp src/Tile.cpp src/Tile.hpp src/Astar.cpp src/Astar.hpp src/Inventory.cpp src/Inventory.hpp src/cfg.hpp src/Animation.cpp src/Animation.hpp src/GameObject.cpp)
 
 add_executable(Stealth src/main.cpp ${SOURCE_FILES})
-
 target_link_libraries(Stealth sfml-system sfml-window sfml-graphics sfml-audio GLX tinyxml2)
+add_dependencies(Stealth pack-data)
 
 # Catch2 Unit Test
 set(CATCH_INCLUDE_DIR tests)
