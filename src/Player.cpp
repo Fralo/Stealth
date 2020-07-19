@@ -77,18 +77,10 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
         else if(next->x > 0 && next->y < 0) dir = "walk_ne";
     }
 
-    tile = map.animations["player"][dir].getCurrentFrame();
+    tile = map.getAnimation("player", dir).getCurrentFrame();
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-
-    // base tmp shape
-    /*sf::CircleShape playerShape(10);
-    playerShape.setFillColor(sf::Color(200, 0, 0));
-    playerShape.setPosition(getPos().x, getPos().y);
-    target.draw(playerShape);*/
-
-
     // health bar
     sf::RectangleShape liferect({static_cast<float>(getHealth()),20});
     liferect.setFillColor(sf::Color(0,200,0));

@@ -20,7 +20,6 @@ public:
 
     void update(const std::list<std::shared_ptr<Object>> &objects, TiledMap &map);
     void setNextPos(sf::Vector2f next);
-    bool move;
     void applyDamage(int damage);
 
 protected:

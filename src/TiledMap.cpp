@@ -7,9 +7,9 @@
 /*
  * Deserializes TMX map
  */
-TiledMap::TiledMap(std::list<std::shared_ptr<Object>> &objects) : objects(objects) {
+TiledMap::TiledMap(const char *levelFile, std::list<std::shared_ptr<Object>> &objects) : objects(objects) {
     auto xml = std::make_unique<xml::XMLDocument>();
-    xml::XMLError error = xml->LoadFile(resource("maps/01-map.tmx")); // TODO: get map from constructor
+    xml::XMLError error = xml->LoadFile(levelFile);
 
     if (error != tinyxml2::XML_SUCCESS) {
         std::cout << "Error opening map TMX file" << std::endl;
@@ -206,4 +206,11 @@ void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     /*for (const std::shared_ptr<Object>& obj : objects)
         target.draw(*obj);
         */
+}
+
+Animation &TiledMap::getAnimation(const std::string& tileset, const std::string& type) {
+    if(animations.contains(tileset) && animations[tileset].contains(type))
+        return animations[tileset][type];
+
+    throw;
 }

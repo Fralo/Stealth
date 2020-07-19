@@ -23,13 +23,11 @@ namespace xml = tinyxml2;
 
 class TiledMap : public sf::Drawable, public sf::Transformable {
 public:
-    explicit TiledMap(std::list<std::shared_ptr<Object>> &objects);
+    explicit TiledMap(const char *levelFile, std::list<std::shared_ptr<Object>> &objects);
     TiledMap() = delete;
 
     sf::Vector2u getMapActualSize() const;
-
-    // TODO: restrict access with a getter
-    std::map<std::string, std::map<std::string, Animation>> animations;
+    Animation &getAnimation(const std::string& tileset, const std::string& type);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -41,6 +39,7 @@ private:
     int mapWidth;
 
     std::list<std::shared_ptr<Object>> &objects;
+    std::map<std::string, std::map<std::string, Animation>> animations;
 
     /*
      * Spritesheets are cached in sf::Textures and referenced by Tiles' sf::Sprites
@@ -62,7 +61,6 @@ private:
      */
     sf::RenderTexture cachedBgTexture;
     sf::Sprite cachedBgSprite;
-
 
     void loadTiles(xml::XMLElement *map);
     void loadLayerGroup(xml::XMLElement &group, std::list<std::shared_ptr<TiledLayer>> &layerList);

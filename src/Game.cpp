@@ -7,7 +7,7 @@
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
 
-    map = std::make_shared<TiledMap>(objects);
+    map = std::make_shared<TiledMap>(resource("maps/01-map.tmx"), objects);
     loadMapConfig();
 
     view.setCenter(sf::Vector2f(player->getPos()));
@@ -33,7 +33,7 @@ void Game::update(Stealth &stealth) {
     /*
      * Update objects
      */
-    for (std::shared_ptr<Enemy> enemy : enemies)
+    for (const std::shared_ptr<Enemy>& enemy : enemies)
         enemy->update(objects,*player,*map);
     player->update(objects, *map);
     cursor.update(stealth.window);
@@ -46,20 +46,17 @@ void Game::update(Stealth &stealth) {
 
     stealth.window.draw(*map);
 
+    // Create an ordered list of GameObjects in order to draw them accordingly to their y coord
     std::list<std::shared_ptr<GameObject>> gameObjects;
-
-    // TODO: this is great, but it is not working. Fix it.
     auto gameObjectCmp = [](const std::shared_ptr<GameObject>& a, const std::shared_ptr<GameObject>& b) {
         return a->getAbsDrawingCenter().y < b->getAbsDrawingCenter().y;
     };
 
+    gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), player, gameObjectCmp), player);
     for (const std::shared_ptr<Enemy>& enemy : enemies)
         gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), enemy, gameObjectCmp), enemy);
-
     for(const std::shared_ptr<Object>& object : objects)
         gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), object, gameObjectCmp), object);
-
-    gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), player, gameObjectCmp), player);
 
     for(const std::shared_ptr<GameObject>& gameObject : gameObjects) {
         stealth.window.draw(*gameObject);
