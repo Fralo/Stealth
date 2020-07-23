@@ -15,8 +15,6 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //TODO: check health
 
-
-
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(getPos());
@@ -52,18 +50,18 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
     } else {
         //fire
-
         // TODO: @fritz check this
-        // coordinates.empty()
         coordinates.clear();
         coordinates.push_back(getPos());
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(0)));
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(1)));
+
+        if (isTargetInside(coordinates, player.getPos()))
+            if (player.getHealth()>0)
+                player.applyDamage(1);
     }
 
-    if (isTargetInside(coordinates, player.getAbsDrawingCenter()))
-        if (player.getHealth()>0)
-            player.applyDamage(1);
+
 
 }
 
@@ -118,12 +116,12 @@ std::vector<sf::Vector2f> Enemy::getViewVertices() const {
 std::vector<sf::Vector2f> Enemy::getFireVertices() const {
     //TODO: use the angle from the weapon when it will be implemented
     std::vector<sf::Vector2f> vertices;
-    double radius = weapon.distanceOfUse / std::cos(M_PI * 10 / 2);
+    double radius = weapon.distanceOfUse / std::cos(M_PI * view.angle / 2);
 
-    sf::Vector2f A(radius * std::cos((-orientation + sightSwingVariation - 10.0f / 2) * M_PI),
-                   radius * std::sin((-orientation + sightSwingVariation - 10.0f / 2) * M_PI));
-    sf::Vector2f B(radius * std::cos((-orientation + sightSwingVariation + 10.0f / 2) * M_PI),
-                   radius * std::sin((-orientation + sightSwingVariation + 10.0f / 2) * M_PI));
+    sf::Vector2f A(radius * std::cos((-orientation + sightSwingVariation - view.angle / 2) * M_PI),
+                   radius * std::sin((-orientation + sightSwingVariation - view.angle / 2) * M_PI));
+    sf::Vector2f B(radius * std::cos((-orientation + sightSwingVariation + view.angle / 2) * M_PI),
+                   radius * std::sin((-orientation + sightSwingVariation + view.angle / 2) * M_PI));
 
     vertices.push_back(A);
     vertices.push_back(B);
