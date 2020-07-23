@@ -9,7 +9,6 @@
 
 #include "Strategy.hpp"
 #include "Astar.hpp"
-#include "Game.hpp"
 
 class HunterStrategy : public Strategy {
 public:

@@ -20,9 +20,6 @@
 #include "SeekStrategy.hpp"
 #include "GameCursor.hpp"
 
-class Player;
-class Enemy;
-
 namespace xml = tinyxml2;
 
 /*

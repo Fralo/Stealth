@@ -15,7 +15,6 @@
 #include "Strategy.hpp"
 #include "Astar.hpp"
 #include "Object.hpp"
-#include "Game.hpp"
 
 class SeekStrategy : public Strategy {
 public:
