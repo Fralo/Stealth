@@ -99,8 +99,8 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
     target.draw(sightTriangle);
 
-    sf::RectangleShape re({static_cast<float>(getHealth()) / 5, 2});
-    re.setPosition({getPos().x, getPos().y - 20});
+    sf::RectangleShape re({static_cast<float>(getHealth()) / 100 * 20, 2});
+    re.setPosition({getPos().x - 10, getPos().y - 25});
     re.setFillColor(sf::Color::Red);
 
     target.draw(re);

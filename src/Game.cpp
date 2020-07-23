@@ -17,6 +17,9 @@ void Game::init(Stealth &stealth) {
     levelMusic.setVolume(20);
     levelMusic.play();
 
+    denyMoveSfxBuffer.loadFromFile(resource("music/denymove.ogg"));
+    denyMoveSfx.setBuffer(denyMoveSfxBuffer);
+
     clock.restart();
 }
 
@@ -80,6 +83,8 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
         if(cursor.getPointedElement().pointedElementType != OBSTACLE)
             player->setNextPos(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
+        else
+            denyMoveSfx.play();
     }
 }
 

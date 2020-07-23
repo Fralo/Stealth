@@ -11,8 +11,10 @@ Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperti
 
 
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    tile->setPosition(position);
-    target.draw(*tile);
+    if(tile != nullptr) {
+        tile->setPosition(position);
+        target.draw(*tile);
+    }
 
 #ifdef STEALTH_GRAPHIC_DEBUG
     if(tile->collisionBox.height > 0 && tile->collisionBox.width > 0) {

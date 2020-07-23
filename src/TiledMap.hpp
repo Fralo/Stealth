@@ -16,6 +16,7 @@
 #include "macro.h"
 #include "TiledLayer.hpp"
 #include "Object.hpp"
+#include "BackgroundObject.hpp"
 #include "Tile.hpp"
 #include "Animation.hpp"
 

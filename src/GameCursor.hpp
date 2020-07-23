@@ -38,11 +38,12 @@ private:
     sf::Texture cursorTexture;
     sf::Vector2f position;
 
-#ifdef STEALTH_GRAPHIC_DEBUG
-    sf::Font font;
     PointedElement pointedElement;
     int spriteX;
     int spriteY;
+
+#ifdef STEALTH_GRAPHIC_DEBUG
+    sf::Font font;
 #endif
 };
 

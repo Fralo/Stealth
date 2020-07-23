@@ -48,6 +48,9 @@ private:
 
     sf::Music levelMusic;
 
+    sf::SoundBuffer denyMoveSfxBuffer;
+    sf::Sound denyMoveSfx;
+
     void loadMapConfig();
     void loadEnemies(xml::XMLElement *root);
     void updateMapView(Stealth &stealth);

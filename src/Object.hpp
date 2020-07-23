@@ -7,6 +7,7 @@
 
 #include "cfg.hpp"
 #include <SFML/Graphics.hpp>
+#include <utility>
 #include "Tile.hpp"
 #include "GameObject.hpp"
 
@@ -18,6 +19,7 @@ struct ObjectProperties {
 class Object : public GameObject {
 public:
     Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties);
+    Object(std::shared_ptr<Tile> tile, sf::Vector2f position): Object(std::move(tile), position, {false, false}) {};
     void setHealth(int health) const;
 
 protected:

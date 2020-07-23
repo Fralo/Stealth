@@ -163,11 +163,16 @@ std::shared_ptr<TiledLayer> TiledMap::makeLayer(xml::XMLElement &layer) {
         if (line.empty()) // ignoring XML new lines
             continue;
 
-        std::string tile;
-        for (int row = 0; std::getline(lineStream, tile, ',') && row < mapWidth; row++) {
-            int tileId = std::stoi(tile);
-            if (tileId > 0) // tileId == 0 means empty tile
-                tiledLayer->setTileSprite(col, row, tiles.at(tileId));
+        std::string tileStr;
+        for (int row = 0; std::getline(lineStream, tileStr, ',') && row < mapWidth; row++) {
+            int tileId = std::stoi(tileStr);
+            if (tileId > 0) {// tileId == 0 means empty tile
+                std::shared_ptr<Tile> tile = tiles.at(tileId);
+                tiledLayer->setTileSprite(col, row, tile);
+
+                if(tile->collisionBox.height > 0 && tile->collisionBox.width > 0)
+                    objects.push_back(std::make_shared<BackgroundObject>(tile, sf::Vector2f(row * mapTileHeight, col * mapTileWidth)));
+            }
         }
 
         col++;
@@ -201,11 +206,6 @@ sf::Vector2u TiledMap::getMapActualSize() const {
 
 void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(cachedBgSprite);
-
-    // TODO: draw objects based on player y position
-    /*for (const std::shared_ptr<Object>& obj : objects)
-        target.draw(*obj);
-        */
 }
 
 Animation &TiledMap::getAnimation(const std::string& tileset, const std::string& type) {

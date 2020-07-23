@@ -15,12 +15,12 @@ public:
     /*
      * Object center offset from tile position
      */
-    sf::Vector2f drawingCenter;
+    sf::Vector2f drawingCenter = {0, 0};
 
     /*
      * Object collision box with offset from tile position
      */
-    sf::FloatRect collisionBox;
+    sf::FloatRect collisionBox = {0, 0, 0, 0};
 };
 
 

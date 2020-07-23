@@ -8,9 +8,17 @@ void SeekStrategy::addLocation(sf::Vector2i location) {
     locations.emplace_back(location / GRID_SCALE_FACTOR);
 }
 
-sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map) {
+sf::Vector2f SeekStrategy::getNextMove(GameObject &gameObject, const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     if (locations.empty())
         return {0, 0};
+
+    for(const auto& obj : objects) {
+        if(obj->getAbsCollisionBox().contains(locations.at(currentTarget).x * GRID_SCALE_FACTOR, locations.at(currentTarget).y * GRID_SCALE_FACTOR)){
+            currentTarget++;
+            currentTarget %= locations.size();
+            return {0, 0};
+        }
+    }
 
     auto position = Vector2u8(gameObject.getPos() / (float) GRID_SCALE_FACTOR);
 
