@@ -11,6 +11,7 @@
 #include "Weapon.h"
 #include "Astar.hpp"
 #include "TiledMap.hpp"
+#include "Direction.hpp"
 
 #define GRID_SCALE_FACTOR 16
 

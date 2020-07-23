@@ -11,10 +11,7 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
     orientationTarget = orientation;
 }
 
-
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
-    //TODO: check health
-
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(getPos());
@@ -49,8 +46,6 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
 
         sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
     } else {
-        //fire
-        // TODO: @fritz check this
         coordinates.clear();
         coordinates.push_back(getPos());
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(0)));
@@ -63,13 +58,41 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
 
 
 
+
+    const char *dir = "idle";
+    switch(Direction(next)){
+        case Direction::NORTH:
+            dir = "walk_n";
+            break;
+        case Direction::NORTH_EAST:
+            dir = "walk_ne";
+            break;
+        case Direction::EAST:
+            dir = "walk_e";
+            break;
+        case Direction::SUD_EAST:
+            dir = "walk_se";
+            break;
+        case Direction::SUD:
+            dir = "walk_s";
+            break;
+        case Direction::SUD_OVEST:
+            dir = "walk_so";
+            break;
+        case Direction::OVEST:
+            dir = "walk_o";
+            break;
+        case Direction::NORTH_OVEST:
+            dir = "walk_no";
+            break;
+    }
+
+    tile = map.getAnimation("player", dir).getCurrentFrame();
 }
 
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    sf::CircleShape enemyShape(10);
-    enemyShape.setFillColor(sf::Color(100, 250, 50));
-    enemyShape.setPosition(getPos().x - 10, getPos().y - 10);
-    target.draw(enemyShape);
+    tile->setPosition(getPos().x - 30, getPos().y - 30);
+    target.draw(*tile);
 
     sf::ConvexShape sightTriangle = getSightTraigle();
     sightTriangle.setFillColor(sf::Color(0x0, 0xd0, 0x20, 0x7f));

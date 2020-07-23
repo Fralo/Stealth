@@ -63,19 +63,34 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
         }
     }
 
-    // TODO: cleanup and share code with enemy (maybe use an Animable class?)
-    // TODO: convert xy in polar to simplify checks
     const char *dir = "idle";
-    if(next != nullptr) {
-        if(next->x > 0 && next->y == 0) dir = "walk_e";
-        else if(next->x > 0 && next->y > 0) dir = "walk_se";
-        else if(next->x == 0 && next->y > 0) dir = "walk_s";
-        else if(next->x < 0 && next->y > 0) dir = "walk_so";
-        else if(next->x < 0 && next->y == 0) dir = "walk_o";
-        else if(next->x < 0 && next->y < 0) dir = "walk_no";
-        else if(next->x == 0 && next->y < 0) dir = "walk_n";
-        else if(next->x > 0 && next->y < 0) dir = "walk_ne";
-    }
+    if(next != nullptr)
+        switch(Direction(*next)){
+            case Direction::NORTH:
+                dir = "walk_n";
+                break;
+            case Direction::NORTH_EAST:
+                dir = "walk_ne";
+                break;
+            case Direction::EAST:
+                dir = "walk_e";
+                break;
+            case Direction::SUD_EAST:
+                dir = "walk_se";
+                break;
+            case Direction::SUD:
+                dir = "walk_s";
+                break;
+            case Direction::SUD_OVEST:
+                dir = "walk_so";
+                break;
+            case Direction::OVEST:
+                dir = "walk_o";
+                break;
+            case Direction::NORTH_OVEST:
+                dir = "walk_no";
+                break;
+        }
 
     tile = map.getAnimation("player", dir).getCurrentFrame();
 }
@@ -97,6 +112,6 @@ void Player::setNextPos(sf::Vector2f next) {
 }
 
 void Player::applyDamage(int damage) {
-    setHealth(getHealth()-damage);
+    setHealth(std::max(health - damage, 0u));
 }
 
