@@ -26,7 +26,7 @@ public:
 
 protected:
     sf::Vector2f position = {0, 0};
-    int health = 100;
+    unsigned int health = 100;
 
 
 };

@@ -15,11 +15,14 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //TODO: check health
 
+
+
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(getPos());
     coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(0)));
     coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(1)));
+
 
     if (distanceBetweenTwoPoints(player.getPos(), getPos()) <
         distanceBetweenTwoPoints(coordinates.at(1), getPos()))
@@ -56,10 +59,12 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         coordinates.push_back(getPos());
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(0)));
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(1)));
-
-        if (isTargetInside(coordinates, player.getPos()))
-            player.applyDamage(1);
     }
+
+    if (isTargetInside(coordinates, player.getAbsDrawingCenter()))
+        if (player.getHealth()>0)
+            player.applyDamage(1);
+
 }
 
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
