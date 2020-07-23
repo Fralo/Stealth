@@ -8,7 +8,8 @@ GameCursor::GameCursor() {
     cursorTexture.loadFromFile(resource("cursors.png"));
     spriteX = 0;
     spriteY = 96;
-    pointedElement = NOTHING;
+    pointedElement.pointedElementType = NOTHING;
+    pointedElement.pointedElementObject = nullptr;
 #ifdef STEALTH_GRAPHIC_DEBUG
     font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
 #endif
@@ -45,7 +46,8 @@ void GameCursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 void GameCursor::update(sf::RenderWindow &window, const std::list<std::shared_ptr<Object>> &objects, const std::forward_list<std::shared_ptr<Enemy>> &enemies) {
     position = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-    pointedElement = NOTHING;
+    pointedElement.pointedElementType = NOTHING;
+    pointedElement.pointedElementObject = nullptr;
     spriteX = 0;
     spriteY = 96;
     //check if the player can shot the enemy
@@ -53,7 +55,8 @@ void GameCursor::update(sf::RenderWindow &window, const std::list<std::shared_pt
         if(abs(position.x - enemy->getPos().x) < 10 && abs(position.y - enemy->getPos().y) < 10) {
             spriteX = 0;
             spriteY = 0;
-            pointedElement = ENEMY;
+            pointedElement.pointedElementType = ENEMY;
+            pointedElement.pointedElementObject = enemy;
             break;
         }
     }
@@ -62,8 +65,13 @@ void GameCursor::update(sf::RenderWindow &window, const std::list<std::shared_pt
         if(obs->getAbsCollisionBox().contains(position.x, position.y)) {
             spriteX = 192;
             spriteY = 0;
-            pointedElement = OBSTACLE;
+            pointedElement.pointedElementType = OBSTACLE;
+            pointedElement.pointedElementObject = obs;
             break;
         }
     }
+}
+
+PointedElement GameCursor::getPointedElement() {
+    return this->pointedElement;
 }

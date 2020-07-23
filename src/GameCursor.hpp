@@ -13,13 +13,24 @@
 #include "macro.h"
 #include "Enemy.hpp"
 #include <list>
-#include "PointedElement.hpp"
+
+enum Pointing{
+    NOTHING,
+    ENEMY,
+    OBSTACLE,
+    PLAYER
+};
+
+struct PointedElement {
+    Pointing pointedElementType;
+    std::shared_ptr<GameObject> pointedElementObject;
+};
 class GameCursor : public sf::Drawable, public sf::Transformable {
 public:
     GameCursor();
 
     void update(sf::RenderWindow &window, const std::list<std::shared_ptr<Object>> &objects, const std::forward_list<std::shared_ptr<Enemy>> &enemies);
-
+    PointedElement getPointedElement();
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 

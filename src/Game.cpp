@@ -78,7 +78,8 @@ void Game::update(Stealth &stealth) {
 
 void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-       player->setNextPos(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
+        if(cursor.getPointedElement().pointedElementType != OBSTACLE)
+            player->setNextPos(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
     }
 }
 
