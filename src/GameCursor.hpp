@@ -9,13 +9,16 @@
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include "GameObject.hpp"
+#include "Object.hpp"
 #include "macro.h"
-
+#include "Enemy.hpp"
+#include <list>
+#include "PointedElement.hpp"
 class GameCursor : public sf::Drawable, public sf::Transformable {
 public:
     GameCursor();
 
-    void update(sf::RenderWindow &window);
+    void update(sf::RenderWindow &window, const std::list<std::shared_ptr<Object>> &objects, const std::forward_list<std::shared_ptr<Enemy>> &enemies);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -26,6 +29,9 @@ private:
 
 #ifdef STEALTH_GRAPHIC_DEBUG
     sf::Font font;
+    PointedElement pointedElement;
+    int spriteX;
+    int spriteY;
 #endif
 };
 

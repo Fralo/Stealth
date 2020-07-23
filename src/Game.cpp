@@ -36,7 +36,7 @@ void Game::update(Stealth &stealth) {
     for (const std::shared_ptr<Enemy>& enemy : enemies)
         enemy->update(objects,*player,*map);
     player->update(objects, *map);
-    cursor.update(stealth.window);
+    cursor.update(stealth.window, objects, enemies);
 
     updateMapView(stealth);
     /*
