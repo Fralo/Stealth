@@ -36,6 +36,7 @@ private:
     sf::SoundBuffer movingSfxBuffer;
     sf::Sound movingSfx;
     std::shared_ptr<GameObject> target;
+
 };
 
 

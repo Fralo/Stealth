@@ -14,9 +14,11 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
 
 void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap &map) {
     auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
-    auto scaledTargetPos = Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
+    Vector2u8 scaledTargetPos = target ? Vector2u8(target->getPos() / (float) GRID_SCALE_FACTOR) : Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
 
     int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
+
+
 
     /*
      * if path is nullptr (previous A* search did not found a route) wait 500ms before another search.
