@@ -30,7 +30,7 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
 
     sf::Vector2f next = strategy->getNextMove(*this, objects, player, map);
 
-    if (distanceBetweenTwoPoints(getPos(), player.getPos()) > weapon.distanceOfUse - 10.0) {
+    if (distanceBetweenTwoPoints(getPos(), player.getPos()) > weapon.distanceOfUse - 10) {
 
         float movementFactor = 1;
         setPos(sf::Vector2f(getPos().x + next.x * movementFactor, getPos().y + next.y * movementFactor));
@@ -43,7 +43,6 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
             diff += (diff > 1) ? -2 : (diff < -1) ? 2 : 0;
             orientation += diff / 10;
         }
-
         sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
     } else {
         coordinates.clear();
@@ -51,9 +50,8 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(0)));
         coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(1)));
 
-        if (isTargetInside(coordinates, player.getPos()))
-            if (player.getHealth()>0)
-                player.applyDamage(1);
+        if (player.getHealth()>0)
+            player.applyDamage(1);
     }
 
 

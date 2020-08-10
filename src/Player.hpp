@@ -12,6 +12,7 @@
 #include "Astar.hpp"
 #include "TiledMap.hpp"
 #include "Direction.hpp"
+#include "MathHelper.hpp"
 
 #define GRID_SCALE_FACTOR 16
 

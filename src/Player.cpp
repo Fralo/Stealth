@@ -111,8 +111,13 @@ void Player::setTarget(sf::Vector2f next) {
     movingSfx.play();
     target = nullptr;
 }
+void Player::setTarget(std::shared_ptr<GameObject> target) {
+    Player::target = target;
+}
 
 void Player::applyDamage(int damage) {
     setHealth(std::max(health - damage, 0u));
 }
+
+
 
