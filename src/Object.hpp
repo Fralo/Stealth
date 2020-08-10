@@ -14,6 +14,7 @@
 struct ObjectProperties {
     bool destroyable;
     bool explosive;
+    bool collectible;
 };
 
 class Object : public GameObject {

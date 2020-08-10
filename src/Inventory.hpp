@@ -12,7 +12,6 @@
 struct InventoryItem {
     int id;
 
-
     bool operator==(const struct InventoryItem& other) const {
         return other.id == this->id;
     }

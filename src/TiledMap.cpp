@@ -191,7 +191,8 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
     int spriteId = xmlObject.IntAttribute("gid");
     ObjectProperties properties = {
             xmlObject.BoolAttribute("destroyable", false),
-            xmlObject.BoolAttribute("explosive", false)
+            xmlObject.BoolAttribute("explosive", false),
+            false
     };
 
     return std::make_shared<Object>(tiles[spriteId], sf::Vector2f(

@@ -20,8 +20,9 @@ public:
     Player(sf::Vector2f position, Weapon weapon);
 
     void update(const std::list<std::shared_ptr<Object>> &objects, TiledMap &map);
-    void setNextPos(sf::Vector2f next);
     void applyDamage(int damage);
+    void setTarget(std::shared_ptr<GameObject> target);
+    void setTarget(sf::Vector2f next);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -33,6 +34,7 @@ private:
     Path *path = nullptr;
     sf::SoundBuffer movingSfxBuffer;
     sf::Sound movingSfx;
+    std::shared_ptr<GameObject> target;
 };
 
 

@@ -106,9 +106,10 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(*tile);
 }
 
-void Player::setNextPos(sf::Vector2f next) {
+void Player::setTarget(sf::Vector2f next) {
     nextPos = next;
     movingSfx.play();
+    target = nullptr;
 }
 
 void Player::applyDamage(int damage) {

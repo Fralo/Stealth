@@ -80,9 +80,12 @@ void Game::update(Stealth &stealth) {
 }
 
 void Game::handleEvent(Stealth &stealth, sf::Event &event) {
-    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) { // click
+        if(cursor.getPointedElement().pointedElementType == ENEMY) {
+            player->setTarget(cursor.getPointedElement().pointedElementObject);
+        }
         if(cursor.getPointedElement().pointedElementType != OBSTACLE)
-            player->setNextPos(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
+            player->setTarget(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
         else
             denyMoveSfx.play();
     }
