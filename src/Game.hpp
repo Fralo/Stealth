@@ -19,6 +19,7 @@
 #include "Object.hpp"
 #include "SeekStrategy.hpp"
 #include "GameCursor.hpp"
+#include "Inventory.hpp"
 
 namespace xml = tinyxml2;
 
@@ -39,6 +40,7 @@ private:
     std::forward_list<std::shared_ptr<Enemy>> enemies;
     std::list<std::shared_ptr<Object>> objects;
     std::shared_ptr<Player> player;
+    std::shared_ptr<Inventory> inventory;
     std::shared_ptr<TiledMap> map;
     GameCursor cursor;
     sf::View view;

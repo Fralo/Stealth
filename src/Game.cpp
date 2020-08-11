@@ -19,7 +19,7 @@ void Game::init(Stealth &stealth) {
 
     denyMoveSfxBuffer.loadFromFile(resource("music/denymove.ogg"));
     denyMoveSfx.setBuffer(denyMoveSfxBuffer);
-
+    inventory = std::make_shared<Inventory>();
     clock.restart();
 }
 
@@ -75,6 +75,7 @@ void Game::update(Stealth &stealth) {
 #endif
     }
 
+    stealth.window.draw(*inventory);
     stealth.window.draw(cursor);
     stealth.window.display();
 }

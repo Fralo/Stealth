@@ -8,10 +8,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <forward_list>
+#include <memory>
+#include "Tile.hpp"
 
 struct InventoryItem {
     int id;
-
+    std::shared_ptr<Tile> tile;
     bool operator==(const struct InventoryItem& other) const {
         return other.id == this->id;
     }
