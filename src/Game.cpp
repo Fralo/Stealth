@@ -85,7 +85,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
         if(cursor.getPointedElement().pointedElementType == ENEMY) {
             player->setTarget(cursor.getPointedElement().pointedElementObject);
         }
-        if(cursor.getPointedElement().pointedElementType != OBSTACLE)
+        else if(cursor.getPointedElement().pointedElementType != OBSTACLE)
             player->setTarget(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
         else
             denyMoveSfx.play();
