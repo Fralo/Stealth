@@ -89,3 +89,11 @@ std::vector<sf::Vector2f> MathHelper::getVertices(unsigned  int distance,float a
 
     return vertices;
 }
+
+sf::Vector2f MathHelper::getAbsoluteCoordinates(sf::Vector2f relatives, sf::Vector2f pos) {
+    sf::Vector2f absolute;
+    absolute.x = relatives.x + pos.x;
+    absolute.y = relatives.y + pos.y;
+
+    return absolute;
+}

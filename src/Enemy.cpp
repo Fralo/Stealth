@@ -18,8 +18,8 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(getPos());
-    coordinates.push_back(getAbsoluteCoordinates(MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(0)));
-    coordinates.push_back(getAbsoluteCoordinates(MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(1)));
+    coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(0),getPos()));
+    coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(1),getPos()));
 
 
     if (MathHelper::distanceBetweenTwoPoints(player.getPos(), getPos()) <
@@ -109,10 +109,7 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(re);
 }
 
-/**
- * Returns an isosceles triangle shape  with a vertex on enemy position, with height parallel to enemy orientation
- * (with swing) and equal to sight.distance, angle between the two sides equal to sight.angle
- */
+
 sf::ConvexShape Enemy::getSightTraigle() const {
     sf::ConvexShape triangle(3);
     triangle.setPoint(0, sf::Vector2f(0, 0));
