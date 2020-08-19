@@ -12,6 +12,8 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 }
 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
+    if(getHealth() == 0)
+        return;
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(getPos());
@@ -49,6 +51,8 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
 
         if (player.getHealth()>0)
             player.applyDamage(1);
+
+
     }
 
 

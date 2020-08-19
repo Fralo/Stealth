@@ -15,13 +15,13 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
 }
 
 void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap &map) {
+    if(getHealth() == 0)
+        return;
 
     auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
     Vector2u8 scaledTargetPos = target ? Vector2u8(target->getPos() / (float) GRID_SCALE_FACTOR) : Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
 
     int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
-
-
 
 
     /*
