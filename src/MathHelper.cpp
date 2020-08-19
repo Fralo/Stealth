@@ -30,7 +30,7 @@ bool MathHelper::hasLineOfSight(sf::Vector2f point1,sf::Vector2f point2,sf::Rect
                                        rect.left + rect.width,
                                        rect.top);
 
-    return !(top || left || bottom || right);
+    return (top || left || bottom || right);
 }
 
 bool MathHelper::checkLineIntersection(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
@@ -53,4 +53,39 @@ double MathHelper::Angle2D(double x1, double y1, double x2, double y2) {
         dtheta += 2 * M_PI;
 
     return (dtheta);
+}
+
+bool MathHelper::isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target) {
+    float x1, y1, x2, y2;
+    double angle = 0;
+
+    for (int i = 0; i < coordinates.size(); i++) {
+        x1 = coordinates.at(i).x - target.x;
+        y1 = coordinates.at(i).y - target.y;
+        x2 = coordinates.at((i + 1) % 3).x - target.x;
+        y2 = coordinates.at((i + 1) % 3).y - target.y;
+        angle += Angle2D(x1, y1, x2, y2);
+    }
+
+    return abs(angle) >= M_PI;
+}
+
+/**
+ * Compute the sum of the angles made between the test point and each pair of points making up the polygon.
+ * If it is 2*pi, then it is an interior point. If it is 0, then it is an exterior point.
+*/
+
+std::vector<sf::Vector2f> MathHelper::getVertices(unsigned  int distance,float angle, double orientation, double sightSwingVariation) {
+    std::vector<sf::Vector2f> vertices;
+    double radius = distance / std::cos(M_PI * angle / 2);
+
+    sf::Vector2f A(radius * std::cos((-orientation + sightSwingVariation - angle / 2) * M_PI),
+                   radius * std::sin((-orientation + sightSwingVariation - angle / 2) * M_PI));
+    sf::Vector2f B(radius * std::cos((-orientation + sightSwingVariation + angle / 2) * M_PI),
+                   radius * std::sin((-orientation + sightSwingVariation + angle / 2) * M_PI));
+
+    vertices.push_back(A);
+    vertices.push_back(B);
+
+    return vertices;
 }

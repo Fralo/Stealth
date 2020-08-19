@@ -27,7 +27,6 @@ public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
     void applyDamage(int damage);
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
-    bool isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -43,10 +42,7 @@ private:
     Weapon weapon;
 
     sf::ConvexShape getSightTraigle() const;
-    std::vector<sf::Vector2f> getViewVertices() const;
-    std::vector<sf::Vector2f> getFireVertices() const;
     sf::Vector2f getAbsoluteCoordinates(sf::Vector2f relatives) const;
-    static double Angle2D(double x1, double y1, double x2, double y2);
 };
 
 

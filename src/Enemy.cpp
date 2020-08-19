@@ -18,21 +18,18 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(getPos());
-    coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(0)));
-    coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(1)));
+    coordinates.push_back(getAbsoluteCoordinates(MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(0)));
+    coordinates.push_back(getAbsoluteCoordinates(MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(1)));
 
 
     if (MathHelper::distanceBetweenTwoPoints(player.getPos(), getPos()) <
         MathHelper::distanceBetweenTwoPoints(coordinates.at(1), getPos()))
-        if (isTargetInside(coordinates, player.getPos()))
+        if (MathHelper::isTargetInside(coordinates, player.getPos()))
             for (const std::shared_ptr<Object>& obj : objects) {
                 if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
                     strategy = std::make_shared<HunterStrategy>();
             }
 
-            // TODO: @fritz
-            //else
-            //    std::cout << "ti potrei vedere" << std::endl;
 
     sf::Vector2f next = strategy->getNextMove(*this, objects, player, map);
 
@@ -51,18 +48,18 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         }
         sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
     } else {
-        coordinates.clear();
-        coordinates.push_back(getPos());
-        coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(0)));
-        coordinates.push_back(getAbsoluteCoordinates(getFireVertices().at(1)));
+        //TODO: uncomment the following line when the weapon angle will be implemented, now is used the view angle
+        //coordinates.clear();
+        //coordinates.push_back(getPos());
+        //coordinates.push_back(getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(0)));
+        //coordinates.push_back(getAbsoluteCoordinates(getFireVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(1)));
 
-        if (player.getHealth()>0)
-            player.applyDamage(1);
 
+        //if(MathHelper::isTargetInside(coordinates,player.getPos()))
+            if (player.getHealth()>0)
+                player.applyDamage(1);
 
     }
-
-
 
 
     const char *dir = "idle";
@@ -119,62 +116,11 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 sf::ConvexShape Enemy::getSightTraigle() const {
     sf::ConvexShape triangle(3);
     triangle.setPoint(0, sf::Vector2f(0, 0));
-    triangle.setPoint(1, getViewVertices().at(0));
-    triangle.setPoint(2, getViewVertices().at(1));
+    triangle.setPoint(1, MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(0));
+    triangle.setPoint(2, MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(1));
 
     triangle.setPosition(sf::Vector2f(getPos()));
     return triangle;
-}
-
-std::vector<sf::Vector2f> Enemy::getViewVertices() const {
-    std::vector<sf::Vector2f> vertices;
-    double radius = view.distance / std::cos(M_PI * view.angle / 2);
-
-    sf::Vector2f A(radius * std::cos((-orientation + sightSwingVariation - view.angle / 2) * M_PI),
-                   radius * std::sin((-orientation + sightSwingVariation - view.angle / 2) * M_PI));
-    sf::Vector2f B(radius * std::cos((-orientation + sightSwingVariation + view.angle / 2) * M_PI),
-                   radius * std::sin((-orientation + sightSwingVariation + view.angle / 2) * M_PI));
-
-    vertices.push_back(A);
-    vertices.push_back(B);
-
-    return vertices;
-
-}
-
-std::vector<sf::Vector2f> Enemy::getFireVertices() const {
-    //TODO: use the angle from the weapon when it will be implemented
-    std::vector<sf::Vector2f> vertices;
-    double radius = weapon.distanceOfUse / std::cos(M_PI * view.angle / 2);
-
-    sf::Vector2f A(radius * std::cos((-orientation + sightSwingVariation - view.angle / 2) * M_PI),
-                   radius * std::sin((-orientation + sightSwingVariation - view.angle / 2) * M_PI));
-    sf::Vector2f B(radius * std::cos((-orientation + sightSwingVariation + view.angle / 2) * M_PI),
-                   radius * std::sin((-orientation + sightSwingVariation + view.angle / 2) * M_PI));
-
-    vertices.push_back(A);
-    vertices.push_back(B);
-
-    return vertices;
-}
-
-/**
- * Compute the sum of the angles made between the test point and each pair of points making up the polygon.
- * If it is 2*pi, then it is an interior point. If it is 0, then it is an exterior point.
-*/
-bool Enemy::isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f target) {
-    float x1, y1, x2, y2;
-    double angle = 0;
-
-    for (int i = 0; i < coordinates.size(); i++) {
-        x1 = coordinates.at(i).x - target.x;
-        y1 = coordinates.at(i).y - target.y;
-        x2 = coordinates.at((i + 1) % 3).x - target.x;
-        y2 = coordinates.at((i + 1) % 3).y - target.y;
-        angle += MathHelper::Angle2D(x1, y1, x2, y2);
-    }
-
-    return abs(angle) >= M_PI;
 }
 
 sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
@@ -186,5 +132,5 @@ sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
 }
 
 void Enemy::applyDamage(int damage) {
-    setHealth(getHealth() - damage);
+    setHealth(getHealth() - 1);
 }
