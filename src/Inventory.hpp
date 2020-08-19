@@ -10,7 +10,7 @@
 #include <forward_list>
 #include <memory>
 #include "Tile.hpp"
-
+#include <iostream>
 struct InventoryItem {
     int id;
     std::shared_ptr<Tile> tile;
@@ -21,13 +21,13 @@ struct InventoryItem {
 
 class Inventory : public sf::Drawable, public sf::Transformable {
 public:
-
+    Inventory();
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
-    std::forward_list<std::pair<InventoryItem, int>> inventory;
+    std::forward_list<InventoryItem> inventory;
 };
 
 
