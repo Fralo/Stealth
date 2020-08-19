@@ -154,7 +154,6 @@ std::vector<sf::Vector2f> Enemy::getFireVertices() const {
     return vertices;
 }
 
-
 /**
  * Compute the sum of the angles made between the test point and each pair of points making up the polygon.
  * If it is 2*pi, then it is an interior point. If it is 0, then it is an exterior point.
@@ -168,25 +167,10 @@ bool Enemy::isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vector2f t
         y1 = coordinates.at(i).y - target.y;
         x2 = coordinates.at((i + 1) % 3).x - target.x;
         y2 = coordinates.at((i + 1) % 3).y - target.y;
-        angle += Angle2D(x1, y1, x2, y2);
+        angle += MathHelper::Angle2D(x1, y1, x2, y2);
     }
 
     return abs(angle) >= M_PI;
-}
-
-/**
-   Return the angle between two vectors on a plane
-   The angle is from vector 1 to vector 2, positive anticlockwise
-   The result is between -pi -> pi
-*/
-double Enemy::Angle2D(double x1, double y1, double x2, double y2) {
-    double dtheta = atan2(y2, x2) - atan2(y1, x1);
-    while (dtheta > M_PI)
-        dtheta -= 2 * M_PI;
-    while (dtheta < -M_PI)
-        dtheta += 2 * M_PI;
-
-    return (dtheta);
 }
 
 sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
@@ -200,19 +184,3 @@ sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
 void Enemy::applyDamage(int damage) {
     setHealth(getHealth() - damage);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

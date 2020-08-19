@@ -40,3 +40,17 @@ bool MathHelper::checkLineIntersection(float x1, float y1, float x2, float y2, f
     return uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1;
 }
 
+/**
+   Return the angle between two vectors on a plane
+   The angle is from vector 1 to vector 2, positive anticlockwise
+   The result is between -pi -> pi
+*/
+double MathHelper::Angle2D(double x1, double y1, double x2, double y2) {
+    double dtheta = atan2(y2, x2) - atan2(y1, x1);
+    while (dtheta > M_PI)
+        dtheta -= 2 * M_PI;
+    while (dtheta < -M_PI)
+        dtheta += 2 * M_PI;
+
+    return (dtheta);
+}
