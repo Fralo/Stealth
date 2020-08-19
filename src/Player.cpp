@@ -4,6 +4,8 @@
 
 #include "Player.hpp"
 
+#include <utility>
+
 Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
     setPos(position);
     this->nextPos = position;
@@ -13,10 +15,12 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
 }
 
 void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap &map) {
+
     auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
     Vector2u8 scaledTargetPos = target ? Vector2u8(target->getPos() / (float) GRID_SCALE_FACTOR) : Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
 
     int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
+
 
 
 
@@ -36,8 +40,11 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
 
         auto astar = new Astar(obstacles, Vector2u8(map.getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
 
-        path = astar->getPath(scaledPos, scaledTargetPos);
 
+        path = astar->getPath(scaledPos, scaledTargetPos);
+        if(target != nullptr && MathHelper::distanceBetweenTwoPoints(getPos(),target->getPos()) > weapon.distanceOfUse - 10)
+            if (target->getHealth()>0)
+                target->setHealth(getHealth() - 1);
         cacheTime.restart();
     }
 
@@ -114,7 +121,7 @@ void Player::setTarget(sf::Vector2f next) {
     target = nullptr;
 }
 void Player::setTarget(std::shared_ptr<GameObject> target) {
-    Player::target = target;
+    Player::target = std::move(target);
 }
 
 void Player::applyDamage(int damage) {

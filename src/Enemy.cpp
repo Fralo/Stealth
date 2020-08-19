@@ -24,9 +24,6 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         if (isTargetInside(coordinates, player.getPos()))
             if (hasLineOfSight(objects, player))
                 strategy = std::make_shared<HunterStrategy>();
-            // TODO: @fritz
-            //else
-            //    std::cout << "ti potrei vedere" << std::endl;
 
     sf::Vector2f next = strategy->getNextMove(*this, objects, player, map);
 
