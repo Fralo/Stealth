@@ -13,6 +13,7 @@
 #include "Weapon.h"
 #include "Player.hpp"
 #include "HunterStrategy.hpp"
+#include "MathHelper.hpp"
 
 
 struct EnemyView {
@@ -45,10 +46,7 @@ private:
     std::vector<sf::Vector2f> getViewVertices() const;
     std::vector<sf::Vector2f> getFireVertices() const;
     sf::Vector2f getAbsoluteCoordinates(sf::Vector2f relatives) const;
-    static float distanceBetweenTwoPoints(sf::Vector2f p1,sf::Vector2f p2);
     static double Angle2D(double x1, double y1, double x2, double y2);
-    bool hasLineOfSight(const std::list<std::shared_ptr<Object>> &objects, Player &player);
-    static bool checkLineIntersection(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 };
 
 
