@@ -30,9 +30,7 @@ bool MathHelper::hasLineOfSight(sf::Vector2f point1,sf::Vector2f point2,sf::Rect
                                        rect.left + rect.width,
                                        rect.top);
 
-    if (top || left || bottom || right)
-        return false;
-    return true;
+    return !(top || left || bottom || right);
 }
 
 bool MathHelper::checkLineIntersection(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
