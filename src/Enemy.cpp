@@ -1,4 +1,5 @@
 //
+//
 // Created by vivedo on 09/05/20.
 //
 
@@ -21,15 +22,21 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
     coordinates.push_back(getAbsoluteCoordinates(getViewVertices().at(1)));
 
 
-    if (distanceBetweenTwoPoints(player.getPos(), getPos()) <
-        distanceBetweenTwoPoints(coordinates.at(1), getPos()))
+    if (MathHelper::distanceBetweenTwoPoints(player.getPos(), getPos()) <
+        MathHelper::distanceBetweenTwoPoints(coordinates.at(1), getPos()))
         if (isTargetInside(coordinates, player.getPos()))
-            if (hasLineOfSight(objects, player))
-                strategy = std::make_shared<HunterStrategy>();
+            for (const std::shared_ptr<Object>& obj : objects) {
+                if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
+                    strategy = std::make_shared<HunterStrategy>();
+            }
+
+            // TODO: @fritz
+            //else
+            //    std::cout << "ti potrei vedere" << std::endl;
 
     sf::Vector2f next = strategy->getNextMove(*this, objects, player, map);
 
-    if (distanceBetweenTwoPoints(getPos(), player.getPos()) > weapon.distanceOfUse - 10) {
+    if (MathHelper::distanceBetweenTwoPoints(getPos(), player.getPos()) > weapon.distanceOfUse - 10) {
 
         float movementFactor = 1;
         setPos(sf::Vector2f(getPos().x + next.x * movementFactor, getPos().y + next.y * movementFactor));
@@ -192,48 +199,6 @@ sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
     absolute.y = relatives.y + getPos().y;
 
     return absolute;
-}
-
-float Enemy::distanceBetweenTwoPoints(sf::Vector2f p1, sf::Vector2f p2) {
-    return sqrtf((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
-}
-
-bool Enemy::hasLineOfSight(const std::list<std::shared_ptr<Object>> &objects, Player &player) {
-    for (const std::shared_ptr<Object>& obj : objects) {
-        bool top = checkLineIntersection(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
-                                         obj->tile->collisionBox.left,
-                                         obj->tile->collisionBox.top,
-                                         obj->tile->collisionBox.left + obj->tile->collisionBox.width,
-                                         obj->tile->collisionBox.top);
-        bool left = checkLineIntersection(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
-                                          obj->tile->collisionBox.left,
-                                          obj->tile->collisionBox.top,
-                                          obj->tile->collisionBox.left,
-                                          obj->tile->collisionBox.top - obj->tile->collisionBox.height);
-        bool bottom = checkLineIntersection(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
-                                            obj->tile->collisionBox.top,
-                                            obj->tile->collisionBox.top - obj->tile->collisionBox.height,
-                                            obj->tile->collisionBox.left + obj->tile->collisionBox.width,
-                                            obj->tile->collisionBox.top - obj->tile->collisionBox.height);
-        bool right = checkLineIntersection(getPos().x, getPos().y, player.getPos().x, player.getPos().y,
-                                           obj->tile->collisionBox.left + obj->tile->collisionBox.width,
-                                           obj->tile->collisionBox.top - obj->tile->collisionBox.height,
-                                           obj->tile->collisionBox.left + obj->tile->collisionBox.width,
-                                           obj->tile->collisionBox.top);
-
-        if (top || left || bottom || right)
-            return false;
-    }
-
-    return true;
-}
-
-
-bool Enemy::checkLineIntersection(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
-    float uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
-    float uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
-
-    return uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1;
 }
 
 void Enemy::applyDamage(int damage) {
