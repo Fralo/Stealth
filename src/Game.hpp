@@ -55,6 +55,7 @@ private:
 
     void loadMapConfig();
     void loadEnemies(xml::XMLElement *root);
+    void loadObjects();
     void updateMapView(Stealth &stealth);
 
 };

@@ -2,6 +2,7 @@
 // Created by vivedo on 18/07/20.
 //
 
+#include <iostream>
 #include "GameObject.hpp"
 
 sf::Vector2f GameObject::getPos() const {
@@ -27,6 +28,7 @@ sf::Vector2f GameObject::getAbsDrawingCenter() {
 }
 
 sf::FloatRect GameObject::getAbsCollisionBox() {
+    //TODO remove this sh*t
     return sf::FloatRect({tile->collisionBox.left + position.x, tile->collisionBox.top + position.y,
                           tile->collisionBox.width, tile->collisionBox.height});
 }

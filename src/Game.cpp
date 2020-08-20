@@ -109,7 +109,7 @@ void Game::loadMapConfig() {
 
     xml::XMLElement *root = xml.FirstChildElement("stealth");
     loadEnemies(root);
-
+    loadObjects();
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
     xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
     player = std::make_shared<Player>(
@@ -207,4 +207,23 @@ void Game::updateMapView(Stealth &stealth) {
         view.setCenter(view.getCenter().x, mapSize.y - viewSize.y / 2);
 
     stealth.window.setView(view);
+}
+
+void Game::loadObjects() {
+    ObjectProperties test1;
+    std::shared_ptr<Tile> t =std::make_shared<Tile>(sf::Vector2f(0,0),sf::Rect<float>(0,0,100,100));
+    test1.id = 1;
+    std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
+            0,
+            0
+    ),test1);
+    std::shared_ptr<Object> obj2 = std::make_shared<Object>(nullptr, sf::Vector2f(
+            0,
+            0
+    ),test1);
+    std::shared_ptr<Object> obj3 = std::make_shared<Object>(nullptr, sf::Vector2f(
+            0,
+            0
+    ),test1);
+    this->objects.push_front(obj1);
 }
