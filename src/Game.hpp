@@ -37,6 +37,7 @@ protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
+    AdvancementManager advancementManager;
     std::forward_list<std::shared_ptr<Enemy>> enemies;
     std::list<std::shared_ptr<Object>> objects;
     std::shared_ptr<Player> player;
@@ -56,6 +57,7 @@ private:
     void loadMapConfig();
     void loadEnemies(xml::XMLElement *root);
     void updateMapView(Stealth &stealth);
+
 
 };
 

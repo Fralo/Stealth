@@ -14,6 +14,7 @@
 #include "Player.hpp"
 #include "HunterStrategy.hpp"
 #include "MathHelper.hpp"
+#include "EnemyShootingObserver.hpp"
 
 
 struct EnemyView {
@@ -27,6 +28,7 @@ public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
     void applyDamage(int damage);
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
+    void subscribe(EnemyShootingObserver *pointer);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -40,6 +42,7 @@ private:
     double orientationTarget;
     double sightSwingVariation = 0;
     Weapon weapon;
+    std::list<EnemyShootingObserver *> listESO;
 
     sf::ConvexShape getSightTraigle() const;
 };

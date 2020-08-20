@@ -3,3 +3,7 @@
 //
 
 #include "AdvancementManager.hpp"
+
+void AdvancementManager::enemyShoots(Enemy *enemy) {
+
+}
