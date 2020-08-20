@@ -4,6 +4,6 @@
 
 #include "AdvancementManager.hpp"
 
-void AdvancementManager::enemyShoots(Enemy *enemy) {
+void AdvancementManager::enemyShoots() {
 
 }

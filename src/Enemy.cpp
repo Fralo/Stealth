@@ -56,9 +56,9 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         if(MathHelper::isTargetInside(coordinates,player.getPos()))
             if (player.getHealth()>0)
                 player.applyDamage(1);
-//            else
-//                for(EnemyShootingObserver* e : listESO)
-//                    e->enemyShoots(this);
+            else
+                for(EnemyShootingObserver* e : listESO)
+                     e->enemyShoots();
     }
 
 

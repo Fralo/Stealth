@@ -13,7 +13,7 @@ class Enemy;
 class EnemyShootingObserver {
 
 public :
-    virtual void enemyShoots(Enemy * enemy) = 0;
+    virtual void enemyShoots() = 0;
 
 };
 

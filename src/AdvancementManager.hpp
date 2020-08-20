@@ -10,14 +10,14 @@
 
 class AdvancementManager : public EnemyShootingObserver{
 public:
-    void enemyShoots(Enemy *enemy) override;
+    void enemyShoots() override;
 
 private:
 
     struct Advancements{
         int enemyKilled = 0;
         int walked = 0;
-        bool isStealth;
+        bool isStealth = true;
     };
 
     Advancements advancements;

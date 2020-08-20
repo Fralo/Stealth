@@ -161,7 +161,7 @@ void Game::loadEnemies(xml::XMLElement *root) {
 
     }
     for(std::shared_ptr<Enemy> e : enemies)
-        e->subscribe(advancementManager);
+        e->subscribe(&advancementManager);
 
 
     std::cout << "Enemies loaded" << std::endl;
