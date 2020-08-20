@@ -5,15 +5,27 @@
 #include "Inventory.hpp"
 
 Inventory::Inventory() {
-    InventoryItem item1;
-    item1.id = 1;
-    InventoryItem item2;
-    item2.id = 2;
-    InventoryItem item3;
-    item3.id = 3;
-    this->inventory.push_front(item1);
-    this->inventory.push_front(item2);
-    this->inventory.push_front(item3);
+    ObjectProperties test1;
+    test1.id = 1;
+    std::shared_ptr<Object> obj1 = std::make_shared<Object>(nullptr, sf::Vector2f(
+            0,
+            0
+    ),test1);
+    std::shared_ptr<Object> obj2 = std::make_shared<Object>(nullptr, sf::Vector2f(
+            0,
+            0
+    ),test1);
+    std::shared_ptr<Object> obj3 = std::make_shared<Object>(nullptr, sf::Vector2f(
+            0,
+            0
+    ),test1);
+    this->addObject(obj1);
+    obj1->properties.id = 2;
+    this->addObject(obj2);
+    obj1->properties.id = 3;
+    this->addObject(obj3);
+
+
 }
 
 
@@ -22,28 +34,12 @@ void Inventory::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     liferect.setFillColor(sf::Color(200,200,0));
     liferect.setPosition( target.getView().getCenter().x + 345,target.getView().getCenter().y - 275);
     target.draw(liferect);
+}
 
-    for(InventoryItem i : inventory) {
-        int red = 0;
-        int green = 0;
-        int blue = 0;
-        switch(i.id) {
-            case 1:
-                green = 255;
-                break;
-            case 2:
-                red = 255;
-                break;
-            case 3:
-                blue = 255;
-                break;
-            default:
-                break;
-        }
-        sf::RectangleShape liferect({40,40});
-        liferect.setFillColor(sf::Color(red,green,blue));
-        liferect.setPosition( target.getView().getCenter().x + 345,target.getView().getCenter().y - 275 + ((i.id - 1) * 45));
+std::forward_list<std::shared_ptr<Object>> Inventory::getInventory() {
+    return std::forward_list<std::shared_ptr<Object>>(this->inventory);
+}
 
-        target.draw(liferect);
-    }
+bool Inventory::addObject(std::shared_ptr<Object> obj) {
+    this->inventory.push_front(obj);
 }

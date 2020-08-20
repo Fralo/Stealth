@@ -76,6 +76,10 @@ void Game::update(Stealth &stealth) {
     }
 
     stealth.window.draw(*inventory);
+    std::forward_list<std::shared_ptr<Object>> inventoryObjects = inventory->getInventory();
+    for(const std::shared_ptr<Object>& obj  : inventoryObjects) {
+        stealth.window.draw(*obj);
+    }
     stealth.window.draw(cursor);
     stealth.window.display();
 }

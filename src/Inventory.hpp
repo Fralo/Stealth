@@ -11,23 +11,19 @@
 #include <memory>
 #include "Tile.hpp"
 #include <iostream>
-struct InventoryItem {
-    int id;
-    std::shared_ptr<Tile> tile;
-    bool operator==(const struct InventoryItem& other) const {
-        return other.id == this->id;
-    }
-};
+#include "Object.hpp"
 
 class Inventory : public sf::Drawable, public sf::Transformable {
 public:
     Inventory();
+    std::forward_list<std::shared_ptr<Object>> getInventory();
+    bool addObject(std::shared_ptr<Object> obj);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
-    std::forward_list<InventoryItem> inventory;
+    std::forward_list<std::shared_ptr<Object>> inventory;
 };
 
 
