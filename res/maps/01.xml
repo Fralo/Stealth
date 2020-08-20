@@ -26,4 +26,10 @@
         </enemy>
     </enemies>
 
+    <objects>
+        <object>
+            <spawnpoint x="400" y="400" />
+        </object>
+    </objects>
+
 </stealth>
