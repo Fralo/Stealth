@@ -114,7 +114,8 @@ void Game::loadMapConfig() {
                         ),
                         Weapon {
                                 xmlPlayerWeapon->IntAttribute("rate"),
-                                xmlPlayerWeapon->IntAttribute("damage")
+                                xmlPlayerWeapon->IntAttribute("damage"),
+                                xmlPlayerWeapon->IntAttribute("angle")
                         });
 }
 
@@ -142,7 +143,9 @@ void Game::loadEnemies(xml::XMLElement *root) {
                 Weapon {
                         weapon->IntAttribute("rate"),
                         weapon->IntAttribute("damage"),
-                        weapon->IntAttribute("distance")
+                        weapon->IntAttribute("distance"),
+                        weapon->FloatAttribute("angle"),
+
                 },
                 EnemyView {
                         enemy->FloatAttribute("sight-angle"),

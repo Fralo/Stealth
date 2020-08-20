@@ -48,14 +48,12 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         }
         sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
     } else {
-        //TODO: uncomment the following line when the weapon angle will be implemented
-        //coordinates.clear();
-        //coordinates.push_back(getPos());
-        //coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(0)));
-        //coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(1)));
+        coordinates.clear();
+        coordinates.push_back(getPos());
+        coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(0),getPos()));
+        coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(1),getPos()));
 
-
-        //if(MathHelper::isTargetInside(coordinates,player.getPos()))
+        if(MathHelper::isTargetInside(coordinates,player.getPos()))
             if (player.getHealth()>0)
                 player.applyDamage(1);
 
