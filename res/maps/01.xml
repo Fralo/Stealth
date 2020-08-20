@@ -2,7 +2,7 @@
 <stealth>
     <player>
         <spawnpoint x="100" y="100" />
-        <weapon rate="1" damage="10" distance="50" />
+        <weapon rate="1" damage="10" distance="50" angle=".2"/>
     </player>
 
     <map source="01-map.tmx" />
@@ -16,13 +16,13 @@
                 <location x="500" y="500" />
                 <location x="500" y="200" />
             </movement>
-            <weapon rate="1" damage="10" distance="100" />
+            <weapon rate="1" damage="10" distance="100" angle=".2"/>
         </enemy>
 
         <enemy sight-angle=".2" sight-distance="50">
             <spawnpoint x="100" y="400" r="1" />
             <movement />
-            <weapon rate="1" damage="10" distance="100" />
+            <weapon rate="1" damage="10" distance="100" angle=".2"/>
         </enemy>
     </enemies>
 

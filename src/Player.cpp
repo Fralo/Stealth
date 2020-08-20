@@ -45,12 +45,6 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
 
         path = astar->getPath(scaledPos, scaledTargetPos);
         if(target != nullptr && MathHelper::distanceBetweenTwoPoints(getPos(),target->getPos()) > weapon.distanceOfUse - 10)
-            //TODO: uncomment the following line when the weapon angle will be implemented
-//            coordinates.clear();
-//            coordinates.push_back(getPos());
-//            coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(0)));
-//            coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(1)));
-//            if(MathHelper::isTargetInside(coordinates,target->getPos()))
                 if (target->getHealth()>0)
                     target->setHealth(getHealth() - 1);
         cacheTime.restart();
