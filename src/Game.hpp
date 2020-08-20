@@ -20,6 +20,7 @@
 #include "SeekStrategy.hpp"
 #include "GameCursor.hpp"
 #include "Inventory.hpp"
+#include "AdvancementManager.hpp"
 
 namespace xml = tinyxml2;
 
@@ -37,7 +38,7 @@ protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
-    AdvancementManager advancementManager;
+    AdvancementManager* advancementManager;
     std::forward_list<std::shared_ptr<Enemy>> enemies;
     std::list<std::shared_ptr<Object>> objects;
     std::shared_ptr<Player> player;
