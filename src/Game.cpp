@@ -158,7 +158,12 @@ void Game::loadEnemies(xml::XMLElement *root) {
                         enemy->FloatAttribute("swing")
                 },
                 seekStrategy));
+
     }
+    for(std::shared_ptr<Enemy> e : enemies)
+        e->subscribe(advancementManager);
+
+
     std::cout << "Enemies loaded" << std::endl;
 }
 
