@@ -42,7 +42,6 @@ private:
     Weapon weapon;
 
     sf::ConvexShape getSightTraigle() const;
-    sf::Vector2f getAbsoluteCoordinates(sf::Vector2f relatives) const;
 };
 
 

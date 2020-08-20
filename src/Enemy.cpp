@@ -48,11 +48,11 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         }
         sightSwingVariation = view.swing * std::sin(clock.getElapsedTime().asMilliseconds() / 500.0f);
     } else {
-        //TODO: uncomment the following line when the weapon angle will be implemented, now is used the view angle
+        //TODO: uncomment the following line when the weapon angle will be implemented
         //coordinates.clear();
         //coordinates.push_back(getPos());
-        //coordinates.push_back(getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(0)));
-        //coordinates.push_back(getAbsoluteCoordinates(getFireVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(1)));
+        //coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(0)));
+        //coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(1)));
 
 
         //if(MathHelper::isTargetInside(coordinates,player.getPos()))
@@ -120,13 +120,6 @@ sf::ConvexShape Enemy::getSightTraigle() const {
     return triangle;
 }
 
-sf::Vector2f Enemy::getAbsoluteCoordinates(sf::Vector2f relatives) const {
-    sf::Vector2f absolute;
-    absolute.x = relatives.x + getPos().x;
-    absolute.y = relatives.y + getPos().y;
-
-    return absolute;
-}
 
 void Enemy::applyDamage(int damage) {
     setHealth(getHealth() - 1);
