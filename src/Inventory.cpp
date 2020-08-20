@@ -20,9 +20,9 @@ Inventory::Inventory() {
             0
     ),test1);
     this->addObject(obj1);
-    obj1->properties.id = 2;
+    obj2->properties.id = 2;
     this->addObject(obj2);
-    obj1->properties.id = 3;
+    obj3->properties.id = 3;
     this->addObject(obj3);
 
 

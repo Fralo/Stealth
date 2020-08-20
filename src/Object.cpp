@@ -15,27 +15,30 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         tile->setPosition(position);
         target.draw(*tile);
     }
-    int red = 0;
-    int green = 0;
-    int blue = 0;
-    switch(this->properties.id) {
-        case 1:
-            green = 255;
-            break;
-        case 2:
-            red = 255;
-            break;
-        case 3:
-            blue = 255;
-            break;
-        default:
-            break;
-    }
-    sf::RectangleShape liferect({40,40});
-    liferect.setFillColor(sf::Color(red,green,blue));
-    liferect.setPosition( target.getView().getCenter().x + 345,target.getView().getCenter().y - 275 + ((this->properties.id - 1) * 45));
+    else if(this->properties.id >= 1 && this->properties.id <= 3) {
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        switch (this->properties.id) {
+            case 1:
+                green = 255;
+                break;
+            case 2:
+                red = 255;
+                break;
+            case 3:
+                blue = 255;
+                break;
+            default:
+                break;
+        }
+        sf::RectangleShape liferect({40, 40});
+        liferect.setFillColor(sf::Color(red, green, blue));
+        liferect.setPosition(target.getView().getCenter().x + 345,
+                             target.getView().getCenter().y - 275 + ((this->properties.id - 1) * 45));
 
-    target.draw(liferect);
+        target.draw(liferect);
+    }
 
 #ifdef STEALTH_GRAPHIC_DEBUG
     if(tile->collisionBox.height > 0 && tile->collisionBox.width > 0) {
