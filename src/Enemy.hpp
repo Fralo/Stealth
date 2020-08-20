@@ -17,6 +17,8 @@
 #include "EnemyShootingObserver.hpp"
 
 
+class EnemyShootingObserver;
+
 struct EnemyView {
     float angle;
     unsigned int distance;
