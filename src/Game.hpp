@@ -20,6 +20,7 @@
 #include "SeekStrategy.hpp"
 #include "GameCursor.hpp"
 #include "Inventory.hpp"
+#include "AdvancementManager.hpp"
 
 namespace xml = tinyxml2;
 

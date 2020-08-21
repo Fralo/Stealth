@@ -58,7 +58,7 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
                 player.applyDamage(1);
             else
                 for(EnemyShootingObserver* e : listESO)
-                    e->enemyShoots(*this);
+                     e->enemyShoots();
     }
 
 
