@@ -15,7 +15,7 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         tile->setPosition(position);
         target.draw(*tile);
     }
-    else if(this->properties.id >= 1 && this->properties.id <= 3) {
+    else if(this->properties.id >= 1 && this->properties.id <= 4) {
         int red = 0;
         int green = 0;
         int blue = 0;
@@ -29,13 +29,20 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
             case 3:
                 blue = 255;
                 break;
+            case 4:
+                red = 255;
+                blue = 150;
+                break;
             default:
                 break;
         }
         sf::RectangleShape liferect({40, 40});
         liferect.setFillColor(sf::Color(red, green, blue));
-        liferect.setPosition(target.getView().getCenter().x + 345,
-                             target.getView().getCenter().y - 275 + ((this->properties.id - 1) * 45));
+        if(this->properties.id == 4)
+            liferect.setPosition(400,400);
+        else
+            liferect.setPosition(target.getView().getCenter().x + 345,
+                    target.getView().getCenter().y - 275 + ((this->properties.id - 1) * 45));
 
         target.draw(liferect);
     }

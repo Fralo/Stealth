@@ -78,7 +78,6 @@ void Game::update(Stealth &stealth) {
     stealth.window.draw(*inventory);
     std::forward_list<std::shared_ptr<Object>> inventoryObjects = inventory->getInventory();
     for(const std::shared_ptr<Object>& obj  : inventoryObjects) {
-        std::cout<<obj->properties.id << std::endl;
         stealth.window.draw(*obj);
     }
     stealth.window.draw(cursor);
@@ -216,19 +215,11 @@ void Game::updateMapView(Stealth &stealth) {
 
 void Game::loadObjects() {
     ObjectProperties test1;
-    std::shared_ptr<Tile> t =std::make_shared<Tile>(sf::Vector2f(0,0),sf::Rect<float>(0,0,100,100));
-    test1.id = 1;
+    std::shared_ptr<Tile> t =std::make_shared<Tile>(sf::Vector2f(200,200),sf::Rect<float>(0,0,100,100));
+    test1.id = 4;
     std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
-            0,
-            0
-    ),test1);
-    std::shared_ptr<Object> obj2 = std::make_shared<Object>(nullptr, sf::Vector2f(
-            0,
-            0
-    ),test1);
-    std::shared_ptr<Object> obj3 = std::make_shared<Object>(nullptr, sf::Vector2f(
-            0,
-            0
+            200,
+            200
     ),test1);
     this->objects.push_front(obj1);
 }
