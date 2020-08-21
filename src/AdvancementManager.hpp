@@ -7,10 +7,15 @@
 
 
 #include "EnemyShootingObserver.hpp"
+#include "IsStealthObserver.hpp"
+#include "WalkObserver.hpp"
 
-class AdvancementManager : public EnemyShootingObserver{
+class AdvancementManager : public EnemyShootingObserver, public IsStealthObserver, public WalkObserver{
 public:
     void enemyShoots() override;
+    void changeStealthStatus() override;
+
+    void updateWalked() override;
 
 private:
 
@@ -19,9 +24,7 @@ private:
         int walked = 0;
         bool isStealth = true;
     };
-
     Advancements advancements;
-
 
 };
 

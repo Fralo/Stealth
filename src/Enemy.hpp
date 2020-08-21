@@ -15,6 +15,7 @@
 #include "HunterStrategy.hpp"
 #include "MathHelper.hpp"
 #include "EnemyShootingObserver.hpp"
+#include "IsStealthObserver.hpp"
 
 
 class EnemyShootingObserver;
@@ -45,6 +46,7 @@ private:
     double sightSwingVariation = 0;
     Weapon weapon;
     std::list<EnemyShootingObserver *> listESO;
+    std::list<IsStealthObserver *> listISO;
 
     sf::ConvexShape getSightTraigle() const;
 };

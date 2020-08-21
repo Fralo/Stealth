@@ -5,5 +5,13 @@
 #include "AdvancementManager.hpp"
 
 void AdvancementManager::enemyShoots() {
+    advancements.enemyKilled ++;
+}
+
+void AdvancementManager::changeStealthStatus() {
+    advancements.isStealth = false;
+}
+
+void AdvancementManager::updateWalked() {
 
 }
