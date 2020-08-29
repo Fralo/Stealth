@@ -34,7 +34,6 @@ void Game::update(Stealth &stealth) {
     if (tickClock.getElapsedTime().asMilliseconds() <= TICKDELAY)
         return;
     tickClock.restart();
-
     /*
      * Update objects
      */
@@ -42,8 +41,8 @@ void Game::update(Stealth &stealth) {
         enemy->update(objects, *player, *map);
     player->update(objects, *map);
     cursor.update(stealth.window, objects, enemies);
-
     updateMapView(stealth);
+    stealth.window.setView(view);
     /*
      * Draw objects
      */
@@ -218,8 +217,6 @@ void Game::updateMapView(Stealth &stealth) {
         view.setCenter(view.getCenter().x, viewSize.y / 2);
     else if (view.getCenter().y > mapSize.y - viewSize.y / 2)
         view.setCenter(view.getCenter().x, mapSize.y - viewSize.y / 2);
-
-    stealth.window.setView(view);
 }
 
 void Game::loadObjects() {
