@@ -86,8 +86,6 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
         if (cursor.getPointedElement().pointedElementType == ENEMY) {
             player->setTarget(cursor.getPointedElement().pointedElementObject);
         } else if (cursor.getPointedElement().pointedElementType == ITEM) {
-            std::cout << "x = " << cursor.getPosition().x << "\n";
-            std::cout << "y = " << cursor.getPosition().y << "\n";
             player->setTarget(cursor.getPointedElement().pointedElementObject);
         } else if (cursor.getPointedElement().pointedElementType != OBSTACLE)
             player->setTarget(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));

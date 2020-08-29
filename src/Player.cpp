@@ -34,12 +34,15 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
         std::forward_list<sf::IntRect> obstacles;
 
         for (auto &&obj : objects) {
-            auto cb = sf::IntRect(obj->tile->collisionBox);
+            if (obj->properties.collectible == false) {
+                auto cb = sf::IntRect(obj->tile->collisionBox);
 
-            obstacles.push_front({static_cast<int>(std::floor((obj->getPos().x + cb.left) / GRID_SCALE_FACTOR)), static_cast<int>(std::floor((obj->getPos().y + cb.top) / GRID_SCALE_FACTOR)),
-                                  static_cast<int>(std::ceil(((float) cb.width) / GRID_SCALE_FACTOR)), static_cast<int>(std::ceil(((float) cb.height) / GRID_SCALE_FACTOR))});
+                obstacles.push_front({static_cast<int>(std::floor((obj->getPos().x + cb.left) / GRID_SCALE_FACTOR)),
+                                      static_cast<int>(std::floor((obj->getPos().y + cb.top) / GRID_SCALE_FACTOR)),
+                                      static_cast<int>(std::ceil(((float) cb.width) / GRID_SCALE_FACTOR)),
+                                      static_cast<int>(std::ceil(((float) cb.height) / GRID_SCALE_FACTOR))});
+            }
         }
-
         auto astar = new Astar(obstacles, Vector2u8(map.getMapActualSize() / (unsigned int) GRID_SCALE_FACTOR));
 
 
