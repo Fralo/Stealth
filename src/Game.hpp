@@ -45,8 +45,9 @@ private:
     std::shared_ptr<Inventory> inventory;
     std::shared_ptr<TiledMap> map;
     GameCursor cursor;
-    sf::View view;
-    sf::Clock clock;
+    sf::View gameView;
+    sf::View guiView;
+    sf::Clock gameViewClock;
 
     sf::Clock tickClock;
 
@@ -58,7 +59,7 @@ private:
     void loadMapConfig();
     void loadEnemies(xml::XMLElement *root);
     void loadObjects();
-    void updateMapView(Stealth &stealth);
+    void updateViews(Stealth &stealth);
 
 
 };
