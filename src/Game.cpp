@@ -224,7 +224,7 @@ void Game::updateMapView(Stealth &stealth) {
 
 void Game::loadObjects() {
     ObjectProperties test1;
-    std::shared_ptr<Tile> t = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 400, 400));
+    std::shared_ptr<Tile> t = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
     test1.id = 4;
     test1.collectible = true;
     std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
