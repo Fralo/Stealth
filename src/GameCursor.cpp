@@ -63,11 +63,19 @@ void GameCursor::update(sf::RenderWindow &window, const std::list<std::shared_pt
     //check if the player can shot the enemy
     for (const std::shared_ptr<Object>& obs : objects) {
         if(obs->getAbsCollisionBox().contains(position.x, position.y)) {
-            spriteX = 192;
-            spriteY = 0;
-            pointedElement.pointedElementType = OBSTACLE;
-            pointedElement.pointedElementObject = obs;
-            break;
+            if(obs->properties.collectible == false) {
+                spriteX = 192;
+                spriteY = 0;
+                pointedElement.pointedElementType = OBSTACLE;
+                pointedElement.pointedElementObject = obs;
+                break;
+            }
+            else {
+                spriteX = 96;
+                spriteY = 0;
+                pointedElement.pointedElementType = ITEM;
+                pointedElement.pointedElementObject = obs;
+            }
         }
     }
 }

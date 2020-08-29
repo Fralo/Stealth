@@ -11,7 +11,7 @@ Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperti
 
 
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    if(tile != nullptr) {
+    if(tile != nullptr && this->properties.id == 0) {
         tile->setPosition(position);
         target.draw(*tile);
     }

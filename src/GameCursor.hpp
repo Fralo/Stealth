@@ -18,6 +18,7 @@ enum Pointing{
     NOTHING,
     ENEMY,
     OBSTACLE,
+    ITEM,
     PLAYER
 };
 

@@ -18,12 +18,15 @@ public:
     Inventory();
     std::forward_list<std::shared_ptr<Object>> getInventory();
     bool addObject(std::shared_ptr<Object> obj);
-
+    void update();
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
     std::forward_list<std::shared_ptr<Object>> inventory;
+    sf::Vector2f firstItemPos;
+    sf::Vector2f secondItemPos;
+    sf::Vector2f thirdItemPos;
 };
 
 

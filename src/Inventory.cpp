@@ -5,26 +5,6 @@
 #include "Inventory.hpp"
 
 Inventory::Inventory() {
-    ObjectProperties test1;
-    test1.id = 1;
-    std::shared_ptr<Object> obj1 = std::make_shared<Object>(nullptr, sf::Vector2f(
-            0,
-            0
-    ),test1);
-    std::shared_ptr<Object> obj2 = std::make_shared<Object>(nullptr, sf::Vector2f(
-            0,
-            0
-    ),test1);
-    std::shared_ptr<Object> obj3 = std::make_shared<Object>(nullptr, sf::Vector2f(
-            0,
-            0
-    ),test1);
-    this->addObject(obj1);
-    obj2->properties.id = 2;
-    this->addObject(obj2);
-    obj3->properties.id = 3;
-    this->addObject(obj3);
-
 
 }
 
@@ -42,4 +22,11 @@ std::forward_list<std::shared_ptr<Object>> Inventory::getInventory() {
 
 bool Inventory::addObject(std::shared_ptr<Object> obj) {
     this->inventory.push_front(obj);
+}
+
+void Inventory::update() {
+    firstItemPos.x = 100;
+    firstItemPos.y = 100;
+    std::forward_list<std::shared_ptr<Object>>::iterator it = inventory.begin();
+    (**it).setPosition(firstItemPos);
 }
