@@ -13,8 +13,9 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 }
 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
-    if(getHealth() == 0)
+    if(getHealth() == 0) {
         return;
+    }
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(getPos());
@@ -28,6 +29,8 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
             for (const std::shared_ptr<Object>& obj : objects) {
                 if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
                     strategy = std::make_shared<HunterStrategy>();
+                for(IsStealthObserver* e : listISO)
+                    e->changeStealthStatus();
             }
 
 
@@ -125,8 +128,20 @@ void Enemy::applyDamage(int damage) {
     setHealth(getHealth() - 1);
 }
 
-void Enemy::subscribe(EnemyShootingObserver *pointer) {
-
+void Enemy::subscribeESO(EnemyShootingObserver *pointer) {
     listESO.push_back(pointer);
-
 }
+
+void Enemy::subscribeISO(IsStealthObserver *pointer) {
+    listISO.push_back(pointer);
+}
+
+void Enemy::unsubscribeESO(EnemyShootingObserver *pointer) {
+    listESO.remove(pointer);
+}
+
+void Enemy::unsubscribeISO(IsStealthObserver *pointer) {
+    listISO.remove(pointer);
+}
+
+
