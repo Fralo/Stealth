@@ -3,7 +3,7 @@
 //
 
 #include "Game.hpp"
-
+#define STEALTH_GRAPHIC_DEBUG
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
 
@@ -29,15 +29,15 @@ void Game::update(Stealth &stealth) {
     /*
      * Updates and draws scene 1000 / TICKDELAY times per second
      */
-    if(tickClock.getElapsedTime().asMilliseconds() <= TICKDELAY)
+    if (tickClock.getElapsedTime().asMilliseconds() <= TICKDELAY)
         return;
     tickClock.restart();
 
     /*
      * Update objects
      */
-    for (const std::shared_ptr<Enemy>& enemy : enemies)
-        enemy->update(objects,*player,*map);
+    for (const std::shared_ptr<Enemy> &enemy : enemies)
+        enemy->update(objects, *player, *map);
     player->update(objects, *map);
     cursor.update(stealth.window, objects, enemies);
 
@@ -51,17 +51,17 @@ void Game::update(Stealth &stealth) {
 
     // Create an ordered list of GameObjects in order to draw them accordingly to their y coord
     std::list<std::shared_ptr<GameObject>> gameObjects;
-    auto gameObjectCmp = [](const std::shared_ptr<GameObject>& a, const std::shared_ptr<GameObject>& b) {
+    auto gameObjectCmp = [](const std::shared_ptr<GameObject> &a, const std::shared_ptr<GameObject> &b) {
         return a->getAbsDrawingCenter().y < b->getAbsDrawingCenter().y;
     };
 
     gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), player, gameObjectCmp), player);
-    for (const std::shared_ptr<Enemy>& enemy : enemies)
+    for (const std::shared_ptr<Enemy> &enemy : enemies)
         gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), enemy, gameObjectCmp), enemy);
-    for(const std::shared_ptr<Object>& object : objects)
+    for (const std::shared_ptr<Object> &object : objects)
         gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), object, gameObjectCmp), object);
 
-    for(const std::shared_ptr<GameObject>& gameObject : gameObjects) {
+    for (const std::shared_ptr<GameObject> &gameObject : gameObjects) {
         stealth.window.draw(*gameObject);
 
 #ifdef STEALTH_GRAPHIC_DEBUG
@@ -83,14 +83,13 @@ void Game::update(Stealth &stealth) {
 
 void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) { // click
-        if(cursor.getPointedElement().pointedElementType == ENEMY) {
+        if (cursor.getPointedElement().pointedElementType == ENEMY) {
             player->setTarget(cursor.getPointedElement().pointedElementObject);
-        }
-        else if(cursor.getPointedElement().pointedElementType == ITEM) {
-            denyMoveSfx.play();
-            std::cout << "Oggetto cliccato\n";
-        }
-        else if(cursor.getPointedElement().pointedElementType != OBSTACLE)
+        } else if (cursor.getPointedElement().pointedElementType == ITEM) {
+            std::cout << "x = " << cursor.getPosition().x << "\n";
+            std::cout << "y = " << cursor.getPosition().y << "\n";
+            player->setTarget(cursor.getPointedElement().pointedElementObject);
+        } else if (cursor.getPointedElement().pointedElementType != OBSTACLE)
             player->setTarget(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
         else
             denyMoveSfx.play();
@@ -113,15 +112,15 @@ void Game::loadMapConfig() {
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
     xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
     player = std::make_shared<Player>(
-                        sf::Vector2f(
-                                playerSpawn->FloatAttribute("x"),
-                                playerSpawn->FloatAttribute("y")
-                        ),
-                        Weapon {
-                                xmlPlayerWeapon->IntAttribute("rate"),
-                                xmlPlayerWeapon->IntAttribute("damage"),
-                                xmlPlayerWeapon->IntAttribute("angle")
-                        });
+            sf::Vector2f(
+                    playerSpawn->FloatAttribute("x"),
+                    playerSpawn->FloatAttribute("y")
+            ),
+            Weapon{
+                    xmlPlayerWeapon->IntAttribute("rate"),
+                    xmlPlayerWeapon->IntAttribute("damage"),
+                    xmlPlayerWeapon->IntAttribute("angle")
+            });
 }
 
 void Game::loadEnemies(xml::XMLElement *root) {
@@ -145,14 +144,14 @@ void Game::loadEnemies(xml::XMLElement *root) {
                         spawn->FloatAttribute("y")
                 ),
                 spawn->FloatAttribute("orientation"),
-                Weapon {
+                Weapon{
                         weapon->IntAttribute("rate"),
                         weapon->IntAttribute("damage"),
                         weapon->IntAttribute("distance"),
                         weapon->FloatAttribute("angle"),
 
                 },
-                EnemyView {
+                EnemyView{
                         enemy->FloatAttribute("sight-angle"),
                         enemy->UnsignedAttribute("sight-distance"),
                         enemy->FloatAttribute("swing")
@@ -160,7 +159,7 @@ void Game::loadEnemies(xml::XMLElement *root) {
                 seekStrategy));
 
     }
-    for(std::shared_ptr<Enemy> e : enemies)
+    for (std::shared_ptr<Enemy> e : enemies)
         e->subscribe(&advancementManager);
 
 
@@ -216,12 +215,12 @@ void Game::updateMapView(Stealth &stealth) {
 
 void Game::loadObjects() {
     ObjectProperties test1;
-    std::shared_ptr<Tile> t =std::make_shared<Tile>(sf::Vector2f(40,40),sf::Rect<float>(0,0,40,40));
+    std::shared_ptr<Tile> t = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
     test1.id = 4;
     test1.collectible = true;
     std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
             400,
             400
-    ),test1);
+    ), test1);
     this->objects.push_front(obj1);
 }
