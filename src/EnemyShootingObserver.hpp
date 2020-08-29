@@ -13,7 +13,7 @@ class Enemy;
 class EnemyShootingObserver {
 
 public :
-    ~EnemyShootingObserver() {};
+    //~EnemyShootingObserver() {};
     virtual void enemyShoots() = 0;
 
 };
