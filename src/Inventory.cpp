@@ -21,7 +21,9 @@ std::forward_list<std::shared_ptr<Object>> Inventory::getInventory() {
 }
 
 bool Inventory::addObject(std::shared_ptr<Object> obj) {
-    this->inventory.push_front(obj);
+    this->inventory.push_front(std::make_shared<Object>(obj));
+    std::cout << "aggiunto oggetto" << std::endl;
+    return true;
 }
 
 void Inventory::update() {

@@ -49,6 +49,15 @@ void Game::update(Stealth &stealth) {
 
     stealth.window.draw(*map);
 
+    //Check if player can take an item from the ground
+    for(std::shared_ptr<Object>& obj : this->objects) {
+        if( obj->properties.collectible && obj->getAbsCollisionBox().contains(player->getPos()) ) {
+            if(inventory->addObject(obj)) {
+                this->objects.remove(obj);
+            }
+        }
+    }
+
     // Create an ordered list of GameObjects in order to draw them accordingly to their y coord
     std::list<std::shared_ptr<GameObject>> gameObjects;
     auto gameObjectCmp = [](const std::shared_ptr<GameObject> &a, const std::shared_ptr<GameObject> &b) {
@@ -213,7 +222,7 @@ void Game::updateMapView(Stealth &stealth) {
 
 void Game::loadObjects() {
     ObjectProperties test1;
-    std::shared_ptr<Tile> t = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
+    std::shared_ptr<Tile> t = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 400, 400));
     test1.id = 4;
     test1.collectible = true;
     std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(

@@ -5,10 +5,15 @@
 #include "Object.hpp"
 
 Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties) : properties(properties) {
-    GameObject::tile = tile;
-    GameObject::position = position;
+    this->tile = tile;
+    this->position = position;
 }
 
+Object::Object(std::shared_ptr<Object> obj) {
+    this->properties = obj->properties;
+    this->tile = obj->tile;
+    this->position = obj->position;
+}
 
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     if(tile != nullptr && this->properties.id == 0) {
