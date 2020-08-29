@@ -8,7 +8,9 @@
 
 class WalkObserver {
 public:
-    //~WalkObserver();
+    virtual ~WalkObserver() {
+        std::cout << "Goodbye, I was the WalkObserver"<<std::endl;
+    }
     virtual void updateWalked() = 0;
 
 };

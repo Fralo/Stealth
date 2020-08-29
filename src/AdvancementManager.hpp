@@ -12,7 +12,6 @@
 
 class AdvancementManager : public EnemyShootingObserver, public IsStealthObserver, public WalkObserver{
 public:
-    //~AdvancementManager();
     void enemyShoots() override;
     void changeStealthStatus() override;
     void updateWalked() override;

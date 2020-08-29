@@ -13,7 +13,9 @@ class Enemy;
 class EnemyShootingObserver {
 
 public :
-    //~EnemyShootingObserver() {};
+    virtual ~EnemyShootingObserver() {
+        std::cout << "Goodbye, I was the EnemyShootingObserver"<<std::endl;
+    }
     virtual void enemyShoots() = 0;
 
 };
