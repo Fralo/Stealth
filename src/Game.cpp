@@ -3,7 +3,9 @@
 //
 
 #include "Game.hpp"
+
 #define STEALTH_GRAPHIC_DEBUG
+
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
 
@@ -50,12 +52,12 @@ void Game::update(Stealth &stealth) {
     stealth.window.draw(*map);
 
     //Check if player can take an item from the ground
-    for(std::shared_ptr<Object>& obj : this->objects) {
-        if( obj->properties.collectible && obj->getAbsCollisionBox().contains(player->getPos()) ) {
-            if(inventory->addObject(obj)) {
+    for (std::shared_ptr<Object> &obj : this->objects) {
+        if (obj->properties.collectible && obj->getAbsCollisionBox().contains(player->getPos()))
+            if (inventory->addObject(obj)) {
                 this->objects.remove(obj);
+                break;
             }
-        }
     }
 
     // Create an ordered list of GameObjects in order to draw them accordingly to their y coord
