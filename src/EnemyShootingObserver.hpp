@@ -14,6 +14,7 @@ class EnemyShootingObserver {
 
 public :
     virtual void enemyShoots() = 0;
+
 };
 
 

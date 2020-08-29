@@ -28,6 +28,8 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
             for (const std::shared_ptr<Object>& obj : objects) {
                 if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
                     strategy = std::make_shared<HunterStrategy>();
+                for(IsStealthObserver* e : listISO)
+                    e->changeStealthStatus();
             }
 
 
@@ -125,8 +127,10 @@ void Enemy::applyDamage(int damage) {
     setHealth(getHealth() - 1);
 }
 
-void Enemy::subscribe(EnemyShootingObserver *pointer) {
-
+void Enemy::subscribeESO(EnemyShootingObserver *pointer) {
     listESO.push_back(pointer);
+}
 
+void Enemy::subscribeISO(IsStealthObserver *pointer) {
+    listISO.push_back(pointer);
 }

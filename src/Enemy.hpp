@@ -31,7 +31,8 @@ public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
     void applyDamage(int damage);
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
-    void subscribe(EnemyShootingObserver *pointer);
+    void subscribeESO(EnemyShootingObserver *pointer);
+    void subscribeISO(IsStealthObserver *pointer);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
