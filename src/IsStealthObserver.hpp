@@ -8,6 +8,7 @@
 
 class IsStealthObserver {
 public:
+    ~IsStealthObserver();
     virtual void changeStealthStatus() = 0;
 };
 

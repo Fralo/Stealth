@@ -33,6 +33,9 @@ public:
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
     void subscribeESO(EnemyShootingObserver *pointer);
     void subscribeISO(IsStealthObserver *pointer);
+    void unsubscribeESO(EnemyShootingObserver *pointer);
+    void unsubscribeISO(IsStealthObserver *pointer);
+
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
