@@ -12,7 +12,7 @@ void Game::init(Stealth &stealth) {
     map = std::make_shared<TiledMap>(resource("maps/01-map.tmx"), objects);
     loadMapConfig();
 
-    view.setCenter(sf::Vector2f(player->getPos()));
+    gameView.setCenter(sf::Vector2f(player->getPos()));
 
     levelMusic.openFromFile(resource("music/Stealth_level1.ogg"));
     levelMusic.setLoop(true);
@@ -22,7 +22,7 @@ void Game::init(Stealth &stealth) {
     denyMoveSfxBuffer.loadFromFile(resource("music/denymove.ogg"));
     denyMoveSfx.setBuffer(denyMoveSfxBuffer);
     inventory = std::make_shared<Inventory>();
-    clock.restart();
+    gameViewClock.restart();
 }
 
 void Game::update(Stealth &stealth) {
@@ -41,8 +41,11 @@ void Game::update(Stealth &stealth) {
         enemy->update(objects, *player, *map);
     player->update(objects, *map);
     cursor.update(stealth.window, objects, enemies);
-    updateMapView(stealth);
-    stealth.window.setView(view);
+
+
+    updateViews(stealth);
+    stealth.window.setView(gameView);
+
     /*
      * Draw objects
      */
@@ -85,8 +88,13 @@ void Game::update(Stealth &stealth) {
 #endif
     }
 
+    /*
+     * gui view
+     */
+    stealth.window.setView(gameView);
     stealth.window.draw(*inventory);
     std::forward_list<std::shared_ptr<Object>> inventoryObjects = inventory->getInventory();
+
     stealth.window.draw(cursor);
     stealth.window.display();
 }
@@ -180,13 +188,13 @@ void Game::loadEnemies(xml::XMLElement *root) {
 /*
  * Handles game view, moving when mouse gets near border but preventing it from getting away from the TiledMap
  */
-void Game::updateMapView(Stealth &stealth) {
+void Game::updateViews(Stealth &stealth) {
     const unsigned int moveBorderSize = 40;
     const float movementSpeed = 0.5f;
 
     sf::Vector2u windowSize = stealth.window.getSize();
     float screenRatio = ((float) windowSize.x) / windowSize.y;
-    view.setSize(800, 800 / screenRatio);
+    gameView.setSize(800, 800 / screenRatio);
 
     sf::IntRect top(0, 0, windowSize.x, moveBorderSize);
     sf::IntRect bottom(0, windowSize.y - moveBorderSize, windowSize.x, moveBorderSize);
@@ -196,30 +204,33 @@ void Game::updateMapView(Stealth &stealth) {
     sf::Vector2i mouse = sf::Mouse::getPosition(stealth.window);
 
     if (top.contains(mouse))
-        view.move(0, -movementSpeed * clock.getElapsedTime().asMilliseconds());
+        gameView.move(0, -movementSpeed * gameViewClock.getElapsedTime().asMilliseconds());
     else if (bottom.contains(mouse))
-        view.move(0, movementSpeed * clock.getElapsedTime().asMilliseconds());
+        gameView.move(0, movementSpeed * gameViewClock.getElapsedTime().asMilliseconds());
     if (right.contains(mouse))
-        view.move(movementSpeed * clock.getElapsedTime().asMilliseconds(), 0);
+        gameView.move(movementSpeed * gameViewClock.getElapsedTime().asMilliseconds(), 0);
     else if (left.contains(mouse))
-        view.move(-movementSpeed * clock.getElapsedTime().asMilliseconds(), 0);
+        gameView.move(-movementSpeed * gameViewClock.getElapsedTime().asMilliseconds(), 0);
 
-    clock.restart();
+    gameViewClock.restart();
 
-    sf::Vector2f viewSize = view.getSize();
+    sf::Vector2f viewSize = gameView.getSize();
     sf::Vector2u mapSize = map->getMapActualSize();
 
     /*
      * Prevent view from getting out of map
      */
-    if (view.getCenter().x < viewSize.x / 2)
-        view.setCenter(viewSize.x / 2, view.getCenter().y);
-    else if (view.getCenter().x > mapSize.x - viewSize.x / 2)
-        view.setCenter(mapSize.x - viewSize.x / 2, view.getCenter().y);
-    if (view.getCenter().y < viewSize.y / 2)
-        view.setCenter(view.getCenter().x, viewSize.y / 2);
-    else if (view.getCenter().y > mapSize.y - viewSize.y / 2)
-        view.setCenter(view.getCenter().x, mapSize.y - viewSize.y / 2);
+    if (gameView.getCenter().x < viewSize.x / 2)
+        gameView.setCenter(viewSize.x / 2, gameView.getCenter().y);
+    else if (gameView.getCenter().x > mapSize.x - viewSize.x / 2)
+        gameView.setCenter(mapSize.x - viewSize.x / 2, gameView.getCenter().y);
+    if (gameView.getCenter().y < viewSize.y / 2)
+        gameView.setCenter(gameView.getCenter().x, viewSize.y / 2);
+    else if (gameView.getCenter().y > mapSize.y - viewSize.y / 2)
+        gameView.setCenter(gameView.getCenter().x, mapSize.y - viewSize.y / 2);
+
+    guiView.setSize(windowSize.x, windowSize.x);
+    guiView.setCenter(windowSize.x / 2, windowSize.x / 2);
 }
 
 void Game::loadObjects() {
