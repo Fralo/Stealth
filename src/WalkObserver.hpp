@@ -8,7 +8,7 @@
 
 class WalkObserver {
 public:
-    ~WalkObserver();
+    //~WalkObserver();
     virtual void updateWalked() = 0;
 
 };
