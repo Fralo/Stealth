@@ -135,6 +135,8 @@ void Game::loadMapConfig() {
                     xmlPlayerWeapon->IntAttribute("damage"),
                     xmlPlayerWeapon->IntAttribute("angle")
             });
+
+    player->subscribe(&advancementManager);
 }
 
 void Game::loadEnemies(xml::XMLElement *root) {

@@ -15,3 +15,7 @@ void AdvancementManager::changeStealthStatus() {
 void AdvancementManager::updateWalked() {
 
 }
+
+void AdvancementManager::changePlayerLife(int damage) {
+    advancements.playerLife -= damage;
+}
