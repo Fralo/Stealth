@@ -94,7 +94,7 @@ void Game::update(Stealth &stealth) {
     stealth.window.setView(guiView);
     stealth.window.draw(*inventory);
     std::forward_list<std::shared_ptr<Object>> inventoryObjects = inventory->getInventory();
-    for(const std::shared_ptr<Object>& item : inventoryObjects)
+    for (const std::shared_ptr<Object> &item : inventoryObjects)
         stealth.window.draw(*item);
     stealth.window.setView(gameView);
     stealth.window.draw(cursor);
@@ -111,22 +111,21 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
             player->setTarget(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
         else
             denyMoveSfx.play();
-    }
-    else if(event.type == sf::Event::KeyReleased) {
+    } else if (event.type == sf::Event::KeyReleased) {
         int itemToRelease = 0;
         switch (event.key.code) {
             case sf::Keyboard::Num1:
-                if(inventory->getSize()>0) {
+                if (inventory->getSize() > 0) {
                     itemToRelease = 1;
                 }
                 break;
             case sf::Keyboard::Num2:
-                if(inventory->getSize()>1) {
+                if (inventory->getSize() > 1) {
                     itemToRelease = 2;
                 }
                 break;
             case sf::Keyboard::Num3:
-                if(inventory->getSize()>2) {
+                if (inventory->getSize() > 2) {
                     itemToRelease = 3;
                 }
                 break;
@@ -134,13 +133,19 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
             default:
                 break;
         }
-        if(itemToRelease != 0) {
-            auto toAdd = std::move(this->inventory->releaseObject(itemToRelease));
-
-
-            toAdd->setPos(player->getPos().x, player->getPos().y + toAdd->getAbsCollisionBox().width);
-            toAdd->properties.numberInInventory = 0;
-            this->objects.push_front(std::make_shared<Object>(toAdd));
+        if (itemToRelease != 0) {
+            bool canRelease = true;
+            for (auto &&obj : this->objects)
+                if (obj->getAbsCollisionBox().contains(player->getPos().x, player->getPos().y + 40) ||
+                        obj->getAbsCollisionBox().contains(player->getPos().x + 40, player->getPos().y)) //40 is the dimension of the square used for testing items, TODO sostituire con la dimensione del tile degli oggeti dell'inventario
+                    canRelease = false;
+            if (canRelease) {
+                auto toAdd = std::move(this->inventory->releaseObject(itemToRelease));
+                toAdd->setPos(player->getPos().x + player->getAbsCollisionBox().height/2+1, player->getPos().y + player->getAbsCollisionBox().width/2+1);
+                toAdd->properties.numberInInventory = 0;
+                this->objects.push_front(std::make_shared<Object>(toAdd));
+            } else
+                denyMoveSfx.play();
         }
     }
 }
@@ -210,8 +215,7 @@ void Game::loadEnemies(xml::XMLElement *root) {
                 seekStrategy));
 
     }
-    for (std::shared_ptr<Enemy> e : enemies)
-    {
+    for (std::shared_ptr<Enemy> e : enemies) {
         e->subscribeESO(advancementManager);
         e->subscribeISO(advancementManager);
     }
