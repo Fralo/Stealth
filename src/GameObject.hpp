@@ -14,6 +14,7 @@ public:
     virtual ~GameObject() override {};
     sf::Vector2f getPos() const;
     void setPos(sf::Vector2f pos);
+    void setPos(int x, int y);
     int getHealth() const;
     void setHealth(int h);
 
