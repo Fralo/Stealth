@@ -4,12 +4,10 @@
 
 #include "Game.hpp"
 
-//#define STEALTH_GRAPHIC_DEBUG
-
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
 
-    map = std::make_shared<TiledMap>(resource("maps/01-map.tmx"), objects);
+    map = std::make_shared<TiledMap>(resource("maps/02-map.tmx"), objects);
     loadMapConfig();
 
     gameView.setCenter(sf::Vector2f(player->getPos()));
