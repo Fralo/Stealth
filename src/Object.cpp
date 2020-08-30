@@ -7,6 +7,7 @@
 Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties) : properties(properties) {
     this->tile = tile;
     this->position = position;
+    this->properties.numberInInventory = 0;
 }
 
 Object::Object(std::shared_ptr<Object> obj) {
