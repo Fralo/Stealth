@@ -18,8 +18,9 @@ public:
     Inventory();
     std::forward_list<std::shared_ptr<Object>> getInventory();
     bool addObject(std::shared_ptr<Object> obj);
+    std::shared_ptr<Object> releaseObject(int inventoryNumber);
     void update();
-    void releaseObject(int inventoryNumber);
+    int getSize();
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 

@@ -110,6 +110,33 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
         else
             denyMoveSfx.play();
     }
+    else if(event.type = sf::Event::KeyPressed) {
+        int itemToRelease = 0;
+        switch (event.key.code) {
+            case sf::Keyboard::Num1:
+                if(inventory->getSize()>0) {
+                    itemToRelease = 1;
+                }
+                break;
+            case sf::Keyboard::Num2:
+                if(inventory->getSize()>1) {
+                    itemToRelease = 2;
+                }
+                break;
+            case sf::Keyboard::Num3:
+                if(inventory->getSize()>2) {
+                    itemToRelease = 3;
+                }
+                break;
+            default:
+                break;
+        }
+        if(itemToRelease != 0) {
+
+            std::shared_ptr<Object> toAdd = std::move(this->inventory->releaseObject(itemToRelease));
+            std::cout<<"Rilasciato l'oggetto con id: " << toAdd->properties.id << std::endl;
+        }
+    }
 }
 
 void Game::loadMapConfig() {

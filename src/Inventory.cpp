@@ -21,17 +21,27 @@ std::forward_list<std::shared_ptr<Object>> Inventory::getInventory() {
 }
 
 bool Inventory::addObject(std::shared_ptr<Object> obj) {
-    auto beg = inventory.begin();
-    auto end = inventory.end();
-    obj->properties.numberInInventory = std::distance(beg, end) + 1;
+    obj->properties.numberInInventory = this->getSize() + 1;
     if(obj->properties.numberInInventory > 3)
         return false;
     this->inventory.push_front(std::make_shared<Object>(obj));
     return true;
 }
 
-void Inventory::releaseObject(int inventoryNumber) {
+std::shared_ptr<Object> Inventory::releaseObject(int inventoryNumber) {
+    for(std::shared_ptr<Object> obj : this->inventory) {
+        if(obj->properties.numberInInventory == inventoryNumber) {
+            std::shared_ptr<Object> toRemove = std::move(obj);
+            this->inventory.remove(obj);
+            return toRemove;
+        }
+    }
+}
 
+int Inventory::getSize() {
+    auto beg = inventory.begin();
+    auto end = inventory.end();
+    return std::distance(beg, end);
 }
 
 void Inventory::update() {
