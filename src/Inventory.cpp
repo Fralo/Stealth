@@ -21,10 +21,17 @@ std::forward_list<std::shared_ptr<Object>> Inventory::getInventory() {
 }
 
 bool Inventory::addObject(std::shared_ptr<Object> obj) {
-    //TODO insert in the right order;
-    obj->properties.numberInInventory = 
+    auto beg = inventory.begin();
+    auto end = inventory.end();
+    obj->properties.numberInInventory = std::distance(beg, end) + 1;
+    if(obj->properties.numberInInventory > 3)
+        return false;
     this->inventory.push_front(std::make_shared<Object>(obj));
     return true;
+}
+
+void Inventory::releaseObject(int inventoryNumber) {
+
 }
 
 void Inventory::update() {

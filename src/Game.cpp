@@ -240,11 +240,19 @@ void Game::updateViews(Stealth &stealth) {
 void Game::loadObjects() {
     ObjectProperties test1;
     std::shared_ptr<Tile> t = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
+    std::shared_ptr<Tile> t2 = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
+
     test1.id = 4;
     test1.collectible = true;
     std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
             400,
             400
     ), test1);
+    test1.id = 2;
+    std::shared_ptr<Object> obj2 = std::make_shared<Object>(t2, sf::Vector2f(
+            200,
+            100
+    ), test1);
     this->objects.push_front(obj1);
+    this->objects.push_front(obj2);
 }

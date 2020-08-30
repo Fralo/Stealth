@@ -15,10 +15,40 @@ Object::Object(std::shared_ptr<Object> obj) {
     this->position = obj->position;
 }
 
+
+//TODO remove all the code that generates rectangle for testing purpose
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     if(tile != nullptr && this->properties.id == 0) {
         tile->setPosition(position);
         target.draw(*tile);
+    }
+    else if(this->properties.numberInInventory != 0) {
+        //if the object is in the inventory
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        switch (this->properties.id) {
+            case 1:
+                green = 255;
+                break;
+            case 2:
+                red = 255;
+                break;
+            case 3:
+                blue = 255;
+                break;
+            case 4:
+                red = 255;
+                blue = 150;
+                break;
+            default:
+                break;
+        }
+        sf::RectangleShape rect({40, 40});
+        rect.setFillColor(sf::Color(red, green, blue));
+        rect.setPosition(target.getView().getCenter().x + 345,
+                         target.getView().getCenter().y - 375 + ((this->properties.numberInInventory - 1) * 45));
+        target.draw(rect);
     }
     else if(this->properties.id >= 1 && this->properties.id <= 4) {
         int red = 0;
@@ -41,15 +71,13 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
             default:
                 break;
         }
-        sf::RectangleShape liferect({40, 40});
-        liferect.setFillColor(sf::Color(red, green, blue));
+        sf::RectangleShape rect({40, 40});
+        rect.setFillColor(sf::Color(red, green, blue));
         if(this->properties.id == 4)
-            liferect.setPosition(400,400);
-        else
-            liferect.setPosition(target.getView().getCenter().x + 345,
-                    target.getView().getCenter().y - 275 + ((this->properties.id - 1) * 45));
-
-        target.draw(liferect);
+            rect.setPosition(400,400);
+        else if (this->properties.id == 2)
+                rect.setPosition(200,100);
+        target.draw(rect);
     }
 
 #ifdef STEALTH_GRAPHIC_DEBUG
