@@ -11,9 +11,9 @@ MainMenu::~MainMenu() {
 void MainMenu::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(true);
 
-    bgTexture.loadFromFile("../res/map.png");
+    bgTexture.loadFromFile("../res/map_ascii.png");
     bgSprite.setTexture(bgTexture);
-    bgSprite.setScale(1.2f, 1.2f);
+    bgSprite.setScale(1.0f, 1.0f);
     sf::FloatRect bgSpriteRect = bgSprite.getLocalBounds();
     bgSprite.setOrigin(bgSpriteRect.left + bgSpriteRect.width / 2.0f, bgSpriteRect.top + bgSpriteRect.height / 2.0f);
 
@@ -21,7 +21,7 @@ void MainMenu::init(Stealth &stealth) {
     mainMenuTxt.setFont(titleFont);
     mainMenuTxt.setCharacterSize(100);
     mainMenuTxt.setString("MAIN MENU");
-    mainMenuTxt.setFillColor(sf::Color(0xbb, 0xa1, 0x60));
+    mainMenuTxt.setFillColor(sf::Color(124, 252, 0));
     sf::FloatRect mainMenuRect = mainMenuTxt.getLocalBounds();
     mainMenuTxt.setOrigin(mainMenuRect.left + mainMenuRect.width / 2.0f, mainMenuRect.top + mainMenuRect.height / 2.0f);
 
@@ -29,7 +29,6 @@ void MainMenu::init(Stealth &stealth) {
     newGameTxt.setFont(selectionFont);
     newGameTxt.setCharacterSize(42);
     newGameTxt.setString("New Game");
-    newGameTxt.setFillColor(sf::Color(0xdd, 0xce, 0xa9));
     sf::FloatRect newGameRect = newGameTxt.getLocalBounds();
     newGameTxt.setOrigin(newGameRect.left + newGameRect.width / 2.0f, newGameRect.top + newGameRect.height / 2.0f);
 
