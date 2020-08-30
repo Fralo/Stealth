@@ -10,9 +10,11 @@
 #include "IsStealthObserver.hpp"
 #include "WalkObserver.hpp"
 #include "PlayerLifeObservable.hpp"
+#include "Stealth.hpp"
 
 class AdvancementManager : public EnemyShootingObserver, public IsStealthObserver, public WalkObserver, public PlayerLifeObservable{
 public:
+    AdvancementManager(Stealth &stealth) {};
     void enemyShoots() override;
     void changeStealthStatus() override;
     void updateWalked() override;

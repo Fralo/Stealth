@@ -21,6 +21,8 @@ void Game::init(Stealth &stealth) {
     denyMoveSfx.setBuffer(denyMoveSfxBuffer);
     inventory = std::make_shared<Inventory>();
     gameViewClock.restart();
+
+    advancementManager = new AdvancementManager(stealth);
 }
 
 void Game::update(Stealth &stealth) {
@@ -166,7 +168,7 @@ void Game::loadMapConfig() {
                     xmlPlayerWeapon->IntAttribute("angle")
             });
 
-    player->subscribe(&advancementManager);
+    player->subscribe(advancementManager);
 }
 
 void Game::loadEnemies(xml::XMLElement *root) {
@@ -207,8 +209,8 @@ void Game::loadEnemies(xml::XMLElement *root) {
     }
     for (std::shared_ptr<Enemy> e : enemies)
     {
-        e->subscribeESO(&advancementManager);
-        e->subscribeISO(&advancementManager);
+        e->subscribeESO(advancementManager);
+        e->subscribeISO(advancementManager);
     }
 
 

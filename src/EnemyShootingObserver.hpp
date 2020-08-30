@@ -5,10 +5,7 @@
 #ifndef STEALTH_ENEMYSHOOTINGOBSERVER_HPP
 #define STEALTH_ENEMYSHOOTINGOBSERVER_HPP
 
-
-#include "Enemy.hpp"
-
-class Enemy;
+#include <iostream>
 
 class EnemyShootingObserver {
 
