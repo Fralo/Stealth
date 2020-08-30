@@ -35,8 +35,8 @@ public:
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
     void subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer);
     void subscribeISO(std::shared_ptr<IsStealthObserver> pointer);
-    void unsubscribeESO(std::shared_ptr<EnemyShootingObserver> pointer);
-    void unsubscribeISO(std::shared_ptr<IsStealthObserver> pointer);
+    void unsubscribeESO();
+    void unsubscribeISO();
 
 
 protected:

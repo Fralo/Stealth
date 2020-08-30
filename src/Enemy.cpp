@@ -14,9 +14,8 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //enemy death
     if(getHealth() == 0) {
-        //TODO adjust this
-        //unsubscribeISO(listISO.back());
-        //unsubscribeESO(listESO.back());
+        unsubscribeISO();
+        unsubscribeESO();
         return;
     }
 
@@ -140,12 +139,14 @@ void Enemy::subscribeISO(std::shared_ptr<IsStealthObserver> pointer) {
     listISO.push_back(pointer);
 }
 
-void Enemy::unsubscribeESO(std::shared_ptr<EnemyShootingObserver> pointer) {
-    listESO.remove(pointer);
+void Enemy::unsubscribeESO() {
+
+    listESO.remove(listESO.front());
 }
 
-void Enemy::unsubscribeISO(std::shared_ptr<IsStealthObserver> pointer) {
-    listISO.remove(pointer);
+void Enemy::unsubscribeISO() {
+
+    listISO.remove(listISO.front());
 }
 
 
