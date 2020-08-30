@@ -26,6 +26,8 @@ void Stealth::changeState(GameState *newGameState) {
 }
 
 void Stealth::popStack() {
-    stateStack.pop_front();
-    stateStack.front()->init(*this);
+    if(!stateStack.empty()) {
+        stateStack.pop_front();
+        stateStack.front()->init(*this);
+    }
 }
