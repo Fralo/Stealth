@@ -5,6 +5,7 @@
 #include "Game.hpp"
 
 void Game::init(Stealth &stealth) {
+    advancementManager = new AdvancementManager(stealth);
     stealth.window.setMouseCursorVisible(false);
 
     map = std::make_shared<TiledMap>(resource("maps/02-map.tmx"), objects);
@@ -22,7 +23,7 @@ void Game::init(Stealth &stealth) {
     inventory = std::make_shared<Inventory>();
     gameViewClock.restart();
 
-    advancementManager = new AdvancementManager(stealth);
+
 }
 
 void Game::update(Stealth &stealth) {
