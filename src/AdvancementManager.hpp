@@ -14,7 +14,7 @@
 
 class AdvancementManager : public EnemyShootingObserver, public IsStealthObserver, public WalkObserver, public PlayerLifeObservable{
 public:
-    AdvancementManager(Stealth &stealth) {};
+    AdvancementManager(Stealth &stealth) : stealth(stealth) {};
     void enemyShoots() override;
     void changeStealthStatus() override;
     void updateWalked() override;
@@ -22,6 +22,7 @@ public:
 
 private:
 
+    Stealth &stealth;
     struct Advancements{
         int enemyKilled = 0;
         int walked = 0;

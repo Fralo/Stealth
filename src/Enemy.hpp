@@ -28,7 +28,9 @@ struct EnemyView {
 
 class Enemy : public GameObject {
 public:
-    Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy);
+    Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view,
+          const std::shared_ptr<Strategy>& defaultStrategy);
+
     void applyDamage(int damage);
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
     void subscribeESO(EnemyShootingObserver *pointer);

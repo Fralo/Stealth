@@ -187,7 +187,7 @@ void Game::loadEnemies(xml::XMLElement *root) {
          enemy != nullptr; enemy = enemy->NextSiblingElement("enemy")) {
         xml::XMLElement *spawn = enemy->FirstChildElement("spawnpoint");
 
-        auto *seekStrategy = new SeekStrategy();
+        auto seekStrategy = std::make_shared<SeekStrategy>();
         xml::XMLNode *movement = enemy->FirstChildElement("movement");
         for (xml::XMLElement *location = movement->FirstChildElement("location");
              location != nullptr; location = location->NextSiblingElement("location"))

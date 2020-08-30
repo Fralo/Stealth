@@ -18,6 +18,7 @@ public:
 
     Stealth();
     void changeState(GameState *newGameState);
+    void popStack();
 
 private:
     std::forward_list<std::unique_ptr<GameState>> stateStack;

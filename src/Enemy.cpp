@@ -5,10 +5,9 @@
 
 #include "Enemy.hpp"
 
-Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, Strategy *defaultStrategy)
-        : orientation(orientation), defaultStrategy(defaultStrategy), weapon(weapon), view(view) {
+Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, const std::shared_ptr<Strategy>& defaultStrategy)
+        : orientation(orientation), defaultStrategy(defaultStrategy), strategy(defaultStrategy), weapon(weapon), view(view) {
     setPos(position);
-    strategy = std::unique_ptr<Strategy>(defaultStrategy);
     orientationTarget = orientation;
 }
 

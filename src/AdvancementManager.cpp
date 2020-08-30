@@ -18,4 +18,6 @@ void AdvancementManager::updateWalked() {
 
 void AdvancementManager::changePlayerLife(int damage) {
     advancements.playerLife -= damage;
+    if(advancements.playerLife == 0)
+        stealth.popStack();
 }
