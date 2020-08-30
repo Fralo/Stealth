@@ -74,10 +74,8 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         }
         sf::RectangleShape rect({40, 40});
         rect.setFillColor(sf::Color(red, green, blue));
-        if(this->properties.id == 4)
-            rect.setPosition(400,400);
-        else if (this->properties.id == 2)
-                rect.setPosition(200,100);
+
+        rect.setPosition(this->position.x,this->position.y);
         target.draw(rect);
     }
 

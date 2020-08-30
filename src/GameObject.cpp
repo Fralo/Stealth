@@ -13,6 +13,11 @@ void GameObject::setPos(sf::Vector2f pos) {
     position = pos;
 }
 
+void GameObject::setPos(int x, int y) {
+    position.x = x;
+    position.y = y;
+}
+
 int GameObject::getHealth() const {
     return health;
 }

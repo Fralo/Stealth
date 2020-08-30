@@ -5,6 +5,7 @@
 #include "Game.hpp"
 
 void Game::init(Stealth &stealth) {
+    advancementManager = new AdvancementManager(stealth);
     stealth.window.setMouseCursorVisible(false);
 
     map = std::make_shared<TiledMap>(resource("maps/02-map.tmx"), objects);
@@ -22,7 +23,7 @@ void Game::init(Stealth &stealth) {
     inventory = std::make_shared<Inventory>();
     gameViewClock.restart();
 
-    advancementManager = new AdvancementManager(stealth);
+
 }
 
 void Game::update(Stealth &stealth) {
@@ -130,12 +131,15 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                     itemToRelease = 3;
                 }
                 break;
+
             default:
                 break;
         }
         if(itemToRelease != 0) {
             auto toAdd = std::move(this->inventory->releaseObject(itemToRelease));
-            toAdd->setPosition(300, 400);
+
+
+            toAdd->setPos(player->getPos().x, player->getPos().y + toAdd->getAbsCollisionBox().width);
             toAdd->properties.numberInInventory = 0;
             this->objects.push_front(std::make_shared<Object>(toAdd));
         }
