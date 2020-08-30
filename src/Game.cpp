@@ -132,9 +132,10 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                 break;
         }
         if(itemToRelease != 0) {
-
-            std::shared_ptr<Object> toAdd = std::move(this->inventory->releaseObject(itemToRelease));
-            std::cout<<"Rilasciato l'oggetto con id: " << toAdd->properties.id << std::endl;
+            auto toAdd = std::move(this->inventory->releaseObject(itemToRelease));
+            toAdd->setPosition(300, 400);
+            toAdd->properties.numberInInventory = 0;
+            this->objects.push_front(std::make_shared<Object>(toAdd));
         }
     }
 }
