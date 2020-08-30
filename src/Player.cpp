@@ -146,7 +146,7 @@ void Player::unsubscribe(std::shared_ptr<PlayerLifeObservable> pointer) {
 
 void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
 
-    if(MathHelper::distanceBetweenTwoPoints(position, enemy->getPos()) < 50)
+    if(MathHelper::distanceBetweenTwoPoints(position, enemy->getPos()) < 100)
         enemy->setHealth(enemy->getHealth() - 10);
 }
 

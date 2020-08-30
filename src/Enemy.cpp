@@ -14,9 +14,9 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //enemy death
     if(getHealth() == 0) {
-
-        unsubscribeISO(listISO.back());
-        unsubscribeESO(listESO.back());
+        //TODO adjust this
+        //unsubscribeISO(listISO.back());
+        //unsubscribeESO(listESO.back());
         return;
     }
 
