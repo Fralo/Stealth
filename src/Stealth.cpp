@@ -24,3 +24,8 @@ void Stealth::changeState(GameState *newGameState) {
     stateStack.push_front(std::unique_ptr<GameState>(newGameState));
     newGameState->init(*this);
 }
+
+void Stealth::popStack() {
+    stateStack.pop_front();
+    stateStack.front()->init(*this);
+}

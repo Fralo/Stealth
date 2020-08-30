@@ -131,8 +131,8 @@ void Player::setTarget(std::shared_ptr<GameObject> target) {
 
 void Player::applyDamage(int damage) {
     setHealth(std::max(health - damage, 0u));
-    for(PlayerLifeObservable* e : listPLO)
-        e->changePlayerLife(damage);
+        for(PlayerLifeObservable* e : listPLO)
+            e->changePlayerLife(damage);
 }
 
 void Player::subscribe(PlayerLifeObservable *pointer) {
