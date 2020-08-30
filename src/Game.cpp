@@ -145,7 +145,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                 auto toAdd = std::move(this->inventory->releaseObject(itemToRelease));
                 toAdd->setPos(player->getPos().x + player->getAbsCollisionBox().height/2+1, player->getPos().y + player->getAbsCollisionBox().width/2+1);
                 toAdd->properties.numberInInventory = 0;
-                this->objects.push_front(std::make_shared<Object>(toAdd));
+                this->objects.push_front(std::move(toAdd));
             } else
                 denyMoveSfx.play();
         }

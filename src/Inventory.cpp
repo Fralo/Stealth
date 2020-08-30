@@ -24,7 +24,7 @@ bool Inventory::addObject(std::shared_ptr<Object> obj) {
     obj->properties.numberInInventory = this->getSize() + 1;
     if(obj->properties.numberInInventory > 3)
         return false;
-    this->inventory.push_front(std::make_shared<Object>(obj));
+    this->inventory.push_front(std::move(obj));
     return true;
 }
 
