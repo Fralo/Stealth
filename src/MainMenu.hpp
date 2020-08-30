@@ -48,8 +48,8 @@ private:
 
     MenuOption selectedOption = NONE;
 
-    const sf::Color selectedColor = sf::Color(0xff, 0xaa, 0x00);
-    const sf::Color defaultColor = sf::Color(0xdd, 0xce, 0xa9);
+    const sf::Color selectedColor = sf::Color(152, 251, 152);
+    const sf::Color defaultColor = sf::Color(50,205,50);
 
 };
 
