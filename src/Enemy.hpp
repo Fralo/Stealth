@@ -33,10 +33,10 @@ public:
 
     void applyDamage(int damage);
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
-    void subscribeESO(EnemyShootingObserver *pointer);
-    void subscribeISO(IsStealthObserver *pointer);
-    void unsubscribeESO(EnemyShootingObserver *pointer);
-    void unsubscribeISO(IsStealthObserver *pointer);
+    void subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer);
+    void subscribeISO(std::shared_ptr<IsStealthObserver> pointer);
+    void unsubscribeESO(std::shared_ptr<EnemyShootingObserver> pointer);
+    void unsubscribeISO(std::shared_ptr<IsStealthObserver> pointer);
 
 
 protected:
@@ -51,8 +51,8 @@ private:
     double orientationTarget;
     double sightSwingVariation = 0;
     Weapon weapon;
-    std::list<EnemyShootingObserver *> listESO;
-    std::list<IsStealthObserver *> listISO;
+    std::list<std::shared_ptr<EnemyShootingObserver>> listESO;
+    std::list<std::shared_ptr<IsStealthObserver>> listISO;
 
     sf::ConvexShape getSightTraigle() const;
 };

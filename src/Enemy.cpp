@@ -33,7 +33,7 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
             for (const std::shared_ptr<Object>& obj : objects) {
                 if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
                     strategy = std::make_shared<HunterStrategy>();
-                for(IsStealthObserver* e : listISO)
+                for(auto&& e : listISO)
                     e->changeStealthStatus();
             }
 
@@ -64,7 +64,7 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
             if (player.getHealth()>0)
                 player.applyDamage(1);
             else
-                for(EnemyShootingObserver* e : listESO)
+                for(auto&& e : listESO)
                      e->enemyShoots();
     }
 
@@ -132,19 +132,19 @@ void Enemy::applyDamage(int damage) {
     setHealth(getHealth() - 1);
 }
 
-void Enemy::subscribeESO(EnemyShootingObserver *pointer) {
+void Enemy::subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer) {
     listESO.push_back(pointer);
 }
 
-void Enemy::subscribeISO(IsStealthObserver *pointer) {
+void Enemy::subscribeISO(std::shared_ptr<IsStealthObserver> pointer) {
     listISO.push_back(pointer);
 }
 
-void Enemy::unsubscribeESO(EnemyShootingObserver *pointer) {
+void Enemy::unsubscribeESO(std::shared_ptr<EnemyShootingObserver> pointer) {
     listESO.remove(pointer);
 }
 
-void Enemy::unsubscribeISO(IsStealthObserver *pointer) {
+void Enemy::unsubscribeISO(std::shared_ptr<IsStealthObserver> pointer) {
     listISO.remove(pointer);
 }
 

@@ -22,6 +22,7 @@ public:
 
 private:
     std::forward_list<std::unique_ptr<GameState>> stateStack;
+    bool doPopStack = false;
 };
 
 

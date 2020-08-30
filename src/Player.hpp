@@ -25,8 +25,8 @@ public:
     void applyDamage(int damage);
     void setTarget(std::shared_ptr<GameObject> target);
     void setTarget(sf::Vector2f next);
-    void subscribe(PlayerLifeObservable *pointer);
-    void unsubscribe(PlayerLifeObservable *pointer);
+    void subscribe(std::shared_ptr<PlayerLifeObservable> pointer);
+    void unsubscribe(std::shared_ptr<PlayerLifeObservable> pointer);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -39,7 +39,7 @@ private:
     sf::SoundBuffer movingSfxBuffer;
     sf::Sound movingSfx;
     std::shared_ptr<GameObject> target;
-    std::list<PlayerLifeObservable *> listPLO;
+    std::list<std::shared_ptr<PlayerLifeObservable>> listPLO;
 
 };
 

@@ -5,7 +5,8 @@
 #include "Game.hpp"
 
 void Game::init(Stealth &stealth) {
-    advancementManager = new AdvancementManager(stealth);
+    advancementManager = std::make_shared<AdvancementManager>(stealth);
+
     stealth.window.setMouseCursorVisible(false);
 
     map = std::make_shared<TiledMap>(resource("maps/02-map.tmx"), objects);
