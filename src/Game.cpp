@@ -42,7 +42,7 @@ void Game::update(Stealth &stealth) {
     for (const std::shared_ptr<Enemy> &enemy : enemies)
         enemy->update(objects, *player, *map);
     player->update(objects, *map);
-    cursor.update(stealth.window, objects, enemies);
+    cursor.update(stealth.window, objects, enemies, player);
 
 
     updateViews(stealth);
@@ -106,7 +106,7 @@ void Game::update(Stealth &stealth) {
 void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) { // click
         if (cursor.getPointedElement().pointedElementType == ENEMY) {
-            player->setTarget(cursor.getPointedElement().pointedElementObject);
+            player->shootEnemy(cursor.getPointedElement().pointedElementObject);
         } else if (cursor.getPointedElement().pointedElementType == ITEM) {
             player->setTarget(cursor.getPointedElement().pointedElementObject);
         } else if (cursor.getPointedElement().pointedElementType != OBSTACLE)

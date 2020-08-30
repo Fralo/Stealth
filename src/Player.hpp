@@ -27,7 +27,7 @@ public:
     void setTarget(sf::Vector2f next);
     void subscribe(std::shared_ptr<PlayerLifeObservable> pointer);
     void unsubscribe(std::shared_ptr<PlayerLifeObservable> pointer);
-
+    void shootEnemy(std::shared_ptr<GameObject> enemy);
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 

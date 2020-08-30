@@ -30,7 +30,7 @@ class GameCursor : public sf::Drawable, public sf::Transformable {
 public:
     GameCursor();
 
-    void update(sf::RenderWindow &window, const std::list<std::shared_ptr<Object>> &objects, const std::forward_list<std::shared_ptr<Enemy>> &enemies);
+    void update(sf::RenderWindow &window, const std::list<std::shared_ptr<Object>> &objects, const std::forward_list<std::shared_ptr<Enemy>> &enemies, const std::shared_ptr<Player> &player);
     PointedElement getPointedElement();
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;

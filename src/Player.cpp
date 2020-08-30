@@ -47,9 +47,10 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
 
 
         path = astar->getPath(scaledPos, scaledTargetPos);
+        this->weapon.distanceOfUse = 90;
         if(target != nullptr && MathHelper::distanceBetweenTwoPoints(getPos(),target->getPos()) > weapon.distanceOfUse - 10)
                 if (target->getHealth()>0)
-                    target->setHealth(getHealth() - 1);
+                    target->setHealth(getHealth() - 30);
         cacheTime.restart();
     }
 
@@ -141,6 +142,12 @@ void Player::subscribe(std::shared_ptr<PlayerLifeObservable> pointer) {
 
 void Player::unsubscribe(std::shared_ptr<PlayerLifeObservable> pointer) {
     listPLO.remove(pointer);
+}
+
+void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
+
+    if(MathHelper::distanceBetweenTwoPoints(position, enemy->getPos()) < 50)
+        enemy->setHealth(enemy->getHealth() - 10);
 }
 
 

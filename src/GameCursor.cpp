@@ -44,7 +44,7 @@ void GameCursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 #endif
 }
 
-void GameCursor::update(sf::RenderWindow &window, const std::list<std::shared_ptr<Object>> &objects, const std::forward_list<std::shared_ptr<Enemy>> &enemies) {
+void GameCursor::update(sf::RenderWindow &window, const std::list<std::shared_ptr<Object>> &objects, const std::forward_list<std::shared_ptr<Enemy>> &enemies, const std::shared_ptr<Player> &player) {
     position = window.mapPixelToCoords(sf::Mouse::getPosition(window));
     pointedElement.pointedElementType = NOTHING;
     pointedElement.pointedElementObject = nullptr;
@@ -52,7 +52,7 @@ void GameCursor::update(sf::RenderWindow &window, const std::list<std::shared_pt
     spriteY = 96;
     //check if the player can shot the enemy
     for (const std::shared_ptr<Enemy>& enemy : enemies) {
-        if(abs(position.x - enemy->getPos().x) < 10 && abs(position.y - enemy->getPos().y) < 10) {
+        if(abs(position.x - enemy->getPos().x) < 10 && abs(position.y - enemy->getPos().y) < 10 && MathHelper::distanceBetweenTwoPoints(player->getPos(), enemy->getPos()) < 100) {
             spriteX = 0;
             spriteY = 0;
             pointedElement.pointedElementType = ENEMY;
