@@ -13,6 +13,7 @@
 #include "TiledMap.hpp"
 #include "Direction.hpp"
 #include "MathHelper.hpp"
+#include "PlayerLifeObservable.hpp"
 
 #define GRID_SCALE_FACTOR 16
 
@@ -24,6 +25,8 @@ public:
     void applyDamage(int damage);
     void setTarget(std::shared_ptr<GameObject> target);
     void setTarget(sf::Vector2f next);
+    void subscribe(PlayerLifeObservable *pointer);
+    void unsubscribe(PlayerLifeObservable *pointer);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -36,6 +39,7 @@ private:
     sf::SoundBuffer movingSfxBuffer;
     sf::Sound movingSfx;
     std::shared_ptr<GameObject> target;
+    std::list<PlayerLifeObservable *> listPLO;
 
 };
 

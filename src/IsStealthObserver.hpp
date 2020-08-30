@@ -8,7 +8,9 @@
 
 class IsStealthObserver {
 public:
-    //~IsStealthObserver();
+    virtual ~IsStealthObserver() {
+        std::cout << "Goodbye, I was the IsStealthObserver"<<std::endl;
+    }
     virtual void changeStealthStatus() = 0;
 };
 
