@@ -4,7 +4,7 @@
 
 #include "Game.hpp"
 
-#define STEALTH_GRAPHIC_DEBUG
+//#define STEALTH_GRAPHIC_DEBUG
 
 void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
@@ -91,10 +91,12 @@ void Game::update(Stealth &stealth) {
     /*
      * gui view
      */
-    stealth.window.setView(gameView);
+    stealth.window.setView(guiView);
     stealth.window.draw(*inventory);
     std::forward_list<std::shared_ptr<Object>> inventoryObjects = inventory->getInventory();
-
+    for(const std::shared_ptr<Object>& item : inventoryObjects)
+        stealth.window.draw(*item);
+    stealth.window.setView(gameView);
     stealth.window.draw(cursor);
     stealth.window.display();
 }
