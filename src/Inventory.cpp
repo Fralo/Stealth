@@ -29,7 +29,7 @@ bool Inventory::addObject(std::shared_ptr<Object> obj) {
 }
 
 std::shared_ptr<Object> Inventory::releaseObject(int inventoryNumber) {
-    for(std::shared_ptr<Object> obj : this->inventory) {
+    for(std::shared_ptr<Object>& obj : this->inventory) {
         if(obj->properties.numberInInventory == inventoryNumber) {
             std::shared_ptr<Object> toRemove = std::move(obj);
             this->inventory.remove(obj);
