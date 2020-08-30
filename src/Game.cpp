@@ -110,7 +110,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
         else
             denyMoveSfx.play();
     }
-    else if(event.type == sf::Event::KeyPressed) {
+    else if(event.type == sf::Event::KeyReleased) {
         int itemToRelease = 0;
         switch (event.key.code) {
             case sf::Keyboard::Num1:

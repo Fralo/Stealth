@@ -29,13 +29,21 @@ bool Inventory::addObject(std::shared_ptr<Object> obj) {
 }
 
 std::shared_ptr<Object> Inventory::releaseObject(int inventoryNumber) {
-    for(std::shared_ptr<Object>& obj : this->inventory) {
-        if(obj->properties.numberInInventory == inventoryNumber) {
-            std::shared_ptr<Object> toRemove = std::move(obj);
+    std::shared_ptr<Object> toRemove = nullptr;
+    for (std::shared_ptr<Object> &obj : this->inventory) {
+        if (obj->properties.numberInInventory == inventoryNumber) {
+            toRemove = std::move(obj);
             this->inventory.remove(obj);
-            return toRemove;
+            break;
         }
     }
+    if (toRemove != nullptr) {
+        int i = 0;
+        for (std::shared_ptr<Object> &obj : this->inventory)
+            obj->properties.numberInInventory = ++i;
+
+    }
+    return toRemove;
 }
 
 int Inventory::getSize() {
