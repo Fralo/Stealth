@@ -149,13 +149,15 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                               player->getPos().y + player->getAbsCollisionBox().width / 2 + 1);
                 toAdd->properties.numberInInventory = 0;
 
-
+                bool exploded = false;
                 for (auto &&o : this->objects) {
-                    if (o->properties.id == 1) {
+                    if (o->properties.id == 1 && MathHelper::distanceBetweenTwoPoints(o->getPos(), toAdd->getPos()) < 100) {
                         o->setHealth(o->getHealth() - 50);
+                        exploded = true;
                     }
                 }
-                this->objects.push_front(std::move(toAdd));
+                if(!exploded)
+                    this->objects.push_front(std::move(toAdd));
             } else
                 denyMoveSfx.play();
         }
