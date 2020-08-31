@@ -99,5 +99,6 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 void Object::setHealth(int health) {
     if(properties.destroyable)
-        this->health = health;
+        if(getHealth() > 0)
+            this->health = health;
 }

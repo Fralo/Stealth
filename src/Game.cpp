@@ -153,6 +153,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                 for (auto &&o : this->objects) {
                     if (o->properties.id == 1) {
                         o->setHealth(o->getHealth() - 50);
+                        advancementManager->isTargetDestroyed(50);
                     }
                 }
                 this->objects.push_front(std::move(toAdd));
