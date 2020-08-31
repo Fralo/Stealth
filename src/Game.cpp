@@ -154,7 +154,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                     if (o->properties.id == 1 && MathHelper::distanceBetweenTwoPoints(o->getPos(), toAdd->getPos()) < 100) {
                         o->setHealth(o->getHealth() - 60);
                         exploded = true;
-                        advancementManager->isTargetDestroyed(50);
+                        advancementManager->isTargetDestroyed(o->getHealth());
                     }
                 }
                 if(!exploded)
@@ -309,7 +309,7 @@ void Game::loadObjects() {
     test1.destroyable = true;
     test1.collectible = false;
     std::shared_ptr<Object> obj3 = std::make_shared<Object>(t3, sf::Vector2f(
-            800,
+            300,
             300
     ), test1);
 

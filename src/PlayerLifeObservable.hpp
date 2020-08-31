@@ -12,7 +12,7 @@ public :
     virtual ~PlayerLifeObservable() {
         std::cout << "Goodbye, I was the EnemyShootingObserver"<<std::endl;
     }
-    virtual void changePlayerLife(int damage) = 0;
+    virtual void changePlayerLife(int health) = 0;
 
 };
 

@@ -12,7 +12,7 @@ public:
     virtual ~MissionOneObserver() {
         std::cout << "Goodbye, I was the EnemyShootingObserver"<<std::endl;
     }
-    virtual void isTargetDestroyed(int damage) = 0;
+    virtual void isTargetDestroyed(int health) = 0;
 
 };
 

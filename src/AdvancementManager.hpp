@@ -19,9 +19,10 @@ public:
     void enemyShoots() override;
     void changeStealthStatus() override;
     void updateWalked() override;
-    void changePlayerLife(std::shared_ptr<Player> player, int damage) override;
 
-    void isTargetDestroyed(int damage) override;
+
+    void changePlayerLife(int health) override;
+    void isTargetDestroyed(int health) override;
 
     void update();
 
@@ -32,8 +33,6 @@ private:
         int enemyKilled = 0;
         int walked = 0;
         bool isStealth = true;
-        int playerLife = 100;
-        int towerHealth = 100;
     };
     Advancements advancements;
 
