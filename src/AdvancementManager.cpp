@@ -22,18 +22,16 @@ void AdvancementManager::updateWalked() {
 
 }
 
-void AdvancementManager::changePlayerLife(int damage) {
-    advancements.playerLife -= damage;
-    if(advancements.playerLife == 0)
+void AdvancementManager::changePlayerLife(int health) {
+    if(health == 0)
     {
         stealth.popStack();
         std::cout<<"PlayerLifeObserver -> Player Ucciso : Missione Fallita"<<std::endl;
     }
 }
 
-void AdvancementManager::isTargetDestroyed(int damage) {
-    advancements.towerHealth -= damage;
-    if(advancements.towerHealth == 0)
+void AdvancementManager::isTargetDestroyed(int health) {
+    if(health == 0)
     {
         stealth.popStack();
         std::cout<<"MissionOneObserver -> Missione 1 Completata : Hai vinto!"<<std::endl;

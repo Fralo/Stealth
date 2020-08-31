@@ -154,7 +154,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                     if (o->properties.id == 1 && MathHelper::distanceBetweenTwoPoints(o->getPos(), toAdd->getPos()) < 100) {
                         o->setHealth(o->getHealth() - 50);
                         exploded = true;
-                        advancementManager->isTargetDestroyed(50);
+                        advancementManager->isTargetDestroyed(o->getHealth());
                     }
                 }
                 if(!exploded)
