@@ -23,6 +23,8 @@ public:
 
     void isTargetDestroyed() override;
 
+    void update();
+
 private:
 
     Stealth &stealth;

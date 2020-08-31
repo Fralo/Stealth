@@ -36,3 +36,21 @@ void AdvancementManager::isTargetDestroyed() {
     std::cout<<"MissionOneObserver -> Missione 1 Completata : Hai vinto!"<<std::endl;
     stealth.popStack();
 }
+
+void AdvancementManager::update() {
+
+    /*
+     * TODO: Objectives:
+     *
+     * if objective == kill 10 enemyes
+     *      if advancements.enemyKilled >= 10
+     *          stealth.changeState(new WonScreen())
+     *
+     *  else if objective == another objective
+     *      if objective.isComplete()
+     *          stealth.changeState(new WonScreen())
+     *
+     *   WonScreen : GameState
+     */
+
+}
