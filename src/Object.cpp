@@ -78,6 +78,13 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         rect.setPosition(this->position.x,this->position.y);
         target.draw(rect);
     }
+    if(this->properties.destroyable == true) {
+        sf::RectangleShape re({static_cast<float>(getHealth()) / 100 * 20, 2});
+        re.setPosition({getPos().x - 5, getPos().y - 5});
+        re.setFillColor(sf::Color::Red);
+
+        target.draw(re);
+    }
 
 #ifdef STEALTH_GRAPHIC_DEBUG
     if(tile->collisionBox.height > 0 && tile->collisionBox.width > 0) {
