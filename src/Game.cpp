@@ -29,6 +29,7 @@ void Game::init(Stealth &stealth) {
 
 void Game::update(Stealth &stealth) {
     pollEvents(stealth);
+    advancementManager->update();
 
     /*
      * Updates and draws scene 1000 / TICKDELAY times per second
