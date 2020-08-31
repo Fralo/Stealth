@@ -284,6 +284,7 @@ void Game::loadObjects() {
     ObjectProperties test1;
     std::shared_ptr<Tile> t = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
     std::shared_ptr<Tile> t2 = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
+    std::shared_ptr<Tile> t3 = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
 
     test1.id = 4;
     test1.collectible = true;
@@ -296,6 +297,15 @@ void Game::loadObjects() {
             200,
             100
     ), test1);
+    test1.id = 1;
+    test1.destroyable = true;
+    test1.collectible = false;
+    std::shared_ptr<Object> obj3 = std::make_shared<Object>(t2, sf::Vector2f(
+            800,
+            300
+    ), test1);
+
     this->objects.push_front(obj1);
     this->objects.push_front(obj2);
+    this->objects.push_front(obj3);
 }
