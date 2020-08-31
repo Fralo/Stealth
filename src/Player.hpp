@@ -26,12 +26,13 @@ public:
     void setTarget(std::shared_ptr<GameObject> target);
     void setTarget(sf::Vector2f next);
     void subscribe(std::shared_ptr<PlayerLifeObservable> pointer);
-    void unsubscribe(std::shared_ptr<PlayerLifeObservable> pointer);
+    void unsubscribe();
     void shootEnemy(std::shared_ptr<GameObject> enemy);
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
+    sf::Clock clock;
     Weapon weapon;
     sf::Vector2f nextPos;
     sf::Clock cacheTime;

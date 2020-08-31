@@ -18,7 +18,10 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
     std::vector<sf::Vector2f> coordinates;
 
     if(getHealth() == 0)
+    {
+        unsubscribe();
         return;
+    }
 
     auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
     Vector2u8 scaledTargetPos = target ? Vector2u8(target->getPos() / (float) GRID_SCALE_FACTOR) : Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
@@ -47,6 +50,11 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
 
 
         path = astar->getPath(scaledPos, scaledTargetPos);
+
+//       if(path)
+//            if(clock.getElapsedTime().asMilliseconds() % 2000)
+//                std::cout<<"ciao"<<std::endl;
+
         this->weapon.distanceOfUse = 90;
         if(target != nullptr && MathHelper::distanceBetweenTwoPoints(getPos(),target->getPos()) > weapon.distanceOfUse - 10)
                 if (target->getHealth()>0)
@@ -140,8 +148,8 @@ void Player::subscribe(std::shared_ptr<PlayerLifeObservable> pointer) {
     listPLO.push_back(pointer);
 }
 
-void Player::unsubscribe(std::shared_ptr<PlayerLifeObservable> pointer) {
-    listPLO.remove(pointer);
+void Player::unsubscribe() {
+    listPLO.remove(listPLO.front());
 }
 
 void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
