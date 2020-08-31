@@ -140,18 +140,22 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
             bool canRelease = true;
             for (auto &&obj : this->objects)
                 if (obj->getAbsCollisionBox().contains(player->getPos().x, player->getPos().y + 40) ||
-                        obj->getAbsCollisionBox().contains(player->getPos().x + 40, player->getPos().y)) //40 is the dimension of the square used for testing items, TODO sostituire con la dimensione del tile degli oggeti dell'inventario
+                    obj->getAbsCollisionBox().contains(player->getPos().x + 40,
+                                                       player->getPos().y)) //40 is the dimension of the square used for testing items, TODO sostituire con la dimensione del tile degli oggeti dell'inventario
                     canRelease = false;
             if (canRelease) {
                 auto toAdd = std::move(this->inventory->releaseObject(itemToRelease));
-                toAdd->setPos(player->getPos().x + player->getAbsCollisionBox().height/2+1, player->getPos().y + player->getAbsCollisionBox().width/2+1);
+                toAdd->setPos(player->getPos().x + player->getAbsCollisionBox().height / 2 + 1,
+                              player->getPos().y + player->getAbsCollisionBox().width / 2 + 1);
                 toAdd->properties.numberInInventory = 0;
-                this->objects.push_front(std::move(toAdd));
 
-                for(auto&& o : this->objects)
-                    if(o->properties.destroyable && MathHelper::distanceBetweenTwoPoints(o->getPos(),{player->getPos().x + player->getAbsCollisionBox().height/2+1,player->getPos().y + player->getAbsCollisionBox().width/2+1}) < 30)
-                        std::cout<<"-50 di vita"<<std::endl;
-                        //o.setHealth(o.getHealth() - 50);
+
+                for (auto &&o : this->objects) {
+                    if (o->properties.id == 1) {
+                        o->setHealth(o->getHealth() - 50);
+                    }
+                }
+                this->objects.push_front(std::move(toAdd));
             } else
                 denyMoveSfx.play();
         }
@@ -288,6 +292,7 @@ void Game::loadObjects() {
 
     test1.id = 4;
     test1.collectible = true;
+    test1.destroyable = false;
     std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
             400,
             400
@@ -304,7 +309,7 @@ void Game::loadObjects() {
             800,
             300
     ), test1);
-    
+
     this->objects.push_front(obj1);
     this->objects.push_front(obj2);
     this->objects.push_front(obj3);
