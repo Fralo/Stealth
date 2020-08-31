@@ -41,6 +41,7 @@ private:
     sf::Text mainMenuTxt;
     sf::Font selectionFont;
     sf::Text newGameTxt;
+    sf::Text missionTxt;
     sf::Text quitTxt;
 
     sf::Cursor selectCursor;
