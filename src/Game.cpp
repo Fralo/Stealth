@@ -149,7 +149,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                 this->objects.push_front(std::move(toAdd));
 
                 for(auto&& o : this->objects)
-                    if(o->properties.destroyable && MathHelper::distanceBetweenTwoPoints(o->getPos(),toAdd->getPos()) < 30)
+                    if(o->properties.destroyable && MathHelper::distanceBetweenTwoPoints(o->getPos(),{player->getPos().x + player->getAbsCollisionBox().height/2+1,player->getPos().y + player->getAbsCollisionBox().width/2+1}) < 30)
                         std::cout<<"-50 di vita"<<std::endl;
                         //o.setHealth(o.getHealth() - 50);
             } else
