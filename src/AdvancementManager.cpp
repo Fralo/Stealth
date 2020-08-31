@@ -31,10 +31,14 @@ void AdvancementManager::changePlayerLife(int damage) {
     }
 }
 
-void AdvancementManager::isTargetDestroyed() {
-    advancements.missionOne = true;
-    std::cout<<"MissionOneObserver -> Missione 1 Completata : Hai vinto!"<<std::endl;
-    stealth.popStack();
+void AdvancementManager::isTargetDestroyed(int damage) {
+    advancements.towerHealth -= damage;
+    if(advancements.towerHealth == 0)
+    {
+        stealth.popStack();
+        std::cout<<"MissionOneObserver -> Missione 1 Completata : Hai vinto!"<<std::endl;
+    }
+
 }
 
 void AdvancementManager::update() {

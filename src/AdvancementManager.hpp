@@ -21,7 +21,7 @@ public:
     void updateWalked() override;
     void changePlayerLife(int damage) override;
 
-    void isTargetDestroyed() override;
+    void isTargetDestroyed(int damage) override;
 
     void update();
 
@@ -33,7 +33,7 @@ private:
         int walked = 0;
         bool isStealth = true;
         int playerLife = 100;
-        bool missionOne = false;
+        int towerHealth = 100;
     };
     Advancements advancements;
 
