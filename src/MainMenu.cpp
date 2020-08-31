@@ -38,6 +38,14 @@ void MainMenu::init(Stealth &stealth) {
     sf::FloatRect quitRect = quitTxt.getLocalBounds();
     quitTxt.setOrigin(quitRect.left + quitRect.width / 2.0f, quitRect.top + quitRect.height / 2.0f);
 
+//TODO: set explain mission on main menu
+
+//    missionTxt.setFont(selectionFont);
+//    missionTxt.setCharacterSize(30);
+//    missionTxt.setString("Qui va il testo di spiegazione della missione");
+//    sf::FloatRect missionRect = missionTxt.getLocalBounds();
+//    missionTxt.setOrigin(missionRect.left + missionRect.width / 2.0f, missionRect.top + missionRect.height / 2.0f);
+
     selectionSfxBuffer.loadFromFile("../res/music/selection_sfx.ogg");
     selectionSfx.setBuffer(selectionSfxBuffer);
     selectionSfx.setVolume(25);
@@ -111,6 +119,7 @@ void MainMenu::update(Stealth &stealth) {
     stealth.window.draw(mainMenuTxt);
     stealth.window.draw(newGameTxt);
     stealth.window.draw(quitTxt);
+    stealth.window.draw(missionTxt);
 
     stealth.window.display();
 }
