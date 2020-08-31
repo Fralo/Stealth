@@ -19,7 +19,7 @@ public:
     void enemyShoots() override;
     void changeStealthStatus() override;
     void updateWalked() override;
-    void changePlayerLife(int damage) override;
+    void changePlayerLife(std::shared_ptr<Player> player, int damage) override;
 
     void isTargetDestroyed(int damage) override;
 

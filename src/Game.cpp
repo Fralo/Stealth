@@ -152,7 +152,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                 bool exploded = false;
                 for (auto &&o : this->objects) {
                     if (o->properties.id == 1 && MathHelper::distanceBetweenTwoPoints(o->getPos(), toAdd->getPos()) < 100) {
-                        o->setHealth(o->getHealth() - 50);
+                        o->setHealth(o->getHealth() - 60);
                         exploded = true;
                         advancementManager->isTargetDestroyed(50);
                     }

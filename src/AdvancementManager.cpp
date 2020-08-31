@@ -22,7 +22,8 @@ void AdvancementManager::updateWalked() {
 
 }
 
-void AdvancementManager::changePlayerLife(int damage) {
+void AdvancementManager::changePlayerLife(std::shared_ptr<Player> player, int damage) {
+    player->getHealth();
     advancements.playerLife -= damage;
     if(advancements.playerLife == 0)
     {
