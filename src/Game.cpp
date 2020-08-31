@@ -293,10 +293,12 @@ void Game::loadObjects() {
     ), test1);
     test1.id = 1;
     test1.destroyable = true;
+    test1.collectible = false;
     std::shared_ptr<Object> obj3 = std::make_shared<Object>(t2, sf::Vector2f(
             800,
             300
     ), test1);
+
     this->objects.push_front(obj1);
     this->objects.push_front(obj2);
     this->objects.push_front(obj3);
