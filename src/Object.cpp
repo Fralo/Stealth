@@ -102,3 +102,11 @@ void Object::setHealth(int health) {
         if(getHealth() > 0)
             this->health = health > 0 ? health : 0;
 }
+
+bool Object::isDroppable(std::list<std::shared_ptr<Object>>& objects, sf::Vector2f playerPos) {
+    for(auto&& obj : objects) {
+        if (obj->getAbsCollisionBox().contains(playerPos.x + this->tile->collisionBox.width, playerPos.y + this->tile->collisionBox.height))
+            return false;
+    }
+    return true;
+}

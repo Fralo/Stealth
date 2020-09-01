@@ -10,7 +10,7 @@
 #include <utility>
 #include "Tile.hpp"
 #include "GameObject.hpp"
-
+#include <list>
 struct ObjectProperties {
     bool destroyable;
     bool explosive;
@@ -25,6 +25,7 @@ public:
     Object(std::shared_ptr<Object> obj);
     Object(std::shared_ptr<Tile> tile, sf::Vector2f position): Object(std::move(tile), position, {false, false}) {};
     void setHealth(int health);
+    bool isDroppable( std::list<std::shared_ptr<Object>>& objects, sf::Vector2f playerPos );
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
