@@ -112,12 +112,12 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
             player->setTarget(cursor.getPointedElement().pointedElementObject);
         } else if (cursor.getPointedElement().pointedElementType != OBSTACLE)
             player->setTarget(stealth.window.mapPixelToCoords(sf::Mouse::getPosition(stealth.window)));
-        else
+        else //It's an obstacle
             denyMoveSfx.play();
     } else if (event.type == sf::Event::KeyReleased) {
         int itemToRelease = 0;
         switch (event.key.code) {
-            case sf::Keyboard::Num1:
+            case sf::Keyboard::Num1: //TODO spostare il controllo nell'inventario
                 if (inventory->getSize() > 0) {
                     itemToRelease = 1;
                 }
@@ -139,6 +139,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
         if (itemToRelease != 0) {
             bool canRelease = true;
             for (auto &&obj : this->objects)
+                //TODO far fare contains direttamente a object ( magari con un is Droppable )
                 if (obj->getAbsCollisionBox().contains(player->getPos().x, player->getPos().y + 40) ||
                     obj->getAbsCollisionBox().contains(player->getPos().x + 40,
                                                        player->getPos().y)) //40 is the dimension of the square used for testing items, TODO sostituire con la dimensione del tile degli oggeti dell'inventario
