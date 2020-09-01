@@ -14,8 +14,6 @@
 #include "Player.hpp"
 #include "HunterStrategy.hpp"
 #include "MathHelper.hpp"
-#include "EnemyShootingObserver.hpp"
-#include "IsStealthObserver.hpp"
 #include "KilledEnemyObserver.hpp"
 #include "StealthStatusObserver.hpp"
 
@@ -62,7 +60,7 @@ private:
 
     //new observer implementation
     std::list<std::shared_ptr<KilledEnemyObserver>> killedEnemyObservers;
-    std::list<std::shared_ptr<StealthStatusObserver>> stealthStatusObserver;
+    std::list<std::shared_ptr<StealthStatusObserver>> stealthStatusObservers;
 
 
 };

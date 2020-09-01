@@ -32,10 +32,10 @@ add_custom_command(
 add_custom_target("pack-data" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${RES_ARCHIVE}")
 
 
-set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/HunterStrategy.cpp src/HunterStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Object.cpp src/Object.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp src/Tile.cpp src/Tile.hpp src/Astar.cpp src/Astar.hpp src/Inventory.cpp src/Inventory.hpp src/cfg.hpp src/Animation.cpp src/Animation.hpp src/GameObject.cpp src/Direction.hpp src/BackgroundObject.hpp src/AdvancementManager.cpp src/AdvancementManager.hpp  src/MathHelper.cpp src/MathHelper.hpp src/EnemyShootingObserver.hpp src/IsStealthObserver.hpp src/PlayerLifeObservable.hpp src/MissionOneObserver.hpp src/AdvancementManagerObserver.hpp src/KilledEnemyObserver.cpp src/KilledEnemyObserver.hpp src/StealthStatusObserver.cpp src/StealthStatusObserver.hpp)
+set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/HunterStrategy.cpp src/HunterStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Object.cpp src/Object.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp src/Tile.cpp src/Tile.hpp src/Astar.cpp src/Astar.hpp src/Inventory.cpp src/Inventory.hpp src/cfg.hpp src/Animation.cpp src/Animation.hpp src/GameObject.cpp src/Direction.hpp src/BackgroundObject.hpp src/MathHelper.cpp src/MathHelper.hpp src/AdvancementManagerObserver.hpp src/KilledEnemyObserver.cpp src/KilledEnemyObserver.hpp src/StealthStatusObserver.cpp src/StealthStatusObserver.hpp)
 
 
-add_executable(Stealth src/main.cpp ${SOURCE_FILES} src/WalkObserver.hpp)
+add_executable(Stealth src/main.cpp ${SOURCE_FILES})
 target_link_libraries(Stealth sfml-system sfml-window sfml-graphics sfml-audio GLX tinyxml2)
 add_dependencies(Stealth pack-data)
 

@@ -18,7 +18,7 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
         std::cout<<"hello"<<std::endl;
         notifyEnemyKilled();
         unsubscribe(killedEnemyObservers.back());
-        unsubscribe(stealthStatusObserver.back());
+        unsubscribe(stealthStatusObservers.back());
     }
 
     //generate the vector of vertices to find the player
@@ -146,16 +146,16 @@ void Enemy::notifyEnemyKilled() {
 }
 
 void Enemy::subscribe(std::shared_ptr<StealthStatusObserver> observer) {
-    stealthStatusObserver.push_back(observer);
+    stealthStatusObservers.push_back(observer);
 
 }
 
 void Enemy::unsubscribe(std::shared_ptr<StealthStatusObserver> observer) {
-    stealthStatusObserver.remove(observer);
+    stealthStatusObservers.remove(observer);
 }
 
 void Enemy::notifyStealthObserver() {
-    for(auto&& o : stealthStatusObserver)
+    for(auto&& o : stealthStatusObservers)
         o->update();
 }
 

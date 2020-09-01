@@ -5,7 +5,6 @@
 #include "Game.hpp"
 
 void Game::init(Stealth &stealth) {
-    advancementManager = std::make_shared<AdvancementManager>(stealth);
     killedEnemyObserver = std::make_shared<KilledEnemyObserver>();
     stealthStatusObserver = std::make_shared<StealthStatusObserver>();
     stealth.window.setMouseCursorVisible(false);
@@ -30,7 +29,6 @@ void Game::init(Stealth &stealth) {
 
 void Game::update(Stealth &stealth) {
     pollEvents(stealth);
-    advancementManager->update();
 
     /*
      * Updates and draws scene 1000 / TICKDELAY times per second
@@ -44,11 +42,34 @@ void Game::update(Stealth &stealth) {
     for (const std::shared_ptr<Enemy> &enemy : enemies)
         enemy->update(objects, *player, *map);
     player->update(objects, *map);
+
     cursor.update(stealth.window, objects, enemies, player);
-
-
     updateViews(stealth);
     stealth.window.setView(gameView);
+
+    /*
+     * Check player life
+     */
+
+    if(player->getHealth() == 0)
+        stealth.popStack();
+
+    /*
+     * Check enemy life
+     */
+
+    //TODO: handle enemy death from here
+//    for(std::shared_ptr<Enemy> e : enemies)
+//        if(e->getHealth() == 0)
+//            enemies.remove(e);
+
+    /*
+     * Check target object life
+     */
+
+    for (auto &&o : this->objects)
+        if (o->properties.id == 1 && o->getHealth() == 0)
+            stealth.popStack();
 
     /*
      * Draw objects
@@ -155,7 +176,6 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                     if (o->properties.id == 1 && MathHelper::distanceBetweenTwoPoints(o->getPos(), toAdd->getPos()) < 100) {
                         o->setHealth(o->getHealth() - 60);
                         exploded = true;
-                        advancementManager->isTargetDestroyed(o->getHealth());
                     }
                 }
                 if(!exploded)
@@ -191,8 +211,6 @@ void Game::loadMapConfig() {
                     xmlPlayerWeapon->IntAttribute("damage"),
                     xmlPlayerWeapon->IntAttribute("angle")
             });
-
-    player->subscribe(advancementManager);
 }
 
 void Game::loadEnemies(xml::XMLElement *root) {
@@ -232,9 +250,6 @@ void Game::loadEnemies(xml::XMLElement *root) {
 
     }
     for (std::shared_ptr<Enemy> e : enemies) {
-        //e->subscribeESO(advancementManager);
-        //e->subscribeISO(advancementManager);
-
         e->subscribe(killedEnemyObserver);
         e->subscribe(stealthStatusObserver);
     }

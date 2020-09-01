@@ -20,8 +20,6 @@
 #include "SeekStrategy.hpp"
 #include "GameCursor.hpp"
 #include "Inventory.hpp"
-//old observer implementation
-#include "AdvancementManager.hpp"
 //new observer implementation
 #include "KilledEnemyObserver.hpp"
 #include "StealthStatusObserver.hpp"
@@ -44,7 +42,6 @@ protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
-    std::shared_ptr<AdvancementManager> advancementManager;
     std::shared_ptr<KilledEnemyObserver> killedEnemyObserver;
     std::shared_ptr<StealthStatusObserver> stealthStatusObserver;
 
