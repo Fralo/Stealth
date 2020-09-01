@@ -14,15 +14,11 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //enemy death
     if(getHealth() == 0) {
-//        for(auto&& e : listESO)
-//            e->enemyShoots();
-//        unsubscribeISO();
-//        unsubscribeESO();
-    std::cout<<"hello"<<std::endl;
-        //notifyEnemyKilled();
-//        unsubscribe(killedEnemyObservers.back());
-//        unsubscribe(stealthStatusObserver.back());
-        return;
+        //TODO: fix the enemy death, also if we do return game call the enemy update every time !! The SIGSEGV error is for this
+        std::cout<<"hello"<<std::endl;
+        notifyEnemyKilled();
+        unsubscribe(killedEnemyObservers.back());
+        unsubscribe(stealthStatusObserver.back());
     }
 
     //generate the vector of vertices to find the player
@@ -39,8 +35,6 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
                 if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
                     strategy = std::make_shared<HunterStrategy>();
                     notifyStealthObserver();
-//                for(auto&& e : listISO)
-//                    e->changeStealthStatus();
             }
 
 
@@ -134,25 +128,6 @@ sf::ConvexShape Enemy::getSightTraigle() const {
 void Enemy::applyDamage(int damage) {
     setHealth(getHealth() - 1);
 }
-
-//old observer implementation
-//void Enemy::subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer) {
-//    listESO.push_back(pointer);
-//}
-//
-//void Enemy::subscribeISO(std::shared_ptr<IsStealthObserver> pointer) {
-//    listISO.push_back(pointer);
-//}
-//
-//void Enemy::unsubscribeESO() {
-//
-//    listESO.remove(listESO.front());
-//}
-//
-//void Enemy::unsubscribeISO() {
-//
-//    listISO.remove(listISO.front());
-//}
 
 //new observer implementation
 

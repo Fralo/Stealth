@@ -35,17 +35,12 @@ public:
     void applyDamage(int damage);
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
 
-    //old observer implementation - todelete
-//    void subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer);
-//    void subscribeISO(std::shared_ptr<IsStealthObserver> pointer);
-//    void unsubscribeESO();
-//    void unsubscribeISO();
-
     //new observer implementation
 
     void subscribe(std::shared_ptr<KilledEnemyObserver> observer);
     void unsubscribe(std::shared_ptr<KilledEnemyObserver> observer);
     void notifyEnemyKilled();
+
     void subscribe(std::shared_ptr<StealthStatusObserver> observer);
     void unsubscribe(std::shared_ptr<StealthStatusObserver> observer);
     void notifyStealthObserver();
@@ -64,10 +59,6 @@ private:
     Weapon weapon;
 
     sf::ConvexShape getSightTraigle() const;
-
-    //old observer implementation - todelete
-//    std::list<std::shared_ptr<EnemyShootingObserver>> listESO;
-//    std::list<std::shared_ptr<IsStealthObserver>> listISO;
 
     //new observer implementation
     std::list<std::shared_ptr<KilledEnemyObserver>> killedEnemyObservers;

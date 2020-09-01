@@ -5,6 +5,9 @@
 #include "StealthStatusObserver.hpp"
 
 void StealthStatusObserver::update() {
+    if(isStealth == true)
+    {
         isStealth = false;
         std::cout<<"StealthStatusObserver::update() say : an enemy saw the player"<<std::endl;
+    }
 }
