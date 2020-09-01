@@ -17,12 +17,6 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
 void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap &map) {
     std::vector<sf::Vector2f> coordinates;
 
-    if(getHealth() == 0)
-    {
-        unsubscribe();
-        return;
-    }
-
     auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
     Vector2u8 scaledTargetPos = target ? Vector2u8(target->getPos() / (float) GRID_SCALE_FACTOR) : Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
 
@@ -140,16 +134,6 @@ void Player::setTarget(std::shared_ptr<GameObject> target) {
 
 void Player::applyDamage(int damage) {
     setHealth(std::max(health - damage, 0u));
-        for(auto&& e : listPLO)
-            e->changePlayerLife(this->getHealth());
-}
-
-void Player::subscribe(std::shared_ptr<PlayerLifeObservable> pointer) {
-    listPLO.push_back(pointer);
-}
-
-void Player::unsubscribe() {
-    listPLO.remove(listPLO.front());
 }
 
 void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
@@ -158,6 +142,8 @@ void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
         if(enemy->getHealth() > 0)
             enemy->setHealth(enemy->getHealth() - 10);
 }
+
+
 
 
 

@@ -32,6 +32,7 @@ protected:
 
 public:
     ObjectProperties properties;
+
 };
 
 
