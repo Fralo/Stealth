@@ -6,7 +6,8 @@
 
 void Game::init(Stealth &stealth) {
     advancementManager = std::make_shared<AdvancementManager>(stealth);
-
+    killedEnemyObserver = std::make_shared<KilledEnemyObserver>();
+    stealthStatusObserver = std::make_shared<StealthStatusObserver>();
     stealth.window.setMouseCursorVisible(false);
 
     map = std::make_shared<TiledMap>(resource("maps/02-map.tmx"), objects);
@@ -231,8 +232,11 @@ void Game::loadEnemies(xml::XMLElement *root) {
 
     }
     for (std::shared_ptr<Enemy> e : enemies) {
-        e->subscribeESO(advancementManager);
-        e->subscribeISO(advancementManager);
+        //e->subscribeESO(advancementManager);
+        //e->subscribeISO(advancementManager);
+
+        e->subscribe(killedEnemyObserver);
+        e->subscribe(stealthStatusObserver);
     }
 
 

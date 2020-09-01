@@ -11,6 +11,8 @@
 class StealthStatusObserver : public AdvancementManagerObserver{
 public:
     void update() override;
+private:
+    bool isStealth = true;
 };
 
 

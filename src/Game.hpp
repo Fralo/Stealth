@@ -20,7 +20,12 @@
 #include "SeekStrategy.hpp"
 #include "GameCursor.hpp"
 #include "Inventory.hpp"
+//old observer implementation
 #include "AdvancementManager.hpp"
+//new observer implementation
+#include "KilledEnemyObserver.hpp"
+#include "StealthStatusObserver.hpp"
+
 class AdvancementManager;
 
 namespace xml = tinyxml2;
@@ -40,6 +45,9 @@ protected:
 
 private:
     std::shared_ptr<AdvancementManager> advancementManager;
+    std::shared_ptr<KilledEnemyObserver> killedEnemyObserver;
+    std::shared_ptr<StealthStatusObserver> stealthStatusObserver;
+
     std::forward_list<std::shared_ptr<Enemy>> enemies;
     std::list<std::shared_ptr<Object>> objects;
     std::shared_ptr<Player> player;

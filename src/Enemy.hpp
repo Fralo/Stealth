@@ -16,6 +16,8 @@
 #include "MathHelper.hpp"
 #include "EnemyShootingObserver.hpp"
 #include "IsStealthObserver.hpp"
+#include "KilledEnemyObserver.hpp"
+#include "StealthStatusObserver.hpp"
 
 
 class EnemyShootingObserver;
@@ -30,14 +32,23 @@ class Enemy : public GameObject {
 public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view,
           const std::shared_ptr<Strategy>& defaultStrategy);
-
     void applyDamage(int damage);
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
-    void subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer);
-    void subscribeISO(std::shared_ptr<IsStealthObserver> pointer);
-    void unsubscribeESO();
-    void unsubscribeISO();
 
+    //old observer implementation - todelete
+//    void subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer);
+//    void subscribeISO(std::shared_ptr<IsStealthObserver> pointer);
+//    void unsubscribeESO();
+//    void unsubscribeISO();
+
+    //new observer implementation
+
+    void subscribe(std::shared_ptr<KilledEnemyObserver> observer);
+    void unsubscribe(std::shared_ptr<KilledEnemyObserver> observer);
+    void notifyEnemyKilled();
+    void subscribe(std::shared_ptr<StealthStatusObserver> observer);
+    void unsubscribe(std::shared_ptr<StealthStatusObserver> observer);
+    void notifyStealthObserver();
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -51,10 +62,18 @@ private:
     double orientationTarget;
     double sightSwingVariation = 0;
     Weapon weapon;
-    std::list<std::shared_ptr<EnemyShootingObserver>> listESO;
-    std::list<std::shared_ptr<IsStealthObserver>> listISO;
 
     sf::ConvexShape getSightTraigle() const;
+
+    //old observer implementation - todelete
+//    std::list<std::shared_ptr<EnemyShootingObserver>> listESO;
+//    std::list<std::shared_ptr<IsStealthObserver>> listISO;
+
+    //new observer implementation
+    std::list<std::shared_ptr<KilledEnemyObserver>> killedEnemyObservers;
+    std::list<std::shared_ptr<StealthStatusObserver>> stealthStatusObserver;
+
+
 };
 
 

@@ -14,10 +14,14 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //enemy death
     if(getHealth() == 0) {
-        for(auto&& e : listESO)
-            e->enemyShoots();
-        unsubscribeISO();
-        unsubscribeESO();
+//        for(auto&& e : listESO)
+//            e->enemyShoots();
+//        unsubscribeISO();
+//        unsubscribeESO();
+    std::cout<<"hello"<<std::endl;
+        //notifyEnemyKilled();
+//        unsubscribe(killedEnemyObservers.back());
+//        unsubscribe(stealthStatusObserver.back());
         return;
     }
 
@@ -34,8 +38,9 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
             for (const std::shared_ptr<Object>& obj : objects) {
                 if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
                     strategy = std::make_shared<HunterStrategy>();
-                for(auto&& e : listISO)
-                    e->changeStealthStatus();
+                    notifyStealthObserver();
+//                for(auto&& e : listISO)
+//                    e->changeStealthStatus();
             }
 
 
@@ -130,22 +135,53 @@ void Enemy::applyDamage(int damage) {
     setHealth(getHealth() - 1);
 }
 
-void Enemy::subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer) {
-    listESO.push_back(pointer);
+//old observer implementation
+//void Enemy::subscribeESO(std::shared_ptr<EnemyShootingObserver> pointer) {
+//    listESO.push_back(pointer);
+//}
+//
+//void Enemy::subscribeISO(std::shared_ptr<IsStealthObserver> pointer) {
+//    listISO.push_back(pointer);
+//}
+//
+//void Enemy::unsubscribeESO() {
+//
+//    listESO.remove(listESO.front());
+//}
+//
+//void Enemy::unsubscribeISO() {
+//
+//    listISO.remove(listISO.front());
+//}
+
+//new observer implementation
+
+void Enemy::subscribe(std::shared_ptr<KilledEnemyObserver> observer) {
+    killedEnemyObservers.push_back(observer);
 }
 
-void Enemy::subscribeISO(std::shared_ptr<IsStealthObserver> pointer) {
-    listISO.push_back(pointer);
+void Enemy::unsubscribe(std::shared_ptr<KilledEnemyObserver> observer) {
+
+    killedEnemyObservers.remove(observer);
 }
 
-void Enemy::unsubscribeESO() {
-
-    listESO.remove(listESO.front());
+void Enemy::notifyEnemyKilled() {
+    for(auto&& o : killedEnemyObservers)
+        o->update();
 }
 
-void Enemy::unsubscribeISO() {
+void Enemy::subscribe(std::shared_ptr<StealthStatusObserver> observer) {
+    stealthStatusObserver.push_back(observer);
 
-    listISO.remove(listISO.front());
+}
+
+void Enemy::unsubscribe(std::shared_ptr<StealthStatusObserver> observer) {
+    stealthStatusObserver.remove(observer);
+}
+
+void Enemy::notifyStealthObserver() {
+    for(auto&& o : stealthStatusObserver)
+        o->update();
 }
 
 

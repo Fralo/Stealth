@@ -31,6 +31,7 @@ protected:
 
 public:
     ObjectProperties properties;
+
 };
 
 
