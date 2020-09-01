@@ -14,7 +14,6 @@ void AdvancementManager::changeStealthStatus() {
         advancements.isStealth = false;
         std::cout << "StealthStatusObserver -> Player Visto" << std::endl;
     }
-
 }
 
 void AdvancementManager::updateWalked() {
