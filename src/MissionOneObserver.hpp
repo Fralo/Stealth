@@ -16,5 +16,4 @@ public:
 
 };
 
-
 #endif //STEALTH_MISSIONONEOBSERVER_HPP

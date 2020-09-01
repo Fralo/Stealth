@@ -19,13 +19,10 @@ public:
     void enemyShoots() override;
     void changeStealthStatus() override;
     void updateWalked() override;
-
-
     void changePlayerLife(int health) override;
     void isTargetDestroyed(int health) override;
-
     void update();
-
+    
 private:
 
     Stealth &stealth;
