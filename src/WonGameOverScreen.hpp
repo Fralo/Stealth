@@ -2,8 +2,8 @@
 // Created by mattia on 02/09/20.
 //
 
-#ifndef STEALTH_WONSCREEN_HPP
-#define STEALTH_WONSCREEN_HPP
+#ifndef STEALTH_WONGAMEOVERSCREEN_HPP
+#define STEALTH_WONGAMEOVERSCREEN_HPP
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -12,11 +12,11 @@
 #include "Game.hpp"
 
 
-class WonScreen : public GameState{
+class WonGameOverScreen : public GameState{
 
 public:
-    ~WonScreen();
-    WonScreen(int enemyKilled, bool isStealth);
+    ~WonGameOverScreen();
+    WonGameOverScreen(int enemyKilled, bool isStealth, bool won);
     void init(Stealth &stealth) override;
     void update(Stealth &stealth) override;
     void unload();
@@ -49,10 +49,11 @@ private:
 
     int enemyKilled;
     bool isStealth;
+    bool won;
 
     const sf::Color selectedColor = sf::Color(152, 251, 152);
     const sf::Color defaultColor = sf::Color(50,205,50);
 };
 
 
-#endif //STEALTH_WONSCREEN_HPP
+#endif //STEALTH_WONGAMEOVERSCREEN_HPP

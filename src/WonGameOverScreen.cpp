@@ -2,12 +2,12 @@
 // Created by mattia on 02/09/20.
 //
 
-#include "WonScreen.hpp"
-WonScreen::~WonScreen() {
+#include "WonGameOverScreen.hpp"
+WonGameOverScreen::~WonGameOverScreen() {
     this->unload();
 }
 
-void WonScreen::init(Stealth &stealth) {
+void WonGameOverScreen::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(true);
 
     bgTexture.loadFromFile("../res/map_ascii.png");
@@ -19,7 +19,10 @@ void WonScreen::init(Stealth &stealth) {
     titleFont.loadFromFile("../res/fonts/CaptureIt-Regular.ttf");
     mainMenuTxt.setFont(titleFont);
     mainMenuTxt.setCharacterSize(100);
-    mainMenuTxt.setString("WIN");
+    if(won)
+        mainMenuTxt.setString("WIN");
+    else
+        mainMenuTxt.setString("Game Over");
     mainMenuTxt.setFillColor(sf::Color(124, 252, 0));
     sf::FloatRect mainMenuRect = mainMenuTxt.getLocalBounds();
     mainMenuTxt.setOrigin(mainMenuRect.left + mainMenuRect.width / 2.0f, mainMenuRect.top + mainMenuRect.height / 2.0f);
@@ -65,13 +68,16 @@ void WonScreen::init(Stealth &stealth) {
     defaultCursor.loadFromSystem(sf::Cursor::Arrow);
 
     music = new sf::Music();
-    music->openFromFile("../res/music/Stealth_menu.ogg");
+    if(won)
+        music->openFromFile("../res/music/rocky.ogg");
+    else
+        music->openFromFile("../res/music/gameover.ogg");
     music->setLoop(true);
-    music->setVolume(50);
+    music->setVolume(100);
     music->play();
 }
 
-void WonScreen::update(Stealth &stealth) {
+void WonGameOverScreen::update(Stealth &stealth) {
     pollEvents(stealth);
 
     int millis = clock.getElapsedTime().asMilliseconds();
@@ -132,14 +138,14 @@ void WonScreen::update(Stealth &stealth) {
     stealth.window.display();
 }
 
-void WonScreen::unload() {
+void WonGameOverScreen::unload() {
     // Unload heavy assets
     delete music;
 
     // TODO: unload more heavy things
 }
 
-void WonScreen::handleEvent(Stealth &stealth, sf::Event &event) {
+void WonGameOverScreen::handleEvent(Stealth &stealth, sf::Event &event) {
     if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
         switch(selectedOption) {
             case QUIT:
@@ -154,6 +160,6 @@ void WonScreen::handleEvent(Stealth &stealth, sf::Event &event) {
     }
 }
 
-WonScreen::WonScreen(int enemyKilled, bool isStealth) : enemyKilled(enemyKilled),isStealth(isStealth){}
+WonGameOverScreen::WonGameOverScreen(int enemyKilled, bool isStealth, bool won) : enemyKilled(enemyKilled), isStealth(isStealth), won(won){}
 
 
