@@ -106,6 +106,7 @@ void WonScreen::update(Stealth &stealth) {
         }
     }
 
+
     enemyKilledTxt.setPosition(windowSize.x /2.0f,220);
     isStealthTxt.setPosition(windowSize.x / 2.0f, 280);
 
