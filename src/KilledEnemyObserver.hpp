@@ -11,7 +11,6 @@
 class KilledEnemyObserver : public AdvancementManagerObserver{
 public:
     void update() override;
-private:
     int enemyKilled = 0;
 };
 

@@ -3,6 +3,7 @@
 //
 
 #include "Game.hpp"
+#include "WonScreen.hpp"
 
 void Game::init(Stealth &stealth) {
     killedEnemyObserver = std::make_shared<KilledEnemyObserver>();
@@ -68,7 +69,7 @@ void Game::update(Stealth &stealth) {
 
     for (auto &&o : this->objects)
         if (o->properties.id == 1 && o->getHealth() == 0)
-            stealth.popStack();
+            stealth.changeState(new WonScreen(killedEnemyObserver->enemyKilled,stealthStatusObserver->isStealth));
 
     /*
      * Draw objects
