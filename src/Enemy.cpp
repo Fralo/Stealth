@@ -14,8 +14,6 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //enemy death
     if(getHealth() == 0) {
-        //TODO: fix the enemy death, also if we do return game call the enemy update every time !! The SIGSEGV error is for this
-        std::cout<<"hello"<<std::endl;
         notifyEnemyKilled();
         unsubscribe(killedEnemyObservers.back());
         unsubscribe(stealthStatusObservers.back());

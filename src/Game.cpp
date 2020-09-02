@@ -58,10 +58,9 @@ void Game::update(Stealth &stealth) {
      * Check enemy life
      */
 
-    //TODO: handle enemy death from here
-//    for(std::shared_ptr<Enemy> e : enemies)
-//        if(e->getHealth() == 0)
-//            enemies.remove(e);
+    for(const std::shared_ptr<Enemy> &e : enemies)
+        if(e->getHealth() == 0)
+            enemies.remove(e);
 
     /*
      * Check target object life
