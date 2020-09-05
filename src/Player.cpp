@@ -114,10 +114,10 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     // health bar
-    sf::RectangleShape liferect({static_cast<float>(getHealth()),20});
-    liferect.setFillColor(sf::Color(0,200,0));
-    liferect.setPosition(target.getView().getCenter().x - 380,target.getView().getCenter().y + 260);
-    target.draw(liferect);
+    sf::RectangleShape re({static_cast<float>(getHealth()) / 100 * 20, 2});
+    re.setPosition({getPos().x - 10, getPos().y - 25});
+    re.setFillColor(sf::Color::Green);
+    target.draw(re);
 
     tile->setPosition(getPos().x - 30, getPos().y - 30);
     target.draw(*tile);
