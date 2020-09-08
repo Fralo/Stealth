@@ -99,6 +99,8 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 bool Object::isDroppable(std::list<std::shared_ptr<Object>>& objects, sf::Vector2f playerPos) {
     for(auto&& obj : objects) {
+        if(obj->properties.id == 1) //TODO sobstitute whit const value
+            continue;
         if (obj->getAbsCollisionBox().contains(playerPos.x + this->tile->collisionBox.width, playerPos.y + this->tile->collisionBox.height))
             return false;
     }
@@ -114,7 +116,7 @@ bool Object::explode(std::list<std::shared_ptr<Object>>& objects) {
     if(this->properties.explosive) {
         for (auto &&o : objects) {
             if (o->properties.id == 1 && MathHelper::distanceBetweenTwoPoints(o->getPos(), this->getPos()) < this->properties.explosionRadius) {
-                o->applayDamage(60);
+                o->applayDamage(this->properties.damage);
                 return true;
             }
         }

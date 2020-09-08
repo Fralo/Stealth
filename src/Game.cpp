@@ -300,9 +300,11 @@ void Game::loadObjects() {
     std::shared_ptr<Tile> t3 = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
 
     test1.id = 4;
+    test1.explosive = true;
     test1.collectible = true;
     test1.destroyable = false;
     test1.explosionRadius = 100;
+    test1.damage = 60;
     std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
             400,
             400
@@ -315,6 +317,7 @@ void Game::loadObjects() {
     test1.id = 1;
     test1.destroyable = true;
     test1.collectible = false;
+    test1.explosive = false;
     std::shared_ptr<Object> obj3 = std::make_shared<Object>(t3, sf::Vector2f(
             300,
             300

@@ -19,6 +19,7 @@ struct ObjectProperties {
     int id;
     int numberInInventory; //if is not equal to 0, it means that the object is collected in the inventory and indicate the position that should have in the inventory and the key to press to be released
     int explosionRadius;
+    int damage;
 };
 
 class Object : public GameObject {
