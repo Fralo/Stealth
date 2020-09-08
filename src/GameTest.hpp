@@ -13,8 +13,6 @@ public:
     void simulateClickOnEnemy();
     int getEnemiesNumber();
 
-
-
 };
 
 

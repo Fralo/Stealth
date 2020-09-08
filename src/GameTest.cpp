@@ -9,5 +9,7 @@ void GameTest::simulateClickOnEnemy() {
 }
 
 int GameTest::getEnemiesNumber() {
-    return std::distance(enemies.begin(),enemies.end());
+    int i;
+    for(std::shared_ptr<Enemy> e : enemies)
+        i++;
 }
