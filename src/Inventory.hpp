@@ -18,7 +18,7 @@ public:
     Inventory();
     std::forward_list<std::shared_ptr<Object>> getInventory();
     bool addObject(std::shared_ptr<Object> obj);
-    std::shared_ptr<Object> releaseObject(int inventoryNumber);
+    std::shared_ptr<Object> releaseObject(int inventoryNumber,std::list<std::shared_ptr<Object>>& objects, sf::Vector2f playerPos);
     void update();
     int getSize();
 protected:
@@ -26,9 +26,7 @@ protected:
 
 private:
     std::forward_list<std::shared_ptr<Object>> inventory;
-    sf::Vector2f firstItemPos;
-    sf::Vector2f secondItemPos;
-    sf::Vector2f thirdItemPos;
+    const int maxInventorySize = 3;
 };
 
 
