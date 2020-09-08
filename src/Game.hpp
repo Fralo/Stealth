@@ -20,12 +20,10 @@
 #include "SeekStrategy.hpp"
 #include "GameCursor.hpp"
 #include "Inventory.hpp"
-//new observer implementation
 #include "KilledEnemyObserver.hpp"
 #include "StealthStatusObserver.hpp"
 
 class AdvancementManager;
-
 namespace xml = tinyxml2;
 
 /*
@@ -37,14 +35,13 @@ class Game : public GameState {
 public:
     void init(Stealth &stealth) override;
     void update(Stealth &stealth) override;
-
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
+    friend class GameTest;
     std::shared_ptr<KilledEnemyObserver> killedEnemyObserver;
     std::shared_ptr<StealthStatusObserver> stealthStatusObserver;
-
     std::forward_list<std::shared_ptr<Enemy>> enemies;
     std::list<std::shared_ptr<Object>> objects;
     std::shared_ptr<Player> player;

@@ -140,7 +140,7 @@ void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
 
     if(MathHelper::distanceBetweenTwoPoints(position, enemy->getPos()) < 100)
         if(enemy->getHealth() > 0)
-            enemy->setHealth(enemy->getHealth() - 10);
+            enemy->setHealth(enemy->getHealth() - weapon.damage);
 }
 
 
