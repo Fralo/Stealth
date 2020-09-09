@@ -40,14 +40,13 @@ private:
     sf::Vector2f position;
 
     PointedElement pointedElement;
-    int spriteX;
-    int spriteY;
     sf::Vector2i spriteCoord;
     sf::Vector2i shootCursor = {0, 0};
     sf::Vector2i denyCursor = {192,0};
     sf::Vector2i grabCursor = {96,0};
     sf::Vector2i normalCursor = {0,96};
 
+    sf::Vector2i spriteDimesion = {96,96};
 #ifdef STEALTH_GRAPHIC_DEBUG
     sf::Font font;
 #endif

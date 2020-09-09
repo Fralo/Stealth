@@ -25,6 +25,7 @@ public:
     void setTarget(std::shared_ptr<GameObject> target);
     void setTarget(sf::Vector2f next);
     void shootEnemy(std::shared_ptr<GameObject> enemy);
+    Weapon getWeapon();
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 

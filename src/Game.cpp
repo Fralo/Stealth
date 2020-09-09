@@ -120,7 +120,6 @@ void Game::update(Stealth &stealth) {
         stealth.window.draw(re);
 #endif
     }
-
     /*
      * gui view
      */
@@ -196,7 +195,7 @@ void Game::loadMapConfig() {
             Weapon{
                     xmlPlayerWeapon->IntAttribute("rate"),
                     xmlPlayerWeapon->IntAttribute("damage"),
-                    xmlPlayerWeapon->IntAttribute("angle")
+                    xmlPlayerWeapon->IntAttribute("distance")
             });
 }
 

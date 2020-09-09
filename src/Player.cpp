@@ -145,6 +145,9 @@ void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
             enemy->setHealth(enemy->getHealth() - weapon.damage);
 }
 
+Weapon Player::getWeapon() {
+    return this->weapon;
+}
 
 
 
