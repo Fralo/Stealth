@@ -11,7 +11,18 @@ void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
 
     map = std::make_shared<TiledMap>(resource("maps/02-map.tmx"), objects);
-    loadMapConfig();
+
+    xml::XMLDocument xml;
+    xml::XMLError error = xml.LoadFile(resource("maps/01.xml"));
+
+    if (error != tinyxml2::XML_SUCCESS) {
+        std::cout << "Error opening map config file" << std::endl;
+        throw std::exception();
+    } else
+        std::cout << "Map config file opened" << std::endl;
+
+    xml::XMLElement *root = xml.FirstChildElement("stealth");
+    loadMapConfig(root);
 
     gameView.setCenter(sf::Vector2f(player->getPos()));
 
@@ -172,17 +183,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     }
 }
 
-void Game::loadMapConfig() {
-    xml::XMLDocument xml;
-    xml::XMLError error = xml.LoadFile(resource("maps/01.xml"));
-
-    if (error != tinyxml2::XML_SUCCESS) {
-        std::cout << "Error opening map config file" << std::endl;
-        throw std::exception();
-    } else
-        std::cout << "Map config file opened" << std::endl;
-
-    xml::XMLElement *root = xml.FirstChildElement("stealth");
+void Game::loadMapConfig(xml::XMLElement *root) {
     loadEnemies(root);
     loadObjects();
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");

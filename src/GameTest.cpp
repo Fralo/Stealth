@@ -9,16 +9,26 @@ void GameTest::init() {
     stealthStatusObserver = std::make_shared<StealthStatusObserver>();
 
     map = std::make_shared<TiledMap>(resource("maps/02-map.tmx"), objects);
-    loadMapConfig();
+
+    xml::XMLDocument xml;
+    xml::XMLError error = xml.LoadFile(resource("maps/01_test.xml"));
+
+    if (error != tinyxml2::XML_SUCCESS) {
+        std::cout << "Error opening map config file" << std::endl;
+        throw std::exception();
+    } else
+        std::cout << "Map config file opened" << std::endl;
+
+    xml::XMLElement *root = xml.FirstChildElement("stealth");
+    loadMapConfig(root);
+
     inventory = std::make_shared<Inventory>();
     gameViewClock.restart();
 
 }
 
 void GameTest::simulateClickOnEnemy() {
-    for(std::shared_ptr<Enemy> e : enemies)
-        if(e->getPos().x == 100 && e->getPos().y == 400)
-             player->shootEnemy(e);
+             player->shootEnemy(enemies.front());
 }
 
 int GameTest::getEnemiesNumber() {
