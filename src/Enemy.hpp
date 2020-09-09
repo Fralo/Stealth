@@ -33,8 +33,6 @@ public:
     void applyDamage(int damage);
     void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
 
-    //new observer implementation
-
     void subscribe(std::shared_ptr<KilledEnemyObserver> observer);
     void unsubscribe(std::shared_ptr<KilledEnemyObserver> observer);
     void notifyEnemyKilled();

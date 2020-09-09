@@ -137,6 +137,8 @@ void Player::applyDamage(int damage) {
 }
 
 void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
+    std::cout<<enemy->getPos().x<<std::endl;
+    std::cout<<enemy->getPos().y<<std::endl;
 
     if(MathHelper::distanceBetweenTwoPoints(position, enemy->getPos()) < 100)
         if(enemy->getHealth() > 0)
