@@ -7,15 +7,18 @@
 
 #include "../src/GameTest.hpp"
 
-TEST_CASE("Enemy murdur by a player", "[Game]") {
+TEST_CASE("Killing of an enemy by the player", "[Game]") {
     std::shared_ptr<GameTest> gameTest = std::make_shared<GameTest>();
-    //TODO: call the enemy init function
+    gameTest->init();
 
-//    int enemiesBefore = gameTest->getEnemiesNumber();
-//    for(int i = 0; i<10;i++)
-//        gameTest->simulateClickOnEnemy();
-//    int enemiesAfter = gameTest->getEnemiesNumber();
-//
-//
-    REQUIRE(true);
+
+    int enemiesBefore = gameTest->getEnemiesNumber();
+    for(int i = 0; i<11;i++)
+        gameTest->simulateClickOnEnemy();
+    gameTest->update();
+
+    int enemiesAfter = gameTest->getEnemiesNumber();
+
+
+    REQUIRE(enemiesBefore > enemiesAfter);
 }

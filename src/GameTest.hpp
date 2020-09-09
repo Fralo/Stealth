@@ -10,8 +10,12 @@
 
 class GameTest : public Game{
 public:
+    void init();
+    void update();
+
     void simulateClickOnEnemy();
     int getEnemiesNumber();
+
 
 };
 
