@@ -119,7 +119,7 @@ void MainMenu::update(Stealth &stealth) {
     stealth.window.draw(mainMenuTxt);
     stealth.window.draw(newGameTxt);
     stealth.window.draw(quitTxt);
-    stealth.window.draw(missionTxt);
+    //stealth.window.draw(missionTxt);
 
     stealth.window.display();
 }
