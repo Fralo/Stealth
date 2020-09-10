@@ -14,11 +14,12 @@ Player::Player(sf::Vector2f position, Weapon weapon) : weapon(weapon) {
     movingSfx.setBuffer(movingSfxBuffer);
 }
 
-void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap &map) {
+void Player::update(const std::list<std::shared_ptr<Object>> &objects, TiledMap &map) {
     std::vector<sf::Vector2f> coordinates;
 
     auto scaledPos = Vector2u8(getPos() / (float) GRID_SCALE_FACTOR);
-    Vector2u8 scaledTargetPos = target ? Vector2u8(target->getPos() / (float) GRID_SCALE_FACTOR) : Vector2u8(nextPos / (float) GRID_SCALE_FACTOR);
+    Vector2u8 scaledTargetPos = target ? Vector2u8(target->getPos() / (float) GRID_SCALE_FACTOR) : Vector2u8(
+            nextPos / (float) GRID_SCALE_FACTOR);
 
     int elapsedCacheTime = cacheTime.getElapsedTime().asMilliseconds();
 
@@ -50,16 +51,17 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
 //                std::cout<<"ciao"<<std::endl;
 
         this->weapon.distanceOfUse = 90;
-        if(target != nullptr && MathHelper::distanceBetweenTwoPoints(getPos(),target->getPos()) > weapon.distanceOfUse - 10)
-                if (target->getHealth()>0)
-                    target->setHealth(getHealth() - 30);
+        if (target != nullptr &&
+            MathHelper::distanceBetweenTwoPoints(getPos(), target->getPos()) > weapon.distanceOfUse - 10)
+            if (target->getHealth() > 0)
+                target->setHealth(getHealth() - 30);
         cacheTime.restart();
     }
 
     // TODO: refine orientation detection methods
     sf::Vector2f *next = nullptr;
 
-    if(path != nullptr && !path->empty()) {
+    if (path != nullptr && !path->empty()) {
         if (path->front() == scaledPos)
             path->pop_front();
 
@@ -81,8 +83,8 @@ void Player::update(const std::list<std::shared_ptr<Object>>& objects, TiledMap 
     }
 
     const char *dir = "idle";
-    if(next != nullptr)
-        switch(Direction(*next)){
+    if (next != nullptr)
+        switch (Direction(*next)) {
             case Direction::NORTH:
                 dir = "walk_n";
                 break;
@@ -128,6 +130,7 @@ void Player::setTarget(sf::Vector2f next) {
     movingSfx.play();
     target = nullptr;
 }
+
 void Player::setTarget(std::shared_ptr<GameObject> target) {
     Player::target = std::move(target);
 }
@@ -137,11 +140,11 @@ void Player::applyDamage(int damage) {
 }
 
 void Player::shootEnemy(std::shared_ptr<GameObject> enemy) {
-    std::cout<<enemy->getPos().x<<std::endl;
-    std::cout<<enemy->getPos().y<<std::endl;
+    std::cout << enemy->getPos().x << std::endl;
+    std::cout << enemy->getPos().y << std::endl;
 
-    if(MathHelper::distanceBetweenTwoPoints(position, enemy->getPos()) < 100)
-        if(enemy->getHealth() > 0)
+    if (MathHelper::distanceBetweenTwoPoints(position, enemy->getPos()) < 100)
+        if (enemy->getHealth() > 0)
             enemy->setHealth(enemy->getHealth() - weapon.damage);
 }
 

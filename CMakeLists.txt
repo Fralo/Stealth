@@ -32,7 +32,7 @@ add_custom_command(
 add_custom_target("pack-data" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${RES_ARCHIVE}")
 
 
-set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/HunterStrategy.cpp src/HunterStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Object.cpp src/Object.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp src/Tile.cpp src/Tile.hpp src/Astar.cpp src/Astar.hpp src/Inventory.cpp src/Inventory.hpp src/cfg.hpp src/Animation.cpp src/Animation.hpp src/GameObject.cpp src/Direction.hpp src/BackgroundObject.hpp src/MathHelper.cpp src/MathHelper.hpp src/AdvancementManagerObserver.hpp src/KilledEnemyObserver.cpp src/KilledEnemyObserver.hpp src/StealthStatusObserver.cpp src/StealthStatusObserver.hpp src/WonGameOverScreen.cpp src/WonGameOverScreen.hpp src/GameTest.cpp src/GameTest.hpp)
+set(SOURCE_FILES src/Stealth.cpp src/Stealth.hpp src/Enemy.cpp src/Enemy.hpp src/GameObject.hpp src/SeekStrategy.cpp src/SeekStrategy.hpp src/HunterStrategy.cpp src/HunterStrategy.hpp src/Strategy.hpp src/Game.cpp src/Game.hpp src/MainMenu.cpp src/MainMenu.hpp src/GameState.cpp src/GameState.hpp src/LoadScreen.cpp src/LoadScreen.hpp src/TiledMap.cpp src/TiledMap.hpp src/Player.cpp src/Player.hpp src/Weapon.h src/Object.cpp src/Object.hpp src/TiledLayer.cpp src/TiledLayer.hpp src/macro.h src/GameCursor.cpp src/GameCursor.hpp src/Tile.cpp src/Tile.hpp src/Astar.cpp src/Astar.hpp src/Inventory.cpp src/Inventory.hpp src/cfg.hpp src/Animation.cpp src/Animation.hpp src/GameObject.cpp src/Direction.hpp src/BackgroundObject.hpp src/MathHelper.cpp src/MathHelper.hpp src/AdvancementManagerObserver.hpp src/KilledEnemyObserver.cpp src/KilledEnemyObserver.hpp src/StealthStatusObserver.cpp src/StealthStatusObserver.hpp src/WonGameOverScreen.cpp src/WonGameOverScreen.hpp)
 
 
 add_executable(Stealth src/main.cpp ${SOURCE_FILES})
@@ -44,6 +44,6 @@ set(CATCH_INCLUDE_DIR tests)
 add_library(Catch INTERFACE)
 target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 
-set(TEST_SOURCES ${SOURCE_FILES} tests/tests.cpp tests/AStar_test.cpp tests/MathHelper_test.cpp tests/Game_test.cpp)
+set(TEST_SOURCES ${SOURCE_FILES} tests/tests.cpp tests/AStar_test.cpp tests/MathHelper_test.cpp tests/GameTest.cpp tests/GameTest.hpp tests/Game_test.cpp)
 add_executable(Tests ${TEST_SOURCES})
 target_link_libraries(Tests sfml-system sfml-window sfml-graphics sfml-audio GLX tinyxml2)

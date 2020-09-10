@@ -6,17 +6,17 @@
 #define STEALTH_GAMETEST_HPP
 
 
-#include "Game.hpp"
+#include "../src/Game.hpp"
 
-class GameTest : public Game{
+class GameTest : public Game {
 public:
     void init();
+
     void update();
 
     void simulateClickOnEnemy();
+
     int getEnemiesNumber();
-
-
 };
 
 

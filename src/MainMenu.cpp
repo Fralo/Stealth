@@ -76,26 +76,27 @@ void MainMenu::update(Stealth &stealth) {
 
     // background
     bgSprite.setPosition(sf::Vector2f(windowSize) / 2.0f
-                        + sf::Vector2f(50 * std::cos(3 * millis / 4000.0f), 50 * std::sin(2 * millis / 4000.0f))); // lissajous a = 3, b = 2
+                         + sf::Vector2f(50 * std::cos(3 * millis / 4000.0f),
+                                        50 * std::sin(2 * millis / 4000.0f))); // lissajous a = 3, b = 2
     // menu title
     mainMenuTxt.setPosition(windowSize.x / 2.0f, 100);
 
     // select options
-    if(stealth.window.hasFocus()){
-        if(newGameTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
-            if(selectedOption != NEW_GAME) {
+    if (stealth.window.hasFocus()) {
+        if (newGameTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
+            if (selectedOption != NEW_GAME) {
                 selectionSfx.play();
                 selectedOption = NEW_GAME;
                 stealth.window.setMouseCursor(selectCursor);
             }
         } else if (quitTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
-            if(selectedOption != QUIT) {
+            if (selectedOption != QUIT) {
                 selectionSfx.play();
                 selectedOption = QUIT;
                 stealth.window.setMouseCursor(selectCursor);
             }
         } else {
-            if(selectedOption != NONE) {
+            if (selectedOption != NONE) {
                 unselectionSfx.play();
                 selectedOption = NONE;
                 stealth.window.setMouseCursor(defaultCursor);
@@ -124,8 +125,8 @@ void MainMenu::update(Stealth &stealth) {
 }
 
 void MainMenu::handleEvent(Stealth &stealth, sf::Event &event) {
-    if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-        switch(selectedOption) {
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+        switch (selectedOption) {
             case QUIT:
                 stealth.window.close();
                 break;

@@ -8,7 +8,7 @@ float MathHelper::distanceBetweenTwoPoints(sf::Vector2f p1, sf::Vector2f p2) {
     return sqrtf((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 }
 
-bool MathHelper::hasLineOfSight(sf::Vector2f point1,sf::Vector2f point2,sf::Rect<float> rect) {
+bool MathHelper::hasLineOfSight(sf::Vector2f point1, sf::Vector2f point2, sf::Rect<float> rect) {
     bool top = checkLineIntersection(point1.x, point1.y, point2.x, point2.y,
                                      rect.left,
                                      rect.top,
@@ -75,7 +75,8 @@ bool MathHelper::isTargetInside(std::vector<sf::Vector2f> coordinates, sf::Vecto
  * If it is 2*pi, then it is an interior point. If it is 0, then it is an exterior point.
 */
 
-std::vector<sf::Vector2f> MathHelper::getVertices(unsigned  int distance,float angle, double orientation, double sightSwingVariation) {
+std::vector<sf::Vector2f>
+MathHelper::getVertices(unsigned int distance, float angle, double orientation, double sightSwingVariation) {
     std::vector<sf::Vector2f> vertices;
     double radius = distance / std::cos(M_PI * angle / 2);
 

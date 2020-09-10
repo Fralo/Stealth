@@ -85,9 +85,9 @@ Path *Astar::getPath(Node *from, Node *to) {
 
                 auto &&closedNeighbor = std::find_if(closedList.begin(), closedList.end(),
                                                      [x, y, &currentNode](const Node *other) {
-                                                          return currentNode->x + x == other->x &&
-                                                                 currentNode->y + y == other->y;
-                                                      });
+                                                         return currentNode->x + x == other->x &&
+                                                                currentNode->y + y == other->y;
+                                                     });
 
 
                 /*
@@ -109,9 +109,9 @@ Path *Astar::getPath(Node *from, Node *to) {
                  */
                 auto &&openNeighbor = std::find_if(openList.begin(), openList.end(),
                                                    [x, y, &currentNode](const Node *other) {
-                                                        return currentNode->x + x == other->x &&
-                                                               currentNode->y + y == other->y;
-                                                    });
+                                                       return currentNode->x + x == other->x &&
+                                                              currentNode->y + y == other->y;
+                                                   });
 
                 /*
                  * If neighbor didnt't exist in closedList but does in openList store it, otherwise create a new node
@@ -125,13 +125,13 @@ Path *Astar::getPath(Node *from, Node *to) {
                 /*
                  * A* handling
                  */
-                if (openNeighbor == openList.end() || g < neighbor->g) {;
+                if (openNeighbor == openList.end() || g < neighbor->g) { ;
 
                     neighbor->parent = currentNode;
                     neighbor->g = g;
                     neighbor->f = g + h((*neighbor), (*to));
 
-                    if(openNeighbor == openList.end())
+                    if (openNeighbor == openList.end())
                         openList.push_front(neighbor);
                 }
             }
@@ -142,12 +142,12 @@ Path *Astar::getPath(Node *from, Node *to) {
 }
 
 void Astar::clearLists() {
-    for(Node *n : openList) {
+    for (Node *n : openList) {
         delete n;
         n = nullptr;
     }
 
-    for(Node *n : closedList) {
+    for (Node *n : closedList) {
         delete n;
         n = nullptr;
     }

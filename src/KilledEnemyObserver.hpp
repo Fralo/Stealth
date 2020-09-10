@@ -8,9 +8,10 @@
 
 #include "AdvancementManagerObserver.hpp"
 
-class KilledEnemyObserver : public AdvancementManagerObserver{
+class KilledEnemyObserver : public AdvancementManagerObserver {
 public:
     void update() override;
+
     int enemyKilled = 0;
 };
 

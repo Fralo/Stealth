@@ -6,4 +6,5 @@
 
 Tile::Tile() : drawingCenter(0, 0), collisionBox(0, 0, 0, 0) {}
 
-Tile::Tile(sf::Vector2f drawingCenter, sf::FloatRect collisionBox) : drawingCenter(drawingCenter), collisionBox(collisionBox) {};
+Tile::Tile(sf::Vector2f drawingCenter, sf::FloatRect collisionBox) : drawingCenter(drawingCenter),
+                                                                     collisionBox(collisionBox) {};

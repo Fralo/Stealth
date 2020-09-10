@@ -8,9 +8,10 @@
 
 #include "AdvancementManagerObserver.hpp"
 
-class StealthStatusObserver : public AdvancementManagerObserver{
+class StealthStatusObserver : public AdvancementManagerObserver {
 public:
     void update() override;
+
     bool isStealth = true;
 };
 

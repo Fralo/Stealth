@@ -4,7 +4,8 @@
 
 #include "Object.hpp"
 
-Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties) : properties(properties) {
+Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties) : properties(
+        properties) {
     this->tile = tile;
     this->position = position;
     this->properties.numberInInventory = 0;
@@ -19,11 +20,10 @@ Object::Object(std::shared_ptr<Object> obj) {
 
 //TODO remove all the code that generates rectangle for testing purpose
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    if(tile != nullptr && this->properties.id == 0) {
+    if (tile != nullptr && this->properties.id == 0) {
         tile->setPosition(position);
         target.draw(*tile);
-    }
-    else if(this->properties.numberInInventory != 0) {
+    } else if (this->properties.numberInInventory != 0) {
         //if the object is in the inventory
         int red = 0;
         int green = 0;
@@ -50,8 +50,7 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         rect.setPosition(target.getView().getCenter().x + 345,
                          target.getView().getCenter().y - 375 + ((this->properties.numberInInventory - 1) * 45));
         target.draw(rect);
-    }
-    else if(this->properties.id >= 1 && this->properties.id <= 4) {
+    } else if (this->properties.id >= 1 && this->properties.id <= 4) {
         int red = 0;
         int green = 0;
         int blue = 0;
@@ -75,10 +74,10 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         sf::RectangleShape rect({40, 40});
         rect.setFillColor(sf::Color(red, green, blue));
 
-        rect.setPosition(this->position.x,this->position.y);
+        rect.setPosition(this->position.x, this->position.y);
         target.draw(rect);
     }
-    if(this->properties.destroyable == true) {
+    if (this->properties.destroyable == true) {
         sf::RectangleShape re({static_cast<float>(getHealth()) / 100 * 20, 2});
         re.setPosition({getPos().x - 5, getPos().y - 5});
         re.setFillColor(sf::Color::Red);
@@ -97,25 +96,27 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 }
 
-bool Object::isDroppable(std::list<std::shared_ptr<Object>>& objects, sf::Vector2f playerPos) {
-    for(auto&& obj : objects) {
-        if(obj->properties.id == 1) //TODO sobstitute whit const value
+bool Object::isDroppable(std::list<std::shared_ptr<Object>> &objects, sf::Vector2f playerPos) {
+    for (auto &&obj : objects) {
+        if (obj->properties.id == 1) //TODO sobstitute whit const value
             continue;
-        if (obj->getAbsCollisionBox().contains(playerPos.x + this->tile->collisionBox.width, playerPos.y + this->tile->collisionBox.height))
+        if (obj->getAbsCollisionBox().contains(playerPos.x + this->tile->collisionBox.width,
+                                               playerPos.y + this->tile->collisionBox.height))
             return false;
     }
     return true;
 }
 
 void Object::applayDamage(int damage) {
-    if(properties.destroyable)
-        this->setHealth(health - damage > 0 ? health-damage : 0);
+    if (properties.destroyable)
+        this->setHealth(health - damage > 0 ? health - damage : 0);
 }
 
-bool Object::explode(std::list<std::shared_ptr<Object>>& objects) {
-    if(this->properties.explosive) {
+bool Object::explode(std::list<std::shared_ptr<Object>> &objects) {
+    if (this->properties.explosive) {
         for (auto &&o : objects) {
-            if (o->properties.id == 1 && MathHelper::distanceBetweenTwoPoints(o->getPos(), this->getPos()) < this->properties.explosionRadius) {
+            if (o->properties.id == 1 &&
+                MathHelper::distanceBetweenTwoPoints(o->getPos(), this->getPos()) < this->properties.explosionRadius) {
                 o->applayDamage(this->properties.damage);
                 return true;
             }

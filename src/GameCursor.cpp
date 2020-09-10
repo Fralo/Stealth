@@ -19,7 +19,7 @@ void GameCursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     cursor.setTexture(cursorTexture);
 
 
-    cursor.setTextureRect(sf::IntRect(spriteCoord.x, spriteCoord.y, spriteDimesion.x,spriteDimesion.y));
+    cursor.setTextureRect(sf::IntRect(spriteCoord.x, spriteCoord.y, spriteDimesion.x, spriteDimesion.y));
     cursor.setPosition(position);
     cursor.setScale(sf::Vector2f(1, 1));
     target.draw(cursor);
@@ -53,7 +53,8 @@ void GameCursor::update(sf::RenderWindow &window, const std::list<std::shared_pt
     //check if the player can shot the enemy
     for (const std::shared_ptr<Enemy> &enemy : enemies) {
         if (abs(position.x - enemy->getPos().x) < 10 && abs(position.y - enemy->getPos().y) < 10 &&
-            MathHelper::distanceBetweenTwoPoints(player->getPos(), enemy->getPos()) < player->getWeapon().distanceOfUse) {
+            MathHelper::distanceBetweenTwoPoints(player->getPos(), enemy->getPos()) <
+            player->getWeapon().distanceOfUse) {
             spriteCoord = shootCursor;
             pointedElement.pointedElementType = ENEMY;
             pointedElement.pointedElementObject = enemy;

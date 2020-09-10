@@ -22,7 +22,9 @@ public:
     ~MainMenu();
 
     void init(Stealth &stealth) override;
+
     void unload() override;
+
     void update(Stealth &stealth) override;
 
 protected:
@@ -50,7 +52,7 @@ private:
     MenuOption selectedOption = NONE;
 
     const sf::Color selectedColor = sf::Color(152, 251, 152);
-    const sf::Color defaultColor = sf::Color(50,205,50);
+    const sf::Color defaultColor = sf::Color(50, 205, 50);
 
 };
 

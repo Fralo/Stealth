@@ -16,11 +16,18 @@
 class Inventory : public sf::Drawable, public sf::Transformable {
 public:
     Inventory();
+
     std::forward_list<std::shared_ptr<Object>> getInventory();
+
     bool addObject(std::shared_ptr<Object> obj);
-    std::shared_ptr<Object> releaseObject(int inventoryNumber,std::list<std::shared_ptr<Object>>& objects, sf::Vector2f playerPos);
+
+    std::shared_ptr<Object>
+    releaseObject(int inventoryNumber, std::list<std::shared_ptr<Object>> &objects, sf::Vector2f playerPos);
+
     void update();
+
     int getSize();
+
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 

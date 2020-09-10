@@ -63,17 +63,16 @@ void Game::update(Stealth &stealth) {
      * Check player life
      */
 
-    if(player->getHealth() == 0)
-    {
+    if (player->getHealth() == 0) {
         stealth.changeState(new WonGameOverScreen(killedEnemyObserver->enemyKilled,
-                  stealthStatusObserver->isStealth,false));
+                                                  stealthStatusObserver->isStealth, false));
         levelMusic.stop();
     }
 
     /*
      * Check enemy life
      */
-    for(const std::shared_ptr<Enemy> &e : enemies) {
+    for (const std::shared_ptr<Enemy> &e : enemies) {
         if (e->getHealth() == 0) {
             enemies.remove(e);
             break;
@@ -83,10 +82,9 @@ void Game::update(Stealth &stealth) {
      * Check target object life
      */
     for (auto &&o : this->objects)
-        if (o->properties.id == 1 && o->getHealth() == 0)
-        {
+        if (o->properties.id == 1 && o->getHealth() == 0) {
             stealth.changeState(new WonGameOverScreen(killedEnemyObserver->enemyKilled,
-                              stealthStatusObserver->isStealth,true));
+                                                      stealthStatusObserver->isStealth, true));
             levelMusic.stop();
         }
 
@@ -170,12 +168,13 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                 break;
         }
         if (itemToRelease != 0) {
-            std::shared_ptr<Object> toAdd = std::move(this->inventory->releaseObject(itemToRelease, this->objects, this->player->getPos()));
+            std::shared_ptr<Object> toAdd = std::move(
+                    this->inventory->releaseObject(itemToRelease, this->objects, this->player->getPos()));
 
             if (toAdd != nullptr) {
                 toAdd->setPos(player->getPos().x + player->getAbsCollisionBox().height / 2 + 1,
                               player->getPos().y + player->getAbsCollisionBox().width / 2 + 1);
-                if(!toAdd->explode(this->objects))
+                if (!toAdd->explode(this->objects))
                     this->objects.push_front(std::move(toAdd));
             } else
                 denyMoveSfx.play();

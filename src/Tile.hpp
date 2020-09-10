@@ -10,6 +10,7 @@
 class Tile : public sf::Sprite {
 public:
     Tile();
+
     Tile(sf::Vector2f drawingCenter, sf::FloatRect collisionBox);
 
     /*

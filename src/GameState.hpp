@@ -12,8 +12,11 @@ class Stealth;
 class GameState {
 public:
     virtual ~GameState() = default;
+
     virtual void init(Stealth &stealth) = 0;
+
     virtual void unload() {};
+
     virtual void update(Stealth &stealth) = 0;
 
 protected:
@@ -22,6 +25,7 @@ protected:
      * and slim event polling code in GameStates
      */
     virtual void handleEvent(Stealth &stealth, sf::Event &event) {};
+
     virtual void pollEvents(Stealth &stealth) final;
 };
 

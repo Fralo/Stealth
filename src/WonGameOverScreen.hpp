@@ -11,22 +11,20 @@
 #include "Stealth.hpp"
 #include "Game.hpp"
 
-
-class WonGameOverScreen : public GameState{
-
+class WonGameOverScreen : public GameState {
 public:
-    ~WonGameOverScreen();
+    ~WonGameOverScreen() override;
     WonGameOverScreen(int enemyKilled, bool isStealth, bool won);
     void init(Stealth &stealth) override;
     void update(Stealth &stealth) override;
-    void unload();
+    void unload() override;
 
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
     sf::Clock clock;
-    sf::Music *music;
+    sf::Music *music{};
     sf::SoundBuffer selectionSfxBuffer;
     sf::SoundBuffer unselectionSfxBuffer;
     sf::Sound selectionSfx;

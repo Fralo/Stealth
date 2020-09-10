@@ -18,9 +18,11 @@
 
 class SeekStrategy : public Strategy {
 public:
-    sf::Vector2f getNextMove(GameObject &gameObject, const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map) override;
+    sf::Vector2f getNextMove(GameObject &gameObject, const std::list<std::shared_ptr<Object>> &objects, Player &player,
+                             TiledMap &map) override;
+
     void addLocation(sf::Vector2i location);
-    
+
 private:
     std::vector<Vector2u8> locations;
     int currentTarget = 0;

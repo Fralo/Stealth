@@ -10,6 +10,7 @@
 #include "GameObject.hpp"
 #include "LoadScreen.hpp"
 #include "GameState.hpp"
+
 class GameState;
 
 class Stealth {
@@ -17,7 +18,9 @@ public:
     sf::RenderWindow window;
 
     Stealth();
+
     void changeState(GameState *newGameState);
+
     void popStack();
 
 private:

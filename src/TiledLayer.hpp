@@ -18,6 +18,7 @@ public:
     TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize);
 
     std::shared_ptr<sf::Sprite> getTileSprite(unsigned int col, unsigned int row) const;
+
     bool setTileSprite(unsigned int col, unsigned int row, std::shared_ptr<sf::Sprite> sprite);
 
 protected:

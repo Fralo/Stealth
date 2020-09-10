@@ -24,6 +24,7 @@
 #include "StealthStatusObserver.hpp"
 
 class AdvancementManager;
+
 namespace xml = tinyxml2;
 
 /*
@@ -34,12 +35,15 @@ namespace xml = tinyxml2;
 class Game : public GameState {
 public:
     void init(Stealth &stealth) override;
+
     void update(Stealth &stealth) override;
+
 protected:
     void handleEvent(Stealth &stealth, sf::Event &event) override;
 
 private:
     friend class GameTest;
+
     std::shared_ptr<KilledEnemyObserver> killedEnemyObserver;
     std::shared_ptr<StealthStatusObserver> stealthStatusObserver;
     std::forward_list<std::shared_ptr<Enemy>> enemies;
@@ -60,8 +64,11 @@ private:
     sf::Sound denyMoveSfx;
 
     void loadMapConfig(xml::XMLElement *root);
+
     void loadEnemies(xml::XMLElement *root);
+
     void loadObjects();
+
     void updateViews(Stealth &stealth);
 
 

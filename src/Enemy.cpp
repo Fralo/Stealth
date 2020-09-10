@@ -5,15 +5,17 @@
 
 #include "Enemy.hpp"
 
-Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view, const std::shared_ptr<Strategy>& defaultStrategy)
-        : orientation(orientation), defaultStrategy(defaultStrategy), strategy(defaultStrategy), weapon(weapon), view(view) {
+Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view,
+             const std::shared_ptr<Strategy> &defaultStrategy)
+        : orientation(orientation), defaultStrategy(defaultStrategy), strategy(defaultStrategy), weapon(weapon),
+          view(view) {
     setPos(position);
     orientationTarget = orientation;
 }
 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //enemy death
-    if(getHealth() == 0) {
+    if (getHealth() == 0) {
         notifyEnemyKilled();
         unsubscribe(killedEnemyObservers.back());
         unsubscribe(stealthStatusObservers.back());
@@ -22,17 +24,19 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
     //generate the vector of vertices to find the player
     std::vector<sf::Vector2f> coordinates;
     coordinates.push_back(getPos());
-    coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(0),getPos()));
-    coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(1),getPos()));
+    coordinates.push_back(MathHelper::getAbsoluteCoordinates(
+            MathHelper::getVertices(view.distance, view.angle, orientation, sightSwingVariation).at(0), getPos()));
+    coordinates.push_back(MathHelper::getAbsoluteCoordinates(
+            MathHelper::getVertices(view.distance, view.angle, orientation, sightSwingVariation).at(1), getPos()));
 
 
     if (MathHelper::distanceBetweenTwoPoints(player.getPos(), getPos()) <
         MathHelper::distanceBetweenTwoPoints(coordinates.at(1), getPos()))
         if (MathHelper::isTargetInside(coordinates, player.getPos()))
-            for (const std::shared_ptr<Object>& obj : objects) {
+            for (const std::shared_ptr<Object> &obj : objects) {
                 if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
                     strategy = std::make_shared<HunterStrategy>();
-                    notifyStealthObserver();
+                notifyStealthObserver();
             }
 
 
@@ -55,17 +59,21 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
     } else {
         coordinates.clear();
         coordinates.push_back(getPos());
-        coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(0),getPos()));
-        coordinates.push_back(MathHelper::getAbsoluteCoordinates(MathHelper::getVertices(weapon.distanceOfUse,weapon.angle,orientation,sightSwingVariation).at(1),getPos()));
+        coordinates.push_back(MathHelper::getAbsoluteCoordinates(
+                MathHelper::getVertices(weapon.distanceOfUse, weapon.angle, orientation, sightSwingVariation).at(0),
+                getPos()));
+        coordinates.push_back(MathHelper::getAbsoluteCoordinates(
+                MathHelper::getVertices(weapon.distanceOfUse, weapon.angle, orientation, sightSwingVariation).at(1),
+                getPos()));
 
-        if(MathHelper::isTargetInside(coordinates,player.getPos()))
-            if (player.getHealth()>0)
+        if (MathHelper::isTargetInside(coordinates, player.getPos()))
+            if (player.getHealth() > 0)
                 player.applyDamage(1);
     }
 
 
     const char *dir = "idle";
-    switch(Direction(next)){
+    switch (Direction(next)) {
         case Direction::NORTH:
             dir = "walk_n";
             break;
@@ -115,8 +123,8 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 sf::ConvexShape Enemy::getSightTraigle() const {
     sf::ConvexShape triangle(3);
     triangle.setPoint(0, sf::Vector2f(0, 0));
-    triangle.setPoint(1, MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(0));
-    triangle.setPoint(2, MathHelper::getVertices(view.distance,view.angle,orientation,sightSwingVariation).at(1));
+    triangle.setPoint(1, MathHelper::getVertices(view.distance, view.angle, orientation, sightSwingVariation).at(0));
+    triangle.setPoint(2, MathHelper::getVertices(view.distance, view.angle, orientation, sightSwingVariation).at(1));
 
     triangle.setPosition(sf::Vector2f(getPos()));
     return triangle;
@@ -139,7 +147,7 @@ void Enemy::unsubscribe(std::shared_ptr<KilledEnemyObserver> observer) {
 }
 
 void Enemy::notifyEnemyKilled() {
-    for(auto&& o : killedEnemyObservers)
+    for (auto &&o : killedEnemyObservers)
         o->update();
 }
 
@@ -153,7 +161,7 @@ void Enemy::unsubscribe(std::shared_ptr<StealthStatusObserver> observer) {
 }
 
 void Enemy::notifyStealthObserver() {
-    for(auto&& o : stealthStatusObservers)
+    for (auto &&o : stealthStatusObservers)
         o->update();
 }
 

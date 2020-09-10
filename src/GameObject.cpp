@@ -27,7 +27,7 @@ void GameObject::setHealth(int h) {
 }
 
 sf::Vector2f GameObject::getAbsDrawingCenter() {
-    if(tile != nullptr)
+    if (tile != nullptr)
         return position + tile->drawingCenter;
     return position;
 }

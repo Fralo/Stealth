@@ -28,11 +28,11 @@ void GameTest::init() {
 }
 
 void GameTest::simulateClickOnEnemy() {
-             player->shootEnemy(enemies.front());
+    player->shootEnemy(enemies.front());
 }
 
 int GameTest::getEnemiesNumber() {
-    return std::distance(enemies.begin(),enemies.end());
+    return std::distance(enemies.begin(), enemies.end());
 }
 
 void GameTest::update() {
@@ -42,6 +42,7 @@ void GameTest::update() {
     if (tickClock.getElapsedTime().asMilliseconds() <= TICKDELAY)
         return;
     tickClock.restart();
+
     /*
      * Update objects
      */
@@ -52,28 +53,26 @@ void GameTest::update() {
     /*
      * Check player life
      */
-
-    if(player->getHealth() == 0)
-    {
+    if (player->getHealth() == 0) {
 
     }
 
     /*
      * Check enemy life
      */
-    for(const std::shared_ptr<Enemy> &e : enemies) {
+    for (const std::shared_ptr<Enemy> &e : enemies) {
         if (e->getHealth() == 0) {
-            std::cout<<"Hello"<<std::endl;
+            std::cout << "Hello" << std::endl;
             enemies.remove(e);
             break;
         }
     }
+
     /*
      * Check target object life
      */
     for (auto &&o : this->objects)
-        if (o->properties.id == 1 && o->getHealth() == 0)
-        {
+        if (o->properties.id == 1 && o->getHealth() == 0) {
 
         }
 

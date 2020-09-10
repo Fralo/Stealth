@@ -12,6 +12,7 @@
 class Animation {
 public:
     void addFrame(std::shared_ptr<Tile> frame);
+
     std::shared_ptr<Tile> getCurrentFrame();
 
 private:

@@ -25,10 +25,12 @@ namespace xml = tinyxml2;
 class TiledMap : public sf::Drawable, public sf::Transformable {
 public:
     explicit TiledMap(const char *levelFile, std::list<std::shared_ptr<Object>> &objects);
+
     TiledMap() = delete;
 
     sf::Vector2u getMapActualSize() const;
-    Animation &getAnimation(const std::string& tileset, const std::string& type);
+
+    Animation &getAnimation(const std::string &tileset, const std::string &type);
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -64,9 +66,13 @@ private:
     sf::Sprite cachedBgSprite;
 
     void loadTiles(xml::XMLElement *map);
+
     void loadLayerGroup(xml::XMLElement &group, std::list<std::shared_ptr<TiledLayer>> &layerList);
+
     std::shared_ptr<TiledLayer> makeLayer(xml::XMLElement &layer);
+
     void loadObjectGroup(xml::XMLElement &group, std::list<std::shared_ptr<Object>> &objectList);
+
     std::shared_ptr<Object> makeObject(xml::XMLElement &xmlObject);
 };
 

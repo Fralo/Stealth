@@ -6,6 +6,7 @@
 #define STEALTH_ENEMY_HPP
 
 #define _USE_MATH_DEFINES
+
 #include <cmath>
 #include <memory>
 #include "GameObject.hpp"
@@ -29,16 +30,22 @@ struct EnemyView {
 class Enemy : public GameObject {
 public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view,
-          const std::shared_ptr<Strategy>& defaultStrategy);
+          const std::shared_ptr<Strategy> &defaultStrategy);
+
     void applyDamage(int damage);
-    void update(const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map);
+
+    void update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map);
 
     void subscribe(std::shared_ptr<KilledEnemyObserver> observer);
+
     void unsubscribe(std::shared_ptr<KilledEnemyObserver> observer);
+
     void notifyEnemyKilled();
 
     void subscribe(std::shared_ptr<StealthStatusObserver> observer);
+
     void unsubscribe(std::shared_ptr<StealthStatusObserver> observer);
+
     void notifyStealthObserver();
 
 protected:

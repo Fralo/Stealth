@@ -13,6 +13,7 @@
 class LoadScreen : public GameState {
 public:
     void init(Stealth &stealth) override;
+
     void update(Stealth &stealth) override;
 
 protected:

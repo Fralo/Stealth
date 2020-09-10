@@ -46,19 +46,22 @@ private:
         /*
          * Equality compares coordinates
          */
-        bool operator==(const struct Node& other) const {
+        bool operator==(const struct Node &other) const {
             return other.x == this->x && other.y == this->y;
         }
     };
 
     const std::forward_list<sf::IntRect> &obstacles;
     const sf::Vector2<uint8_t> mapSize;
-    std::forward_list<Node*> openList;
-    std::forward_list<Node*> closedList;
+    std::forward_list<Node *> openList;
+    std::forward_list<Node *> closedList;
 
     bool isValid(uint16_t x, uint16_t y) const;
+
     bool isBlocked(uint8_t x, uint8_t y);
+
     Path *getPath(Node *from, Node *to);
+
     void clearLists();
 };
 

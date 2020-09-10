@@ -6,20 +6,21 @@
 
 #include <utility>
 
-TiledLayer::TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize) : layerSize(layerSize), mapTileSize(mapTileSize){
+TiledLayer::TiledLayer(sf::Vector2u layerSize, sf::Vector2u mapTileSize) : layerSize(layerSize),
+                                                                           mapTileSize(mapTileSize) {
 #ifdef STEALTH_GRAPHIC_DEBUG
     font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
 #endif
 }
 
 std::shared_ptr<sf::Sprite> TiledLayer::getTileSprite(unsigned int col, unsigned int row) const {
-    if(row >= layerSize.y || col >= layerSize.x)
+    if (row >= layerSize.y || col >= layerSize.x)
         return nullptr;
 
-    if(!tiles.contains(row))
+    if (!tiles.contains(row))
         return nullptr;
 
-    if(!tiles.at(row).contains(col))
+    if (!tiles.at(row).contains(col))
         return nullptr;
 
     auto tile = tiles.at(row).at(col);
@@ -30,7 +31,7 @@ std::shared_ptr<sf::Sprite> TiledLayer::getTileSprite(unsigned int col, unsigned
 }
 
 bool TiledLayer::setTileSprite(unsigned int row, unsigned int col, std::shared_ptr<sf::Sprite> sprite) {
-    if(row >= layerSize.y || col >= layerSize.x)
+    if (row >= layerSize.y || col >= layerSize.x)
         return false;
 
     tiles[row][col] = std::move(sprite);
@@ -39,8 +40,8 @@ bool TiledLayer::setTileSprite(unsigned int row, unsigned int col, std::shared_p
 
 void TiledLayer::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     std::shared_ptr<sf::Sprite> tile;
-    for(int row = 0; row < layerSize.y; row++)
-        for(int col = 0; col < layerSize.x; col++) {
+    for (int row = 0; row < layerSize.y; row++)
+        for (int col = 0; col < layerSize.x; col++) {
             if ((tile = getTileSprite(col, row)) != nullptr) {
                 target.draw(*tile);
             }

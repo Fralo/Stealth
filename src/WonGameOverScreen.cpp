@@ -3,6 +3,7 @@
 //
 
 #include "WonGameOverScreen.hpp"
+
 WonGameOverScreen::~WonGameOverScreen() {
     this->unload();
 }
@@ -19,7 +20,7 @@ void WonGameOverScreen::init(Stealth &stealth) {
     titleFont.loadFromFile("../res/fonts/CaptureIt-Regular.ttf");
     mainMenuTxt.setFont(titleFont);
     mainMenuTxt.setCharacterSize(100);
-    if(won)
+    if (won)
         mainMenuTxt.setString("WIN");
     else
         mainMenuTxt.setString("Game Over");
@@ -46,16 +47,18 @@ void WonGameOverScreen::init(Stealth &stealth) {
     enemyKilledTxt.setCharacterSize(30);
     enemyKilledTxt.setString("Enemy Killed : " + std::to_string(enemyKilled));
     sf::FloatRect enemyKilledRect = enemyKilledTxt.getLocalBounds();
-    enemyKilledTxt.setOrigin(enemyKilledRect.left + enemyKilledRect.width / 2.0f, enemyKilledRect.top + enemyKilledRect.height / 2.0f);
+    enemyKilledTxt.setOrigin(enemyKilledRect.left + enemyKilledRect.width / 2.0f,
+                             enemyKilledRect.top + enemyKilledRect.height / 2.0f);
 
     isStealthTxt.setFont(achievementFont);
     isStealthTxt.setCharacterSize(30);
-    if(isStealth)
-        isStealthTxt.setString("The player was never seen by an enemy" );
+    if (isStealth)
+        isStealthTxt.setString("The player was never seen by an enemy");
     else
-        isStealthTxt.setString("The player was seen by an enemy" );
-    sf::FloatRect  isStealthRect = isStealthTxt.getGlobalBounds();
-    isStealthTxt.setOrigin(isStealthRect.left + isStealthRect.width / 2.0f, isStealthRect.top + isStealthRect.height / 2.0f);
+        isStealthTxt.setString("The player was seen by an enemy");
+    sf::FloatRect isStealthRect = isStealthTxt.getGlobalBounds();
+    isStealthTxt.setOrigin(isStealthRect.left + isStealthRect.width / 2.0f,
+                           isStealthRect.top + isStealthRect.height / 2.0f);
 
     selectionSfxBuffer.loadFromFile("../res/music/selection_sfx.ogg");
     selectionSfx.setBuffer(selectionSfxBuffer);
@@ -68,7 +71,7 @@ void WonGameOverScreen::init(Stealth &stealth) {
     defaultCursor.loadFromSystem(sf::Cursor::Arrow);
 
     music = new sf::Music();
-    if(won)
+    if (won)
         music->openFromFile("../res/music/rocky.ogg");
     else
         music->openFromFile("../res/music/gameover.ogg");
@@ -85,26 +88,27 @@ void WonGameOverScreen::update(Stealth &stealth) {
 
     // background
     bgSprite.setPosition(sf::Vector2f(windowSize) / 2.0f
-                         + sf::Vector2f(50 * std::cos(3 * millis / 4000.0f), 50 * std::sin(2 * millis / 4000.0f))); // lissajous a = 3, b = 2
+                         + sf::Vector2f(50 * std::cos(3 * millis / 4000.0f),
+                                        50 * std::sin(2 * millis / 4000.0f))); // lissajous a = 3, b = 2
     // menu title
     mainMenuTxt.setPosition(windowSize.x / 2.0f, 100);
 
     // select options
-    if(stealth.window.hasFocus()){
-        if(newGameTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
-            if(selectedOption != NEW_GAME) {
+    if (stealth.window.hasFocus()) {
+        if (newGameTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
+            if (selectedOption != NEW_GAME) {
                 selectionSfx.play();
                 selectedOption = NEW_GAME;
                 stealth.window.setMouseCursor(selectCursor);
             }
         } else if (quitTxt.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(stealth.window)))) {
-            if(selectedOption != QUIT) {
+            if (selectedOption != QUIT) {
                 selectionSfx.play();
                 selectedOption = QUIT;
                 stealth.window.setMouseCursor(selectCursor);
             }
         } else {
-            if(selectedOption != NONE) {
+            if (selectedOption != NONE) {
                 unselectionSfx.play();
                 selectedOption = NONE;
                 stealth.window.setMouseCursor(defaultCursor);
@@ -113,7 +117,7 @@ void WonGameOverScreen::update(Stealth &stealth) {
     }
 
 
-    enemyKilledTxt.setPosition(windowSize.x /2.0f,220);
+    enemyKilledTxt.setPosition(windowSize.x / 2.0f, 220);
     isStealthTxt.setPosition(windowSize.x / 2.0f, 280);
 
     newGameTxt.setPosition(windowSize.x / 2.0f, 370);
@@ -121,9 +125,6 @@ void WonGameOverScreen::update(Stealth &stealth) {
 
     quitTxt.setPosition(windowSize.x / 2.0f, 440);
     quitTxt.setFillColor(selectedOption == QUIT ? selectedColor : defaultColor);
-
-
-
 
     // draw
     stealth.window.clear();
@@ -146,8 +147,8 @@ void WonGameOverScreen::unload() {
 }
 
 void WonGameOverScreen::handleEvent(Stealth &stealth, sf::Event &event) {
-    if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-        switch(selectedOption) {
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+        switch (selectedOption) {
             case QUIT:
                 stealth.window.close();
                 break;
@@ -160,6 +161,7 @@ void WonGameOverScreen::handleEvent(Stealth &stealth, sf::Event &event) {
     }
 }
 
-WonGameOverScreen::WonGameOverScreen(int enemyKilled, bool isStealth, bool won) : enemyKilled(enemyKilled), isStealth(isStealth), won(won){}
+WonGameOverScreen::WonGameOverScreen(int enemyKilled, bool isStealth, bool won) : enemyKilled(enemyKilled),
+                                                                                  isStealth(isStealth), won(won) {}
 
 

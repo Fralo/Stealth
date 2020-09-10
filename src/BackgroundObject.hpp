@@ -12,7 +12,7 @@
 
 class BackgroundObject : public Object {
 public:
-    BackgroundObject(std::shared_ptr<Tile> tile, sf::Vector2f position): Object(std::move(tile), position) {};
+    BackgroundObject(std::shared_ptr<Tile> tile, sf::Vector2f position) : Object(std::move(tile), position) {};
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override {

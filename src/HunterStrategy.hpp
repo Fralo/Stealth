@@ -12,7 +12,8 @@
 
 class HunterStrategy : public Strategy {
 public:
-    sf::Vector2f getNextMove(GameObject &gameObject, const std::list<std::shared_ptr<Object>> &objects,Player &player,TiledMap &map) override;
+    sf::Vector2f getNextMove(GameObject &gameObject, const std::list<std::shared_ptr<Object>> &objects, Player &player,
+                             TiledMap &map) override;
 
 private:
     sf::Clock cacheTime;

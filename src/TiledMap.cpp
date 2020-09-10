@@ -103,7 +103,7 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
 
             // load cx and cbox if present
             xml::XMLElement *objGroup = tileDef->FirstChildElement("objectgroup");
-            if(objGroup)
+            if (objGroup)
                 for (xml::XMLElement *object = objGroup->FirstChildElement("object");
                      object != nullptr; object = object->NextSiblingElement("object")) {
                     const char *objType = object->Attribute("type");
@@ -128,15 +128,16 @@ void TiledMap::loadTiles(xml::XMLElement *map) {
 
             // load animation if present
             xml::XMLElement *animation = tileDef->FirstChildElement("animation");
-            if(animation)
+            if (animation)
                 for (xml::XMLElement *frame = animation->FirstChildElement("frame");
                      frame != nullptr; frame = frame->NextSiblingElement("frame")) {
 
                     const char *tileSetName = tileset->Attribute("name");
                     const char *animationName = tileDef->Attribute("type");
 
-                    if(tileSetName != nullptr && animationName != nullptr)
-                        animations[tileSetName][animationName].addFrame(tiles[firstGlobalId + frame->IntAttribute("tileid")]);
+                    if (tileSetName != nullptr && animationName != nullptr)
+                        animations[tileSetName][animationName].addFrame(
+                                tiles[firstGlobalId + frame->IntAttribute("tileid")]);
                 }
         }
     }
@@ -149,7 +150,8 @@ void TiledMap::loadLayerGroup(xml::XMLElement &group, std::list<std::shared_ptr<
 }
 
 std::shared_ptr<TiledLayer> TiledMap::makeLayer(xml::XMLElement &layer) {
-    auto tiledLayer = std::make_shared<TiledLayer>(sf::Vector2u(mapWidth, mapHeight), sf::Vector2u(mapTileWidth, mapTileHeight));
+    auto tiledLayer = std::make_shared<TiledLayer>(sf::Vector2u(mapWidth, mapHeight),
+                                                   sf::Vector2u(mapTileWidth, mapTileHeight));
 
     std::stringstream data;
     data << layer.FirstChildElement("data")->GetText();
@@ -170,8 +172,9 @@ std::shared_ptr<TiledLayer> TiledMap::makeLayer(xml::XMLElement &layer) {
                 std::shared_ptr<Tile> tile = tiles.at(tileId);
                 tiledLayer->setTileSprite(col, row, tile);
 
-                if(tile->collisionBox.height > 0 && tile->collisionBox.width > 0)
-                    objects.push_back(std::make_shared<BackgroundObject>(tile, sf::Vector2f(row * mapTileHeight, col * mapTileWidth)));
+                if (tile->collisionBox.height > 0 && tile->collisionBox.width > 0)
+                    objects.push_back(std::make_shared<BackgroundObject>(tile, sf::Vector2f(row * mapTileHeight,
+                                                                                            col * mapTileWidth)));
             }
         }
 
@@ -209,8 +212,8 @@ void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(cachedBgSprite);
 }
 
-Animation &TiledMap::getAnimation(const std::string& tileset, const std::string& type) {
-    if(animations.contains(tileset) && animations[tileset].contains(type))
+Animation &TiledMap::getAnimation(const std::string &tileset, const std::string &type) {
+    if (animations.contains(tileset) && animations[tileset].contains(type))
         return animations[tileset][type];
 
     throw;

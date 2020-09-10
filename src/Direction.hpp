@@ -22,18 +22,22 @@ public:
     };
 
     Direction() = default;
-    constexpr Direction(Directions dir) : dir(dir) {}
+
+    constexpr explicit Direction(Directions dir) : dir(dir) {}
+
     explicit Direction(sf::Vector2f &vect) {
-        if(vect.x > 0 && vect.y == 0) dir = Directions::EAST;
-        else if(vect.x > 0 && vect.y > 0) dir = Directions::SUD_EAST;
-        else if(vect.x == 0 && vect.y > 0) dir = Directions::SUD;
-        else if(vect.x < 0 && vect.y > 0) dir = Directions::SUD_OVEST;
-        else if(vect.x < 0 && vect.y == 0) dir = Directions::OVEST;
-        else if(vect.x < 0 && vect.y < 0) dir = Directions::NORTH_OVEST;
-        else if(vect.x == 0 && vect.y < 0) dir = Directions::NORTH;
-        else if(vect.x > 0 && vect.y < 0) dir = Directions::NORTH_EAST;
+        if (vect.x > 0 && vect.y == 0) dir = Directions::EAST;
+        else if (vect.x > 0 && vect.y > 0) dir = Directions::SUD_EAST;
+        else if (vect.x == 0 && vect.y > 0) dir = Directions::SUD;
+        else if (vect.x < 0 && vect.y > 0) dir = Directions::SUD_OVEST;
+        else if (vect.x < 0 && vect.y == 0) dir = Directions::OVEST;
+        else if (vect.x < 0 && vect.y < 0) dir = Directions::NORTH_OVEST;
+        else if (vect.x == 0 && vect.y < 0) dir = Directions::NORTH;
+        else if (vect.x > 0 && vect.y < 0) dir = Directions::NORTH_EAST;
     }
+
     operator Directions() const { return dir; }
+
     explicit operator bool() = delete;
 
 private:

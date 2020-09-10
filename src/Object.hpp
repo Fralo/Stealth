@@ -12,6 +12,7 @@
 #include "GameObject.hpp"
 #include "MathHelper.hpp"
 #include <list>
+
 struct ObjectProperties {
     bool destroyable;
     bool explosive;
@@ -25,11 +26,17 @@ struct ObjectProperties {
 class Object : public GameObject {
 public:
     Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties);
+
     Object(std::shared_ptr<Object> obj);
-    Object(std::shared_ptr<Tile> tile, sf::Vector2f position): Object(std::move(tile), position, {false, false}) {};
-    bool isDroppable( std::list<std::shared_ptr<Object>>& objects, sf::Vector2f playerPos );
-    bool explode(std::list<std::shared_ptr<Object>>& objects);
+
+    Object(std::shared_ptr<Tile> tile, sf::Vector2f position) : Object(std::move(tile), position, {false, false}) {};
+
+    bool isDroppable(std::list<std::shared_ptr<Object>> &objects, sf::Vector2f playerPos);
+
+    bool explode(std::list<std::shared_ptr<Object>> &objects);
+
     void applayDamage(int damage);
+
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 

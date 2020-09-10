@@ -11,11 +11,11 @@ Stealth::Stealth() {
 
     changeState(new LoadScreen());
 
-    while(window.isOpen())
-        if(!stateStack.empty()){
+    while (window.isOpen())
+        if (!stateStack.empty()) {
             stateStack.front()->update(*this);
 
-            if(doPopStack) {
+            if (doPopStack) {
                 doPopStack = false;
                 stateStack.pop_front();
                 stateStack.front()->init(*this);
@@ -25,7 +25,7 @@ Stealth::Stealth() {
 }
 
 void Stealth::changeState(GameState *newGameState) {
-    if(!stateStack.empty())
+    if (!stateStack.empty())
         stateStack.front()->unload();
 
     stateStack.push_front(std::unique_ptr<GameState>(newGameState));
