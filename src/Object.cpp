@@ -4,26 +4,22 @@
 
 #include "Object.hpp"
 
+#include <utility>
+
 Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties) : properties(
-        properties) {
-    this->tile = tile;
-    this->position = position;
-    this->properties.numberInInventory = 0;
-}
+        properties), GameObject(std::move(tile), position) {
 
-Object::Object(std::shared_ptr<Object> obj) {
-    this->properties = obj->properties;
-    this->tile = obj->tile;
-    this->position = obj->position;
+#if defined(STEALTH_GRAPHIC_DEBUG) || defined(OBJECT_DEBUG)
+    font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
+#endif
 }
-
 
 //TODO remove all the code that generates rectangle for testing purpose
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    if (tile != nullptr && this->properties.id == 0) {
+    if (tile != nullptr && properties.id == 0) {
         tile->setPosition(position);
         target.draw(*tile);
-    } else if (this->properties.numberInInventory != 0) {
+    } else if (properties.numberInInventory != 0) {
         //if the object is in the inventory
         int red = 0;
         int green = 0;
@@ -48,13 +44,13 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         sf::RectangleShape rect({40, 40});
         rect.setFillColor(sf::Color(red, green, blue));
         rect.setPosition(target.getView().getCenter().x + 345,
-                         target.getView().getCenter().y - 375 + ((this->properties.numberInInventory - 1) * 45));
+                         target.getView().getCenter().y - 375 + (properties.numberInInventory - 1) * 45);
         target.draw(rect);
-    } else if (this->properties.id >= 1 && this->properties.id <= 4) {
+    } else if (properties.id >= 1 && properties.id <= 4) {
         int red = 0;
         int green = 0;
         int blue = 0;
-        switch (this->properties.id) {
+        switch (properties.id) {
             case 1:
                 green = 255;
                 break;
@@ -74,10 +70,10 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         sf::RectangleShape rect({40, 40});
         rect.setFillColor(sf::Color(red, green, blue));
 
-        rect.setPosition(this->position.x, this->position.y);
+        rect.setPosition(position.x, position.y);
         target.draw(rect);
     }
-    if (this->properties.destroyable == true) {
+    if (properties.destroyable) {
         sf::RectangleShape re({static_cast<float>(getHealth()) / 100 * 20, 2});
         re.setPosition({getPos().x - 5, getPos().y - 5});
         re.setFillColor(sf::Color::Red);
@@ -85,13 +81,29 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         target.draw(re);
     }
 
-#ifdef STEALTH_GRAPHIC_DEBUG
+#if defined(STEALTH_GRAPHIC_DEBUG) || defined(OBJECT_DEBUG)
     if(tile->collisionBox.height > 0 && tile->collisionBox.width > 0) {
         sf::RectangleShape cb(sf::Vector2f(tile->collisionBox.width, tile->collisionBox.height));
         cb.setPosition(position.x + tile->collisionBox.left, position.y + tile->collisionBox.top);
         cb.setFillColor(sf::Color(255, 127, 0, 127));
         target.draw(cb);
     }
+
+    sf::Text txt;
+    txt.setFont(font);
+    std::stringstream coord;
+    coord << "destroyable " << properties.destroyable << "\n"
+            << "explosive " << properties.explosive << "\n"
+            << "radius " << properties.explosionRadius << "\n"
+            << "damage " << properties.damage << "\n"
+            << "collectible " << properties.collectible << "\n";
+
+    txt.setString(coord.str());
+    txt.setPosition(position.x, position.y);
+    txt.setScale(.3, .3);
+
+    target.draw(txt);
+
 #endif
 
 }

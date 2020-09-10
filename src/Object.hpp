@@ -12,24 +12,26 @@
 #include "GameObject.hpp"
 #include "MathHelper.hpp"
 #include <list>
+#include <sstream>
+#include "macro.h"
+
+// #define OBJECT_DEBUG
 
 struct ObjectProperties {
     bool destroyable;
     bool explosive;
     bool collectible;
-    int id;
-    int numberInInventory; //if is not equal to 0, it means that the object is collected in the inventory and indicate the position that should have in the inventory and the key to press to be released
     int explosionRadius;
     int damage;
+    int id;
+    int numberInInventory; //if is not equal to 0, it means that the object is collected in the inventory and indicate the position that should have in the inventory and the key to press to be released
 };
 
 class Object : public GameObject {
 public:
     Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties);
 
-    Object(std::shared_ptr<Object> obj);
-
-    Object(std::shared_ptr<Tile> tile, sf::Vector2f position) : Object(std::move(tile), position, {false, false}) {};
+    Object(std::shared_ptr<Tile> tile, sf::Vector2f position) : Object(std::move(tile), position, {}) {};
 
     bool isDroppable(std::list<std::shared_ptr<Object>> &objects, sf::Vector2f playerPos);
 
@@ -37,11 +39,15 @@ public:
 
     void applayDamage(int damage);
 
+    ObjectProperties properties;
+
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
-public:
-    ObjectProperties properties;
+private:
+#if defined(STEALTH_GRAPHIC_DEBUG) || defined(OBJECT_DEBUG)
+    sf::Font font;
+#endif
 
 };
 

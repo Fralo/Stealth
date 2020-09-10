@@ -2,8 +2,9 @@
 // Created by vivedo on 18/07/20.
 //
 
-#include <iostream>
 #include "GameObject.hpp"
+
+GameObject::GameObject(std::shared_ptr<Tile> tile, sf::Vector2f position) : tile(std::move(tile)), position(position) {}
 
 sf::Vector2f GameObject::getPos() const {
     return position;

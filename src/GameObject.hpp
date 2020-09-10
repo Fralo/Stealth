@@ -7,10 +7,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <utility>
 #include "Tile.hpp"
 
 class GameObject : public sf::Drawable, public sf::Transformable {
 public:
+    GameObject() = default;
+    GameObject(std::shared_ptr<Tile> tile, sf::Vector2f position);
     virtual ~GameObject() override {};
     sf::Vector2f getPos() const;
     void setPos(sf::Vector2f pos);

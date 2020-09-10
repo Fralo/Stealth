@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="35">
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="36">
  <tileset firstgid="1" name="tileset_bottom" tilewidth="16" tileheight="16" tilecount="165" columns="11">
   <image source="tileset_bottom.png" width="176" height="240"/>
  </tileset>
@@ -1477,8 +1477,19 @@
  </tileset>
  <tileset firstgid="706" name="various" tilewidth="32" tileheight="32" tilecount="90" columns="18">
   <image source="various.png" width="576" height="160"/>
+  <tile id="15">
+   <objectgroup draworder="index" id="2">
+    <object id="1" type="cbox" x="6.71228" y="4.91143" width="18.9909" height="21.9377"/>
+    <object id="2" type="cx" x="15.8803" y="23.0837">
+     <point/>
+    </object>
+   </objectgroup>
+  </tile>
  </tileset>
  <tileset firstgid="796" name="antenna" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <properties>
+   <property name="destroyable" type="bool" value="true"/>
+  </properties>
   <image source="antenna.png" width="128" height="128"/>
   <tile id="0">
    <objectgroup draworder="index" id="2">
@@ -1764,7 +1775,11 @@
   </layer>
  </group>
  <objectgroup id="3" name="objects">
-  <object id="1" gid="796" x="147" y="621.833" width="128" height="128"/>
+  <object id="1" gid="796" x="215.333" y="642.5" width="128" height="128">
+   <properties>
+    <property name="destroyable" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="2" gid="711" x="259.333" y="104.667" width="32" height="32"/>
   <object id="3" gid="711" x="418.667" y="124" width="32" height="32"/>
   <object id="4" gid="711" x="96" y="108" width="32" height="32"/>
@@ -1794,5 +1809,13 @@
   <object id="32" gid="713" x="948.5" y="83.75" width="32" height="32"/>
   <object id="33" gid="712" x="962" y="82.5" width="32" height="32"/>
   <object id="34" gid="712" x="966.25" y="101.75" width="32" height="32"/>
+  <object id="35" gid="721" x="768.667" y="118" width="32" height="32">
+   <properties>
+    <property name="collectible" type="bool" value="true"/>
+    <property name="damage" type="int" value="60"/>
+    <property name="explosionRadius" type="int" value="100"/>
+    <property name="explosive" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

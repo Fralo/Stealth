@@ -192,11 +192,29 @@ void TiledMap::loadObjectGroup(xml::XMLElement &group, std::list<std::shared_ptr
 
 std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
     int spriteId = xmlObject.IntAttribute("gid");
-    ObjectProperties properties = {
-            xmlObject.BoolAttribute("destroyable", false),
-            xmlObject.BoolAttribute("explosive", false),
-            false
-    };
+
+    xml::XMLElement *props = xmlObject.FirstChildElement("properties");
+
+    ObjectProperties properties{};
+    if(props != nullptr) {
+        for(xml::XMLElement *property = props->FirstChildElement("property"); property != nullptr;
+        property = property->NextSiblingElement("property")) {
+            if(property->Attribute("name", "destroyable"))
+                properties.destroyable = property->BoolAttribute("value", false);
+
+            else if(property->Attribute("name", "explosive"))
+                properties.explosive = property->BoolAttribute("value", false);
+
+            else if(property->Attribute("name", "collectible"))
+                properties.collectible = property->BoolAttribute("value", false);
+
+            else if(property->Attribute("name", "explosionRadius"))
+                properties.explosionRadius = property->IntAttribute("value", 0);
+
+            else if(property->Attribute("name", "damage"))
+                properties.damage = property->IntAttribute("value", 0);
+        }
+    }
 
     return std::make_shared<Object>(tiles[spriteId], sf::Vector2f(
             xmlObject.FloatAttribute("x"),
