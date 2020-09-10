@@ -11,7 +11,18 @@ void Game::init(Stealth &stealth) {
     stealth.window.setMouseCursorVisible(false);
 
     map = std::make_shared<TiledMap>(resource("maps/02-map.tmx"), objects);
-    loadMapConfig();
+
+    xml::XMLDocument xml;
+    xml::XMLError error = xml.LoadFile(resource("maps/01.xml"));
+
+    if (error != tinyxml2::XML_SUCCESS) {
+        std::cout << "Error opening map config file" << std::endl;
+        throw std::exception();
+    } else
+        std::cout << "Map config file opened" << std::endl;
+
+    xml::XMLElement *root = xml.FirstChildElement("stealth");
+    loadMapConfig(root);
 
     gameView.setCenter(sf::Vector2f(player->getPos()));
 
@@ -120,7 +131,6 @@ void Game::update(Stealth &stealth) {
         stealth.window.draw(re);
 #endif
     }
-
     /*
      * gui view
      */
@@ -147,47 +157,25 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     } else if (event.type == sf::Event::KeyReleased) {
         int itemToRelease = 0;
         switch (event.key.code) {
-            case sf::Keyboard::Num1: //TODO spostare il controllo nell'inventario
-                if (inventory->getSize() > 0) {
-                    itemToRelease = 1;
-                }
+            case sf::Keyboard::Num1:
+                itemToRelease = 1;
                 break;
             case sf::Keyboard::Num2:
-                if (inventory->getSize() > 1) {
-                    itemToRelease = 2;
-                }
+                itemToRelease = 2;
                 break;
             case sf::Keyboard::Num3:
-                if (inventory->getSize() > 2) {
-                    itemToRelease = 3;
-                }
+                itemToRelease = 3;
                 break;
-
             default:
                 break;
         }
         if (itemToRelease != 0) {
-            bool canRelease = true;
-            for (auto &&obj : this->objects)
-                //TODO far fare contains direttamente a object ( magari con un is Droppable )
-                if (obj->getAbsCollisionBox().contains(player->getPos().x, player->getPos().y + 40) ||
-                    obj->getAbsCollisionBox().contains(player->getPos().x + 40,
-                                                       player->getPos().y)) //40 is the dimension of the square used for testing items, TODO sostituire con la dimensione del tile degli oggeti dell'inventario
-                    canRelease = false;
-            if (canRelease) {
-                auto toAdd = std::move(this->inventory->releaseObject(itemToRelease));
+            std::shared_ptr<Object> toAdd = std::move(this->inventory->releaseObject(itemToRelease, this->objects, this->player->getPos()));
+
+            if (toAdd != nullptr) {
                 toAdd->setPos(player->getPos().x + player->getAbsCollisionBox().height / 2 + 1,
                               player->getPos().y + player->getAbsCollisionBox().width / 2 + 1);
-                toAdd->properties.numberInInventory = 0;
-
-                bool exploded = false;
-                for (auto &&o : this->objects) {
-                    if (o->properties.id == 1 && MathHelper::distanceBetweenTwoPoints(o->getPos(), toAdd->getPos()) < 100) {
-                        o->setHealth(o->getHealth() - 60);
-                        exploded = true;
-                    }
-                }
-                if(!exploded)
+                if(!toAdd->explode(this->objects))
                     this->objects.push_front(std::move(toAdd));
             } else
                 denyMoveSfx.play();
@@ -195,17 +183,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     }
 }
 
-void Game::loadMapConfig() {
-    xml::XMLDocument xml;
-    xml::XMLError error = xml.LoadFile(resource("maps/01.xml"));
-
-    if (error != tinyxml2::XML_SUCCESS) {
-        std::cout << "Error opening map config file" << std::endl;
-        throw std::exception();
-    } else
-        std::cout << "Map config file opened" << std::endl;
-
-    xml::XMLElement *root = xml.FirstChildElement("stealth");
+void Game::loadMapConfig(xml::XMLElement *root) {
     loadEnemies(root);
     loadObjects();
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
@@ -218,7 +196,7 @@ void Game::loadMapConfig() {
             Weapon{
                     xmlPlayerWeapon->IntAttribute("rate"),
                     xmlPlayerWeapon->IntAttribute("damage"),
-                    xmlPlayerWeapon->IntAttribute("angle")
+                    xmlPlayerWeapon->IntAttribute("distance")
             });
 }
 
@@ -322,8 +300,11 @@ void Game::loadObjects() {
     std::shared_ptr<Tile> t3 = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
 
     test1.id = 4;
+    test1.explosive = true;
     test1.collectible = true;
     test1.destroyable = false;
+    test1.explosionRadius = 100;
+    test1.damage = 60;
     std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
             400,
             400
@@ -336,6 +317,7 @@ void Game::loadObjects() {
     test1.id = 1;
     test1.destroyable = true;
     test1.collectible = false;
+    test1.explosive = false;
     std::shared_ptr<Object> obj3 = std::make_shared<Object>(t3, sf::Vector2f(
             300,
             300

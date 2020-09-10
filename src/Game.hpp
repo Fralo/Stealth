@@ -59,7 +59,7 @@ private:
     sf::SoundBuffer denyMoveSfxBuffer;
     sf::Sound denyMoveSfx;
 
-    void loadMapConfig();
+    void loadMapConfig(xml::XMLElement *root);
     void loadEnemies(xml::XMLElement *root);
     void loadObjects();
     void updateViews(Stealth &stealth);

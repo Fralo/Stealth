@@ -23,7 +23,7 @@ int GameObject::getHealth() const {
 }
 
 void GameObject::setHealth(int h) {
-    health = h;
+    health = h < 0 ? 0 : h;
 }
 
 sf::Vector2f GameObject::getAbsDrawingCenter() {
