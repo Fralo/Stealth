@@ -67,8 +67,6 @@ private:
 
     void loadEnemies(xml::XMLElement *root);
 
-    void loadObjects();
-
     void updateViews(Stealth &stealth);
 
 

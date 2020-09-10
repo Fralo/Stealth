@@ -184,7 +184,6 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
 
 void Game::loadMapConfig(xml::XMLElement *root) {
     loadEnemies(root);
-    loadObjects();
     xml::XMLElement *playerSpawn = root->FirstChildElement("player")->FirstChildElement("spawnpoint");
     xml::XMLElement *xmlPlayerWeapon = root->FirstChildElement("player")->FirstChildElement("weapon");
     player = std::make_shared<Player>(
@@ -291,40 +290,3 @@ void Game::updateViews(Stealth &stealth) {
     guiView.setSize(windowSize.x, windowSize.x);
     guiView.setCenter(windowSize.x / 2, windowSize.x / 2);
 }
-
-void Game::loadObjects() {
-    ObjectProperties test1;
-    std::shared_ptr<Tile> t = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
-    std::shared_ptr<Tile> t2 = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
-    std::shared_ptr<Tile> t3 = std::make_shared<Tile>(sf::Vector2f(40, 40), sf::Rect<float>(0, 0, 40, 40));
-
-    test1.id = 4;
-    test1.explosive = true;
-    test1.collectible = true;
-    test1.destroyable = false;
-    test1.explosionRadius = 100;
-    test1.damage = 60;
-    std::shared_ptr<Object> obj1 = std::make_shared<Object>(t, sf::Vector2f(
-            400,
-            400
-    ), test1);
-    test1.id = 2;
-    std::shared_ptr<Object> obj2 = std::make_shared<Object>(t2, sf::Vector2f(
-            200,
-            100
-    ), test1);
-    test1.id = 1;
-    test1.destroyable = true;
-    test1.collectible = false;
-    test1.explosive = false;
-    std::shared_ptr<Object> obj3 = std::make_shared<Object>(t3, sf::Vector2f(
-            300,
-            300
-    ), test1);
-
-    this->objects.push_front(obj1);
-    this->objects.push_front(obj2);
-    this->objects.push_front(obj3);
-}
-
-
