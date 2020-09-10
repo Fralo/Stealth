@@ -29,9 +29,9 @@ struct ObjectProperties {
 
 class Object : public GameObject {
 public:
-    Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties);
+    Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties, int health);
 
-    Object(std::shared_ptr<Tile> tile, sf::Vector2f position) : Object(std::move(tile), position, {}) {};
+    Object(std::shared_ptr<Tile> tile, sf::Vector2f position) : Object(std::move(tile), position, {}, 100) {};
 
     bool isDroppable(std::list<std::shared_ptr<Object>> &objects, sf::Vector2f playerPos);
 

@@ -194,6 +194,7 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
     int spriteId = xmlObject.IntAttribute("gid");
 
     xml::XMLElement *props = xmlObject.FirstChildElement("properties");
+    int health = 100;
 
     ObjectProperties properties{};
     if(props != nullptr) {
@@ -213,13 +214,16 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
 
             else if(property->Attribute("name", "damage"))
                 properties.damage = property->IntAttribute("value", 0);
+
+            else if(property->Attribute("name", "health"))
+                health = property->IntAttribute("value", 100);
         }
     }
 
     return std::make_shared<Object>(tiles[spriteId], sf::Vector2f(
             xmlObject.FloatAttribute("x"),
             xmlObject.FloatAttribute("y") - tiles[spriteId]->getTextureRect().height
-    ), properties);
+    ), properties, health);
 }
 
 sf::Vector2u TiledMap::getMapActualSize() const {
