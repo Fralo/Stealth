@@ -26,14 +26,17 @@ public:
     constexpr explicit Direction(Directions dir) : dir(dir) {}
 
     explicit Direction(sf::Vector2f &vect) {
-        if (vect.x > 0 && vect.y == 0) dir = Directions::EAST;
-        else if (vect.x > 0 && vect.y > 0) dir = Directions::SUD_EAST;
-        else if (vect.x == 0 && vect.y > 0) dir = Directions::SUD;
-        else if (vect.x < 0 && vect.y > 0) dir = Directions::SUD_OVEST;
-        else if (vect.x < 0 && vect.y == 0) dir = Directions::OVEST;
-        else if (vect.x < 0 && vect.y < 0) dir = Directions::NORTH_OVEST;
-        else if (vect.x == 0 && vect.y < 0) dir = Directions::NORTH;
-        else if (vect.x > 0 && vect.y < 0) dir = Directions::NORTH_EAST;
+        if (vect.x > 0)
+            if (vect.y == 0) dir = Directions::EAST;
+            else if (vect.y > 0) dir = Directions::SUD_EAST;
+            else dir = Directions::NORTH_EAST;
+        else if (vect.x == 0)
+            if (vect.y > 0) dir = Directions::SUD;
+            else dir = Directions::NORTH;
+        else if (vect.x < 0)
+                if(vect.y > 0) dir = Directions::SUD_OVEST;
+                else if (vect.y == 0) dir = Directions::OVEST;
+                else dir = Directions::NORTH_OVEST;
     }
 
     operator Directions() const { return dir; }
