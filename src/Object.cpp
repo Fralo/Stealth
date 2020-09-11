@@ -82,6 +82,7 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         target.draw(re);
     }
 
+
 #if defined(STEALTH_GRAPHIC_DEBUG) || defined(OBJECT_DEBUG)
     if(tile->collisionBox.height > 0 && tile->collisionBox.width > 0) {
         sf::RectangleShape cb(sf::Vector2f(tile->collisionBox.width, tile->collisionBox.height));

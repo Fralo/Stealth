@@ -194,15 +194,16 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
     int spriteId = xmlObject.IntAttribute("gid");
 
     xml::XMLElement *props = xmlObject.FirstChildElement("properties");
-    int health = 100;
-
+    int health;
+    std::cout << spriteId << std::endl;
     ObjectProperties properties{};
     if(props != nullptr) {
         for(xml::XMLElement *property = props->FirstChildElement("property"); property != nullptr;
         property = property->NextSiblingElement("property")) {
-            if(property->Attribute("name", "destroyable"))
-                properties.destroyable = property->BoolAttribute("value", false);
 
+            if(property->Attribute("name", "destroyable")) {
+                properties.destroyable = property->BoolAttribute("value", false);
+            }
             else if(property->Attribute("name", "explosive"))
                 properties.explosive = property->BoolAttribute("value", false);
 
@@ -215,8 +216,11 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
             else if(property->Attribute("name", "damage"))
                 properties.damage = property->IntAttribute("value", 0);
 
-            else if(property->Attribute("name", "health"))
+            else if(property->Attribute("name", "healt")) {
                 health = property->IntAttribute("value", 100);
+            }
+            else if(property->Attribute("name", "isTarget"))
+                properties.isTarget = property->BoolAttribute("value", false);
         }
     }
 
