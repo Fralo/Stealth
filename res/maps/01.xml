@@ -10,7 +10,7 @@
     <enemies>
 
         <enemy sight-angle=".2" sight-distance="50">
-            <spawnpoint x="100" y="400" r="1" />
+            <spawnpoint x="50" y="400" r="1" />
             <movement />
             <weapon rate="1" damage="10" distance="100" angle=".2"/>
         </enemy>
@@ -25,13 +25,12 @@
             </movement>
             <weapon rate="1" damage="10" distance="100" angle=".2"/>
         </enemy>
+
+        <enemy sight-angle=".2" sight-distance="50">
+            <spawnpoint x="400" y="600" r="0.5" />
+            <movement />
+            <weapon rate="1" damage="10" distance="100" angle=".2"/>
+        </enemy>
         
     </enemies>
-
-    <objects>
-        <object>
-            <spawnpoint x="400" y="400" />
-        </object>
-    </objects>
-
 </stealth>
