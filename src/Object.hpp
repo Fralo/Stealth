@@ -46,6 +46,8 @@ protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
+    const int centerDrawOffset = 355;
+    const int distanceBetweenObj = 45;
 #if defined(STEALTH_GRAPHIC_DEBUG) || defined(OBJECT_DEBUG)
     sf::Font font;
 #endif
