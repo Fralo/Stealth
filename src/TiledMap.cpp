@@ -204,9 +204,9 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
             if(property->Attribute("name", "destroyable")) {
                 properties.destroyable = property->BoolAttribute("value", false);
             }
-            else if(property->Attribute("name", "explosive"))
+            else if(property->Attribute("name", "explosive")) {
                 properties.explosive = property->BoolAttribute("value", false);
-
+            }
             else if(property->Attribute("name", "collectible"))
                 properties.collectible = property->BoolAttribute("value", false);
 
