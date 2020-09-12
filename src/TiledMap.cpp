@@ -195,7 +195,6 @@ std::shared_ptr<Object> TiledMap::makeObject(xml::XMLElement &xmlObject) {
 
     xml::XMLElement *props = xmlObject.FirstChildElement("properties");
     int health;
-    std::cout << spriteId << std::endl;
     ObjectProperties properties{};
     if(props != nullptr) {
         for(xml::XMLElement *property = props->FirstChildElement("property"); property != nullptr;

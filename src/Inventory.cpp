@@ -5,15 +5,19 @@
 #include "Inventory.hpp"
 
 Inventory::Inventory() {
-
+    inventoryTexture.loadFromFile(resource("inventory.png"));
 }
 
 
 void Inventory::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    sf::RectangleShape rect({static_cast<float>(50), 150});
-    rect.setFillColor(sf::Color(200, 200, 0));
-    rect.setPosition(target.getView().getCenter().x + 345, target.getView().getCenter().y - 375);
-    target.draw(rect);
+    sf::Sprite inventorySprite;
+    inventorySprite.setTexture(inventoryTexture);
+
+    inventorySprite.setTextureRect(sf::IntRect(0,0, 130,350));
+    inventorySprite.setPosition(target.getView().getCenter().x + 330,
+                                                 target.getView().getCenter().y - 375);
+    inventorySprite.setScale(sf::Vector2f(0.5, 0.5));
+    target.draw(inventorySprite);
 }
 
 std::forward_list<std::shared_ptr<Object>> Inventory::getInventory() {

@@ -34,6 +34,7 @@ protected:
 private:
     std::forward_list<std::shared_ptr<Object>> inventory;
     const int maxInventorySize = 3;
+    sf::Texture inventoryTexture;
 };
 
 
