@@ -62,6 +62,10 @@ private:
 
     sf::SoundBuffer denyMoveSfxBuffer;
     sf::Sound denyMoveSfx;
+    sf::SoundBuffer explosionSfxBuffer;
+    sf::Sound explosionSfx;
+    sf::SoundBuffer shotSfxBuffer;
+    sf::Sound shotSfx;
 
     void loadMapConfig(xml::XMLElement *root);
 

@@ -10,6 +10,7 @@ Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperti
         properties), GameObject(std::move(tile), position) {
     setHealth(health);
 
+
 #if defined(STEALTH_GRAPHIC_DEBUG) || defined(OBJECT_DEBUG)
     font.loadFromFile(resource("fonts/OpenSans-Regular.ttf"));
 #endif

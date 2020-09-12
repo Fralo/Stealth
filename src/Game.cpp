@@ -33,6 +33,12 @@ void Game::init(Stealth &stealth) {
 
     denyMoveSfxBuffer.loadFromFile(resource("music/denymove.ogg"));
     denyMoveSfx.setBuffer(denyMoveSfxBuffer);
+    explosionSfxBuffer.loadFromFile("../res/music/explosion.ogg");
+    explosionSfx.setBuffer(explosionSfxBuffer);
+    explosionSfx.setVolume(50);
+    shotSfxBuffer.loadFromFile("../res/music/shot.ogg");
+    shotSfx.setBuffer(shotSfxBuffer);
+    shotSfx.setVolume(20);
     inventory = std::make_shared<Inventory>();
     gameViewClock.restart();
 
@@ -146,6 +152,7 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) { // click
         if (cursor.getPointedElement().pointedElementType == ENEMY) {
             player->shootEnemy(cursor.getPointedElement().pointedElementObject);
+            shotSfx.play();
         } else if (cursor.getPointedElement().pointedElementType == ITEM) {
             player->setTarget(cursor.getPointedElement().pointedElementObject);
         } else if (cursor.getPointedElement().pointedElementType != OBSTACLE)
@@ -176,6 +183,8 @@ void Game::handleEvent(Stealth &stealth, sf::Event &event) {
                               player->getPos().y + player->getAbsCollisionBox().width / 2 + 1);
                 if (!toAdd->explode(this->objects))
                     this->objects.push_front(std::move(toAdd));
+                else
+                    explosionSfx.play();
             } else
                 denyMoveSfx.play();
         }

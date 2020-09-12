@@ -7,6 +7,7 @@
 
 #include "cfg.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <utility>
 #include "Tile.hpp"
 #include "GameObject.hpp"
@@ -48,6 +49,8 @@ protected:
 private:
     const int centerDrawOffset = 355;
     const int distanceBetweenObj = 45;
+
+
 #if defined(STEALTH_GRAPHIC_DEBUG) || defined(OBJECT_DEBUG)
     sf::Font font;
 #endif
