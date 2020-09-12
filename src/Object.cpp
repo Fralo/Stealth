@@ -17,62 +17,14 @@ Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperti
 
 //TODO remove all the code that generates rectangle for testing purpose
 void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    if (tile != nullptr && properties.id == 0) {
-        tile->setPosition(position);
+    if (tile != nullptr) {
+        if(this->properties.numberInInventory != 0) {
+            tile->setPosition(target.getView().getCenter().x + 345,
+                              target.getView().getCenter().y - 375 + (properties.numberInInventory - 1) * 45);
+        }
+        else
+            tile->setPosition(position);
         target.draw(*tile);
-    } else if (properties.numberInInventory != 0) {
-        //if the object is in the inventory
-        int red = 0;
-        int green = 0;
-        int blue = 0;
-        switch (this->properties.id) {
-            case 1:
-                green = 255;
-                break;
-            case 2:
-                red = 255;
-                break;
-            case 3:
-                blue = 255;
-                break;
-            case 4:
-                red = 255;
-                blue = 150;
-                break;
-            default:
-                break;
-        }
-        sf::RectangleShape rect({40, 40});
-        rect.setFillColor(sf::Color(red, green, blue));
-        rect.setPosition(target.getView().getCenter().x + 345,
-                         target.getView().getCenter().y - 375 + (properties.numberInInventory - 1) * 45);
-        target.draw(rect);
-    } else if (properties.id >= 1 && properties.id <= 4) {
-        int red = 0;
-        int green = 0;
-        int blue = 0;
-        switch (properties.id) {
-            case 1:
-                green = 255;
-                break;
-            case 2:
-                red = 255;
-                break;
-            case 3:
-                blue = 255;
-                break;
-            case 4:
-                red = 255;
-                blue = 150;
-                break;
-            default:
-                break;
-        }
-        sf::RectangleShape rect({40, 40});
-        rect.setFillColor(sf::Color(red, green, blue));
-
-        rect.setPosition(position.x, position.y);
-        target.draw(rect);
     }
     if (properties.destroyable) {
         sf::RectangleShape re({static_cast<float>(getHealth()) / 100 * 20, 2});
@@ -81,6 +33,7 @@ void Object::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
         target.draw(re);
     }
+
 
 #if defined(STEALTH_GRAPHIC_DEBUG) || defined(OBJECT_DEBUG)
     if(tile->collisionBox.height > 0 && tile->collisionBox.width > 0) {
@@ -128,7 +81,7 @@ void Object::applayDamage(int damage) {
 bool Object::explode(std::list<std::shared_ptr<Object>> &objects) {
     if (this->properties.explosive) {
         for (auto &&o : objects) {
-            if (o->properties.id == 1 &&
+            if (o->properties.isTarget &&
                 MathHelper::distanceBetweenTwoPoints(o->getPos(), this->getPos()) < this->properties.explosionRadius) {
                 o->applayDamage(this->properties.damage);
                 return true;

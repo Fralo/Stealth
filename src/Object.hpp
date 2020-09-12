@@ -21,6 +21,7 @@ struct ObjectProperties {
     bool destroyable;
     bool explosive;
     bool collectible;
+    bool isTarget;
     int explosionRadius;
     int damage;
     int id;

@@ -82,7 +82,7 @@ void Game::update(Stealth &stealth) {
      * Check target object life
      */
     for (auto &&o : this->objects)
-        if (o->properties.id == 1 && o->getHealth() == 0) {
+        if (o->properties.isTarget && o->getHealth() == 0) {
             stealth.changeState(new WonGameOverScreen(killedEnemyObserver->enemyKilled,
                                                       stealthStatusObserver->isStealth, true));
             levelMusic.stop();
