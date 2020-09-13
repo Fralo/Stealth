@@ -17,4 +17,5 @@ public:
 };
 
 
+
 #endif //STEALTH_ADVANCEMENTMANAGEROBSERVER_HPP
