@@ -10,8 +10,12 @@
     <enemies>
 
         <enemy sight-angle=".2" sight-distance="50">
-            <spawnpoint x="50" y="400" r="1" />
+            <spawnpoint x="650" y="280" r="1" />
             <movement>
+                <location x="650" y="280" />
+                <location x="650" y="230" />
+                <location x="600" y="230" />
+                <location x="600" y="280" />
             </movement>
             <weapon rate="1" damage="10" distance="100" angle=".2"/>
         </enemy>
