@@ -87,7 +87,6 @@ bool Object::explode(std::list<std::shared_ptr<Object>> &objects) {
             if (o->properties.isTarget &&
                 MathHelper::distanceBetweenTwoPoints(o->getPos(), this->getPos()) < this->properties.explosionRadius) {
                 o->applayDamage(this->properties.damage);
-                std::cout<<o->getHealth()<<std::endl;
                 return true;
             }
         }

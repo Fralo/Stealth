@@ -16,9 +16,9 @@ Enemy::Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView 
 void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map) {
     //enemy death
     if (getHealth() == 0) {
-        notifyEnemyKilled();
-        unsubscribe(killedEnemyObservers.back());
-        unsubscribe(stealthStatusObservers.back());
+        notify(typeid(std::shared_ptr<KilledEnemyObserver>));
+        unsubscribe(killedEnemyObservers.back(),typeid(std::shared_ptr<KilledEnemyObserver>));
+        unsubscribe(stealthStatusObservers.back(),typeid(std::shared_ptr<StealthStatusObserver>));
     }
 
     //generate the vector of vertices to find the player
@@ -36,7 +36,7 @@ void Enemy::update(const std::list<std::shared_ptr<Object>> &objects, Player &pl
             for (const std::shared_ptr<Object> &obj : objects) {
                 if (MathHelper::hasLineOfSight(obj->getPos(), player.getPos(), obj->getAbsCollisionBox()))
                     strategy = std::make_shared<HunterStrategy>();
-                notifyStealthObserver();
+                notify(typeid(std::shared_ptr<StealthStatusObserver>));
             }
 
 
@@ -135,34 +135,29 @@ void Enemy::applyDamage(int damage) {
     setHealth(getHealth() - 1);
 }
 
-//new observer implementation
-
-void Enemy::subscribe(std::shared_ptr<KilledEnemyObserver> observer) {
-    killedEnemyObservers.push_back(observer);
-}
-
-void Enemy::unsubscribe(std::shared_ptr<KilledEnemyObserver> observer) {
-
-    killedEnemyObservers.remove(observer);
-}
-
-void Enemy::notifyEnemyKilled() {
-    for (auto &&o : killedEnemyObservers)
-        o->update();
-}
-
-void Enemy::subscribe(std::shared_ptr<StealthStatusObserver> observer) {
-    stealthStatusObservers.push_back(observer);
+void Enemy::subscribe(std::shared_ptr<AdvancementManagerObserver> observer, const std::type_info &classInfo) {
+    if(classInfo == typeid(std::shared_ptr<KilledEnemyObserver>))
+        killedEnemyObservers.push_back(observer);
+    else if(classInfo == typeid(std::shared_ptr<StealthStatusObserver>))
+        stealthStatusObservers.push_back(observer);
 
 }
 
-void Enemy::unsubscribe(std::shared_ptr<StealthStatusObserver> observer) {
-    stealthStatusObservers.remove(observer);
+void Enemy::unsubscribe(std::shared_ptr<AdvancementManagerObserver> observer, const std::type_info &classInfo) {
+    if(classInfo == typeid(std::shared_ptr<KilledEnemyObserver>))
+        killedEnemyObservers.remove(observer);
+    else if(classInfo == typeid(std::shared_ptr<StealthStatusObserver>))
+        stealthStatusObservers.remove(observer);
 }
 
-void Enemy::notifyStealthObserver() {
-    for (auto &&o : stealthStatusObservers)
-        o->update();
+void Enemy::notify(const std::type_info &classInfo) {
+    if(classInfo == typeid(std::shared_ptr<KilledEnemyObserver>))
+        for (auto &&o : killedEnemyObservers)
+            o->update();
+    else if(classInfo == typeid(std::shared_ptr<StealthStatusObserver>))
+        for (auto &&o : stealthStatusObservers)
+            o->update();
 }
+
 
 

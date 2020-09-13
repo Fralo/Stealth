@@ -244,8 +244,8 @@ void Game::loadEnemies(xml::XMLElement *root) {
 
     }
     for (std::shared_ptr<Enemy> e : enemies) {
-        e->subscribe(killedEnemyObserver);
-        e->subscribe(stealthStatusObserver);
+        e->subscribe(killedEnemyObserver,typeid(killedEnemyObserver));
+        e->subscribe(stealthStatusObserver,typeid(stealthStatusObserver));
     }
 
 

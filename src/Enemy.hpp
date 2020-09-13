@@ -17,9 +17,10 @@
 #include "MathHelper.hpp"
 #include "KilledEnemyObserver.hpp"
 #include "StealthStatusObserver.hpp"
+#include "AdvancementManagerSubject.hpp"
 
 
-class EnemyShootingObserver;
+
 
 struct EnemyView {
     float angle;
@@ -27,7 +28,7 @@ struct EnemyView {
     float swing;
 };
 
-class Enemy : public GameObject {
+class Enemy : public GameObject, public AdvancementManagerSubject{
 public:
     Enemy(sf::Vector2f position, float orientation, Weapon weapon, EnemyView view,
           const std::shared_ptr<Strategy> &defaultStrategy);
@@ -36,17 +37,11 @@ public:
 
     void update(const std::list<std::shared_ptr<Object>> &objects, Player &player, TiledMap &map);
 
-    void subscribe(std::shared_ptr<KilledEnemyObserver> observer);
+    void subscribe(std::shared_ptr<AdvancementManagerObserver> observer, const std::type_info &classInfo) override;
 
-    void unsubscribe(std::shared_ptr<KilledEnemyObserver> observer);
+    void unsubscribe(std::shared_ptr<AdvancementManagerObserver> observer, const std::type_info &classInfo) override;
 
-    void notifyEnemyKilled();
-
-    void subscribe(std::shared_ptr<StealthStatusObserver> observer);
-
-    void unsubscribe(std::shared_ptr<StealthStatusObserver> observer);
-
-    void notifyStealthObserver();
+    void notify(const std::type_info &classInfo) override;
 
 protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -64,8 +59,8 @@ private:
     sf::ConvexShape getSightTraigle() const;
 
     //new observer implementation
-    std::list<std::shared_ptr<KilledEnemyObserver>> killedEnemyObservers;
-    std::list<std::shared_ptr<StealthStatusObserver>> stealthStatusObservers;
+    std::list<std::shared_ptr<AdvancementManagerObserver>> killedEnemyObservers;
+    std::list<std::shared_ptr<AdvancementManagerObserver>> stealthStatusObservers;
 
 
 };
