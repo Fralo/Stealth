@@ -87,7 +87,7 @@ void WonGameOverScreen::update(Stealth &stealth) {
     sf::Vector2u windowSize = stealth.window.getSize();
 
     sf::View guiView;
-    guiView.setSize(windowSize.x, windowSize.x);
+    guiView.setSize(windowSize.x, windowSize.y);
     guiView.setCenter(windowSize.x / 2, windowSize.y / 2);
     stealth.window.setView(guiView);
 
