@@ -86,6 +86,11 @@ void WonGameOverScreen::update(Stealth &stealth) {
     int millis = clock.getElapsedTime().asMilliseconds();
     sf::Vector2u windowSize = stealth.window.getSize();
 
+    sf::View guiView;
+    guiView.setSize(windowSize.x, windowSize.x);
+    guiView.setCenter(windowSize.x / 2, windowSize.x / 2);
+    stealth.window.setView(guiView);
+
     // background
     bgSprite.setPosition(sf::Vector2f(windowSize) / 2.0f
                          + sf::Vector2f(50 * std::cos(3 * millis / 4000.0f),
