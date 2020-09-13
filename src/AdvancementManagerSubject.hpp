@@ -11,6 +11,7 @@
 
 class AdvancementManagerSubject {
 public:
+    virtual ~AdvancementManagerSubject(){};
     virtual void subscribe(std::shared_ptr<AdvancementManagerObserver> observer, const std::type_info& classInfo ) = 0;
     virtual void unsubscribe(std::shared_ptr<AdvancementManagerObserver> observer, const std::type_info &classInfo) = 0;
     virtual void notify(const std::type_info& classInfo) = 0;

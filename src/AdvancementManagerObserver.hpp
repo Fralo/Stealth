@@ -9,10 +9,7 @@
 
 class AdvancementManagerObserver {
 public:
-    virtual ~AdvancementManagerObserver() {
-        std::cout << "Goodbye, I was an AdvancementManagerObserver" << std::endl;
-    }
-
+    virtual ~AdvancementManagerObserver(){};
     virtual void update() = 0;
 };
 
