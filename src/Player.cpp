@@ -132,7 +132,9 @@ void Player::setTarget(sf::Vector2f next) {
 }
 
 void Player::setTarget(std::shared_ptr<GameObject> target) {
-    Player::target = std::move(target);
+    //Player::target = std::move(target);
+    std::cout << target->getAbsCollisionBox().width << " " << target->getAbsCollisionBox().height << std::endl;
+    this->setTarget({target->getPos().x + (target->getAbsCollisionBox().width/2), target->getPos().y + target->getAbsCollisionBox().height/2 });
 }
 
 void Player::applyDamage(int damage) {
