@@ -20,3 +20,19 @@ TEST_CASE("Killing of an enemy by the player", "[Game]") {
 
     REQUIRE(enemiesBefore > enemiesAfter);
 }
+
+TEST_CASE("Win the mission","[Game]")
+{
+    std::shared_ptr<GameTest> gameTest = std::make_shared<GameTest>();
+    gameTest->init();
+    gameTest->simulateObjectPickUp();
+    gameTest->simulateObjectPickUp();
+
+    gameTest->simulateObjectDropDown(1);
+    gameTest->update();
+    gameTest->simulateObjectDropDown(1);
+    gameTest->update();
+
+    REQUIRE(!gameTest->getGameStatus());
+
+}

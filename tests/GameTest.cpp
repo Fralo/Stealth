@@ -27,14 +27,6 @@ void GameTest::init() {
 
 }
 
-void GameTest::simulateClickOnEnemy() {
-    player->shootEnemy(enemies.front());
-}
-
-int GameTest::getEnemiesNumber() {
-    return std::distance(enemies.begin(), enemies.end());
-}
-
 void GameTest::update() {
     /*
      * Updates and draws scene 1000 / TICKDELAY times per second
@@ -62,7 +54,6 @@ void GameTest::update() {
      */
     for (const std::shared_ptr<Enemy> &e : enemies) {
         if (e->getHealth() == 0) {
-            std::cout << "Hello" << std::endl;
             enemies.remove(e);
             break;
         }
@@ -72,8 +63,8 @@ void GameTest::update() {
      * Check target object life
      */
     for (auto &&o : this->objects)
-        if (o->properties.id == 1 && o->getHealth() == 0) {
-
+        if (o->properties.isTarget && o->getHealth() == 0) {
+            isGameRunning = false;
         }
 
     /*
@@ -102,5 +93,47 @@ void GameTest::update() {
         gameObjects.insert(std::lower_bound(gameObjects.begin(), gameObjects.end(), object, gameObjectCmp), object);
 
 }
+
+void GameTest::simulateClickOnEnemy() {
+    player->shootEnemy(enemies.front());
+}
+
+
+
+int GameTest::getEnemiesNumber() {
+    return std::distance(enemies.begin(), enemies.end());
+}
+
+void GameTest::simulateObjectPickUp() {
+    for (std::shared_ptr<Object> &obj : this->objects) {
+        if(obj->properties.collectible) {
+            if (inventory->addObject(obj)) {
+                this->objects.remove(obj);
+                break;
+            }
+        }
+
+    }
+}
+
+void GameTest::simulateObjectDropDown(int itemToRelease) {
+    std::cout<<inventory->getSize()<<std::endl;
+        std::shared_ptr<Object> toAdd = std::move(
+                this->inventory->releaseObject(itemToRelease, this->objects, this->player->getPos()));
+
+        toAdd->setPos(player->getPos().x - 100,
+                      player->getPos().y);
+        if (!toAdd->explode(this->objects))
+            this->objects.push_front(std::move(toAdd));
+}
+
+bool GameTest::getGameStatus() {
+    return isGameRunning;
+}
+
+
+
+
+
 
 

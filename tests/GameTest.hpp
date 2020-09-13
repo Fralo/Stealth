@@ -16,7 +16,16 @@ public:
 
     void simulateClickOnEnemy();
 
+    void simulateObjectPickUp();
+
+    void simulateObjectDropDown(int itemToRelease);
+
     int getEnemiesNumber();
+
+    bool getGameStatus();
+
+private:
+    bool isGameRunning;
 };
 
 

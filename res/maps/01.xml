@@ -31,6 +31,6 @@
             <movement />
             <weapon rate="1" damage="10" distance="100" angle=".2"/>
         </enemy>
-        
+
     </enemies>
 </stealth>

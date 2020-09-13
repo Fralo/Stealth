@@ -1,0 +1,6 @@
+/home/mattia/CLionProjects/Stealth/build/CMakeFiles/rebuild_cache.dir
+/home/mattia/CLionProjects/Stealth/build/CMakeFiles/Tests.dir
+/home/mattia/CLionProjects/Stealth/build/CMakeFiles/edit_cache.dir
+/home/mattia/CLionProjects/Stealth/build/CMakeFiles/Stealth.dir
+/home/mattia/CLionProjects/Stealth/build/CMakeFiles/pack-data.dir
+/home/mattia/CLionProjects/Stealth/build/CMakeFiles/tinyxml2.dir

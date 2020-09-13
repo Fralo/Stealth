@@ -5,6 +5,7 @@
 #include "Object.hpp"
 
 #include <utility>
+#include <iostream>
 
 Object::Object(std::shared_ptr<Tile> tile, sf::Vector2f position, ObjectProperties properties, int health) : properties(
         properties), GameObject(std::move(tile), position) {
@@ -86,6 +87,7 @@ bool Object::explode(std::list<std::shared_ptr<Object>> &objects) {
             if (o->properties.isTarget &&
                 MathHelper::distanceBetweenTwoPoints(o->getPos(), this->getPos()) < this->properties.explosionRadius) {
                 o->applayDamage(this->properties.damage);
+                std::cout<<o->getHealth()<<std::endl;
                 return true;
             }
         }
