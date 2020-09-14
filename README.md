@@ -5,6 +5,8 @@
 
 Made by [Leonardo Fralini](https://github.com/Fralo), [Mattia Marilli](https://github.com/mattiamarilli) and [Edoardo Viviani](https://github.com/vivedo)
 
+Special thanks to [Samuel _SLC_](https://www.instagram.com/samuelechat) who composed all the music
+
 ### Dependencies
  - cmake v3.2
  - libsfml v2.5
